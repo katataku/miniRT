@@ -1,6 +1,9 @@
 NAME = minirt
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+VECTOR3_SRCS = $(addprefix srcs/vector3/, \
+		add.c sub.c\
+		)
 XSYSCALL_SRCS = $(addprefix srcs/xsyscall/, \
 		xclose.c xfork.c xopen.c xpipe.c xwaitpid.c xdup2.c \
 		)
@@ -10,9 +13,9 @@ XLIBFT_SRCS = $(addprefix srcs/xlibft/, \
 UTILS_SRCS = $(addprefix srcs/utils/, \
 		error.c util.c \
 		)
-SRCS = main.c $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
+SRCS = main.c $(VECTOR3_SRCS) $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
 OBJS = $(SRCS:%.c=%.o)
-LIBS = -lft -Llibft
+LIBS = -lft -Llibft -lm
 INCS = -Ilibft/includes -Iincludes -Imlx
 MLX_FOR_MAC = -Lmlx -L/usr/X11R6/lib -lX11 -lXext -lmlx_Darwin -framework OpenGL -framework AppKit
 LIBFT = libft/libft.a
