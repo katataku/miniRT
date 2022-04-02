@@ -22,9 +22,9 @@ jobs:
       - name: Display Norminette version
         run: norminette --version
       - name: Run norminette for printting
-        run: norminette
+        run: norminette srcs/ main.c includes/
         continue-on-error: true
-      - name: Run norminette
+      - name: Run norminette srcs/ main.c includes/
         run: |
           [ $(norminette | grep -vE 'OK|Error!' \
           | grep -v "Function has more than 25 lines" \
