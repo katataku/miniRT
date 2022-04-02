@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/16 16:09:06 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/04/02 16:20:25 by takkatao         ###   ########.fr       */
+/*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
+/*   Updated: 2022/04/02 16:27:31 by ahayashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char		*line;
-
+	(void)argc;
+	(void)argv;
+	(void)env;
 	return (0);
 }
