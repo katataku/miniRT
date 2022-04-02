@@ -40,15 +40,5 @@ re: fclean all
 .PHONY: all fclean clean re
 
 .PHONY: test
-test: ultest itest
-
-.PHONY: ltest
-ltest: ultest iltest
-
-.PHONY: utest
-utest:
+test:
 	make -C tests
-
-.PHONY: ultest
-ultest:
-	make -C tests ltest
