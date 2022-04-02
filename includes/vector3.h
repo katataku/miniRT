@@ -16,9 +16,9 @@
 # include "xlibft.h"
 
 typedef struct s_vector3 {
-	float	x;
-	float	y;
-	float	z;
+	double	x;
+	double	y;
+	double	z;
 }	t_vector3;
 
 t_vector3	*add(t_vector3	*left, t_vector3	*right);
