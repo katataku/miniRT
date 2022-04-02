@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector3.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:58:08 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/04/02 17:19:04 by ahayashi         ###   ########.fr       */
+/*   Updated: 2022/04/02 22:08:40 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,8 @@ typedef struct s_vector3 {
 	float	y;
 	float	z;
 }	t_vector3;
+
+t_vector3	*add(t_vector3	*left, t_vector3	*right);
+t_vector3	*sub(t_vector3	*left, t_vector3	*right);
 
 #endif
