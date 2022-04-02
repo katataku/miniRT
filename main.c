@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/04/02 23:43:09 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/04/03 00:56:05 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	pixel_put_to_image(t_image *data, int x, int y, int color)
 #define H 1001
 #define W 1001
 
-t_vector3	*to_3d(float x, float y)
+t_vector3	*to_3d(double x, double y)
 {
 	t_vector3	*vec;
 
@@ -38,10 +38,10 @@ t_vector3	*to_3d(float x, float y)
 
 bool	is_cross(t_vector3 *s, t_vector3 *d)
 {
-	float a = pow(d->x, 2) + pow(d->y, 2) + pow(d->z, 2);
-	float b = 2 * (s->x * d->x + s->y * d->y + s->z * d->z);
-	float c = pow(s->x, 2) + pow(s->y, 2) + pow(s->z, 2) - 1;
-	float dif = pow(b, 2) - 4 * a * c;
+	double a = pow(d->x, 2) + pow(d->y, 2) + pow(d->z, 2);
+	double b = 2 * (s->x * d->x + s->y * d->y + s->z * d->z);
+	double c = pow(s->x, 2) + pow(s->y, 2) + pow(s->z, 2) - 1;
+	double dif = pow(b, 2) - 4 * a * c;
 
 	return (dif >= 0);
 }
@@ -68,19 +68,12 @@ int	main(int argc, char **argv, char **env)
 		for (int j = 0; j < H; j++)
 		{
 			t_vector3 *vec = to_3d(i, j);
-			t_vector3 start;
-			start.x = 0;
-			start.y = 0;
-			start.z = 10;
-			if (is_cross(&start, sub(vec, &start)))
+			t_vector3	*start = vector3(0.0, 0.0, 10.0);
+			if (is_cross(start, sub(vec, start)))
 				pixel_put_to_image(img, i, j ,0xff00ffff);
-
-
 		}
 	}
 	mlx_put_image_to_window(mlx, win, img->mlx_img, 0, 0);
 	mlx_loop(mlx);
 	return (0);
 }
-
-//game->img.mlx_img = mlx_new_image(game->mlx, game->width, game->height);

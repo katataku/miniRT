@@ -2,7 +2,7 @@ NAME = minirt
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 VECTOR3_SRCS = $(addprefix srcs/vector3/, \
-		add.c sub.c\
+		add.c print.c sub.c vector3.c \
 		)
 XSYSCALL_SRCS = $(addprefix srcs/xsyscall/, \
 		xclose.c xfork.c xopen.c xpipe.c xwaitpid.c xdup2.c \
