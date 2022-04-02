@@ -13,17 +13,22 @@ UTILS_SRCS = $(addprefix srcs/utils/, \
 SRCS = main.c $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
 OBJS = $(SRCS:%.c=%.o)
 LIBS = -lft -Llibft
-INCS = -Ilibft/includes -Iincludes
+INCS = -Ilibft/includes -Iincludes -Imlx
+MLX_FOR_MAC = -Lmlx -L/usr/X11R6/lib -lX11 -lXext -lmlx_Darwin -framework OpenGL -framework AppKit
 LIBFT = libft/libft.a
+MLX = mlx/libmlx.a
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LIBS)
+$(NAME): $(LIBFT) $(MLX) $(OBJS)
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(MLX_FOR_MAC) $(LIBS)
 
 $(LIBFT):
 	make -C libft
 
+$(MLX):
+	make -C mlx
+
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCS) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCS)  -o $@ -c $<
 
 all: $(NAME)
 
@@ -33,6 +38,7 @@ fclean: clean
 
 clean:
 	make clean -C libft
+	make clean -C mlx
 	$(RM) $(OBJS) $(OBJS_BONUS)
 
 re: fclean all
