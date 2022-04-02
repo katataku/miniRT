@@ -23,6 +23,7 @@ typedef struct s_vector3 {
 
 t_vector3	*add(t_vector3	*left, t_vector3	*right);
 t_vector3	*sub(t_vector3	*left, t_vector3	*right);
+void		print(t_vector3 *vector);
 t_vector3	*vector3(double x, double y, double z);
 
 #endif
