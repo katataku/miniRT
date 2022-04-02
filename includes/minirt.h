@@ -18,7 +18,7 @@
 # include "vector3.h"
 # include "math.h"
 
-typedef struct	s_image {
+typedef struct s_image {
 	void	*mlx_img;
 	char	*data_addr;
 	int		bits_per_pixel;

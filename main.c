@@ -61,8 +61,8 @@ int	main(int argc, char **argv, char **env)
 	img = malloc(sizeof(t_image));
 	img->mlx_img = mlx_new_image(mlx, 1001, 1001);
 	img->data_addr = mlx_get_data_addr(img->mlx_img, \
-        &img->bits_per_pixel, &img->bytes_per_line, \
-        &img->endian);
+		&img->bits_per_pixel, &img->bytes_per_line, \
+		&img->endian);
 	for (int i = 0;i<W; i++)
 	{
 		for (int j = 0; j < H; j++)
