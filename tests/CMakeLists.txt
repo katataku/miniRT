@@ -10,6 +10,7 @@ file(GLOB XSYSCALL "../srcs/xsyscall/*.c")
 
 include_directories("../libft/includes")
 include_directories("../includes")
+include_directories("../mlx")
 
 add_library(minirt
   STATIC

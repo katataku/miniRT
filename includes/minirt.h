@@ -31,4 +31,10 @@ typedef struct s_image {
 	int		height;
 }	t_image;
 
+typedef struct s_window_info {
+	void		*mlx;
+	void		*win;
+	t_image		*img;
+}	t_window_info;
+
 #endif
