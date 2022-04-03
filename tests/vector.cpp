@@ -32,6 +32,8 @@ TEST_F(VectorTest, add) {
 	t_vector3 *v2 = vector3(2.2, 6.0, 1.0);
 	t_vector3 *actual = add(v1, v2);
 	ASSERT_TRUE(isEqual(actual, 2.2, 7.0, 10.0));
+	free(v1);
+	free(v2);
 	free(actual);
 }
 
@@ -40,5 +42,7 @@ TEST_F(VectorTest, sub) {
 	t_vector3 *v2 = vector3(2.2, 6.0, 1.0);
 	t_vector3 *actual = sub(v1, v2);
 	ASSERT_TRUE(isEqual(actual, -2.2, -5.0, 8.0));
+	free(v1);
+	free(v2);
 	free(actual);
 }
