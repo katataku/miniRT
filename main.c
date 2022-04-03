@@ -64,8 +64,8 @@ t_window_info	*init_window_info(void)
 
 void	draw(t_window_info *info)
 {
-	t_vec3	*vec;
-	t_vec3	*start;
+	t_vec3		*vec;
+	t_vec3		*start;
 	int			i;
 	int			j;
 

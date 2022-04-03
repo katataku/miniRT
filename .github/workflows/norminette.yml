@@ -24,9 +24,9 @@ jobs:
       - name: Run norminette for printting
         run: norminette srcs/ main.c includes/
         continue-on-error: true
-      - name: Run norminette srcs/ main.c includes/
+      - name: Run norminette
         run: |
-          [ $(norminette | grep -vE 'OK|Error!' \
+          [ $(norminette srcs/ main.c includes/ | grep -vE 'OK|Error!' \
           | grep -v "Function has more than 25 lines" \
           | grep -v "Too many functions in file" \
           | wc -l) -eq 0 ]
