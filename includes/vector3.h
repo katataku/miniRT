@@ -1,40 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   vector3.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/02 16:29:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/04/03 01:11:02 by ahayashi         ###   ########.jp       */
+/*   Created: 2022/04/02 16:58:08 by ahayashi          #+#    #+#             */
+/*   Updated: 2022/04/03 00:39:07 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef VECTOR3_H
+# define VECTOR3_H
 
-# include "mlx.h"
 # include "xlibft.h"
-# include "vector3.h"
-# include "math.h"
 
-# define H 1001
-# define W 1001
+typedef struct s_vector3 {
+	double	x;
+	double	y;
+	double	z;
+}	t_vec3;
 
-typedef struct s_image {
-	void	*mlx_img;
-	char	*data_addr;
-	int		bits_per_pixel;
-	int		bytes_per_line;
-	int		endian;
-	int		width;
-	int		height;
-}	t_image;
-
-typedef struct s_window_info {
-	void		*mlx;
-	void		*win;
-	t_image		*img;
-}	t_window_info;
+t_vec3	*add(t_vec3	*left, t_vec3	*right);
+t_vec3	*sub(t_vec3	*left, t_vec3	*right);
+double	vec3_inner_product(t_vec3 *left, t_vec3 *right);
+void	print(t_vec3 *vector);
+t_vec3	*vector3(double x, double y, double z);
 
 #endif

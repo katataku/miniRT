@@ -1,40 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   sub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/02 16:29:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/04/03 01:11:02 by ahayashi         ###   ########.jp       */
+/*   Created: 2022/04/02 17:00:28 by ahayashi          #+#    #+#             */
+/*   Updated: 2022/04/02 22:52:02 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include "vector3.h"
 
-# include "mlx.h"
-# include "xlibft.h"
-# include "vector3.h"
-# include "math.h"
+t_vec3	*sub(t_vec3	*left, t_vec3	*right)
+{
+	t_vec3	*rtv;
 
-# define H 1001
-# define W 1001
-
-typedef struct s_image {
-	void	*mlx_img;
-	char	*data_addr;
-	int		bits_per_pixel;
-	int		bytes_per_line;
-	int		endian;
-	int		width;
-	int		height;
-}	t_image;
-
-typedef struct s_window_info {
-	void		*mlx;
-	void		*win;
-	t_image		*img;
-}	t_window_info;
-
-#endif
+	rtv = (t_vec3 *)ft_xcalloc(1, sizeof(t_vec3));
+	rtv->x = left->x - right->x;
+	rtv->y = left->y - right->y;
+	rtv->z = left->z - right->z;
+	return (rtv);
+}
