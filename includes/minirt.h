@@ -18,8 +18,8 @@
 # include "vector3.h"
 # include "math.h"
 
-#define H 1001
-#define W 1001
+# define H 1001
+# define W 1001
 
 typedef struct s_image {
 	void	*mlx_img;
