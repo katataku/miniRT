@@ -19,11 +19,12 @@ typedef struct s_vector3 {
 	double	x;
 	double	y;
 	double	z;
-}	t_vector3;
+}	t_vec3;
 
-t_vector3	*add(t_vector3	*left, t_vector3	*right);
-t_vector3	*sub(t_vector3	*left, t_vector3	*right);
-void		print(t_vector3 *vector);
-t_vector3	*vector3(double x, double y, double z);
+t_vec3	*add(t_vec3	*left, t_vec3	*right);
+t_vec3	*sub(t_vec3	*left, t_vec3	*right);
+double	vec3_inner_product(t_vec3 *left, t_vec3 *right);
+void	print(t_vec3 *vector);
+t_vec3	*vector3(double x, double y, double z);
 
 #endif

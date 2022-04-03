@@ -12,11 +12,11 @@
 
 #include "vector3.h"
 
-t_vector3	*sub(t_vector3	*left, t_vector3	*right)
+t_vec3	*sub(t_vec3	*left, t_vec3	*right)
 {
-	t_vector3	*rtv;
+	t_vec3	*rtv;
 
-	rtv = (t_vector3 *)ft_xcalloc(1, sizeof(t_vector3));
+	rtv = (t_vec3 *)ft_xcalloc(1, sizeof(t_vec3));
 	rtv->x = left->x - right->x;
 	rtv->y = left->y - right->y;
 	rtv->z = left->z - right->z;

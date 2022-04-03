@@ -22,18 +22,18 @@ void	pixel_put_to_image(t_image *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-t_vector3	*to_3d(double x, double y)
+t_vec3	*to_3d(double x, double y)
 {
-	t_vector3	*vec;
+	t_vec3	*vec;
 
-	vec = (t_vector3 *)malloc(sizeof(t_vector3));
+	vec = (t_vec3 *)malloc(sizeof(t_vec3));
 	vec->x = -1 + 2 * x / W;
 	vec->y = 1 - 2 * y / H;
 	vec->z = 9;
 	return (vec);
 }
 
-bool	is_cross(t_vector3 *s, t_vector3 *d)
+bool	is_cross(t_vec3 *s, t_vec3 *d)
 {
 	double	a;
 	double	b;
@@ -64,8 +64,8 @@ t_window_info	*init_window_info(void)
 
 void	draw(t_window_info *info)
 {
-	t_vector3	*vec;
-	t_vector3	*start;
+	t_vec3	*vec;
+	t_vec3	*start;
 	int			i;
 	int			j;
 

@@ -12,7 +12,7 @@
 
 #include "vector3.h"
 
-void	print(t_vector3 *vector)
+void	print(t_vec3 *vector)
 {
 	printf("x:%lf y:%lf z:%lf\n", vector->x, vector->y, vector->z);
 }

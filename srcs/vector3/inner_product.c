@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector3.c                                          :+:      :+:    :+:   */
+/*   inner_product.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/02 17:00:28 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/04/02 23:57:03 by takkatao         ###   ########.fr       */
+/*   Created: 2022/04/03 10:47:22 by ahayashi          #+#    #+#             */
+/*   Updated: 2022/04/03 10:47:22 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector3.h"
 
-t_vec3	*vector3(double x, double y, double z)
+double	vec3_inner_product(t_vec3 *left, t_vec3 *right)
 {
-	t_vec3	*rtv;
-
-	rtv = (t_vec3 *)ft_xcalloc(1, sizeof(t_vec3));
-	rtv->x = x;
-	rtv->y = y;
-	rtv->z = z;
-	return (rtv);
+	return (left->x * right->x + left->y * right->y + left->z * right->z);
 }
