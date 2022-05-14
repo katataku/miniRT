@@ -1,8 +1,8 @@
 NAME = minirt
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -MMD -MP
 VECTOR3_SRCS = $(addprefix srcs/vector3/, \
-		add.c print.c sub.c vector3.c \
+		add.c print.c sub.c multiply.c vector3.c inner_product.c\
 		)
 XSYSCALL_SRCS = $(addprefix srcs/xsyscall/, \
 		xclose.c xfork.c xopen.c xpipe.c xwaitpid.c xdup2.c \
@@ -15,6 +15,7 @@ UTILS_SRCS = $(addprefix srcs/utils/, \
 		)
 SRCS = main.c $(VECTOR3_SRCS) $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
 OBJS = $(SRCS:%.c=%.o)
+DEPENDS	= $(OBJS:.o=.d)
 LIBS = -lft -Llibft -lm
 INCS = -Ilibft/includes -Iincludes -Imlx
 MLX_FOR_MAC = -Lmlx -L/usr/X11R6/lib -lX11 -lXext -lmlx_Darwin -framework OpenGL -framework AppKit
@@ -42,7 +43,7 @@ fclean: clean
 clean:
 	make clean -C libft
 	make clean -C mlx
-	$(RM) $(OBJS) $(OBJS_BONUS)
+	$(RM) $(OBJS) $(OBJS_BONUS) $(DEPENDS)
 
 re: fclean all
 
@@ -51,3 +52,6 @@ re: fclean all
 .PHONY: test
 test:
 	make -C tests
+
+
+-include $(DEPENDS)
