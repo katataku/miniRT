@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/14 18:09:59 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/14 18:30:34 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_vec3	*to_3d(double x, double y)
 /*
  * return -1, if t is not calculated.
  */
-double calc_t(t_vec3 *s, t_vec3 *d)
+double	calc_t(t_vec3 *s, t_vec3 *d)
 {
 	double	a;
 	double	b;
@@ -188,12 +188,20 @@ void	draw(t_window_info *info)
 			if (is_cross(start_vec, sub(d_vec, start_vec)))
 			{
 				(void)ambient_vec;
-				// ambient_vec = vector3(1, 1, -1);
-				// double cos = subtended_angle_cos(d_vec, ambient_vec);
-				// int magic_nomber_to_adjast_visibility = 200;
-				// cos *= magic_nomber_to_adjast_visibility;
-//				pixel_put_to_image(info->img, i, j, create_trgb(255, 0 * cos, 255 * cos, 255 * cos));
-				pixel_put_to_image(info->img, i, j, calc_ambient_light());
+				double	t = calc_t(start_vec, sub(d_vec, start_vec));
+				t_vec3	*p_vec = add(camera_vec,  vec3_multiply(d_vec, t));
+				t_vec3	*n_vec = sub(p_vec, object_vec);
+
+				t_vec3	*light_vec = vector3(100, 10, 10);
+				t_vec3	*l_vec = sub(p_vec, light_vec);
+
+				double cos = subtended_angle_cos(n_vec, l_vec);
+				int magic_nomber_to_adjast_visibility = 20000;
+				cos *= magic_nomber_to_adjast_visibility;
+				printf("%f\n",cos);
+				pixel_put_to_image(info->img, i, j, create_trgb(255, 0*cos, 255*cos, 255 * cos));
+
+//				pixel_put_to_image(info->img, i, j, calc_ambient_light());
 			}
 			j++;
 		}
