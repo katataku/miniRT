@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/14 17:12:04 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/14 18:09:59 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,37 @@ t_vec3	*to_3d(double x, double y)
 	return (vec);
 }
 
-bool	is_cross(t_vec3 *s, t_vec3 *d)
+/*
+ * return -1, if t is not calculated.
+ */
+double calc_t(t_vec3 *s, t_vec3 *d)
 {
 	double	a;
 	double	b;
 	double	c;
 	double	r;
 	double	dif;
+	double	t;
+
 
 	r = 2;
-
 	a = pow(d->x, 2) + pow(d->y, 2) + pow(d->z, 2);
 	b = 2 * (s->x * d->x + s->y * d->y + s->z * d->z);
 	c = pow(s->x, 2) + pow(s->y, 2) + pow(s->z, 2) - pow(r, 2);
 	dif = pow(b, 2) - 4 * a * c;
-	return (dif >= 0);
+	if (dif < 0)
+		return (-1);
+	t = - b - sqrt(dif) / (2 * a);
+	return (t);
+}
+
+/*
+ * 判別式が0のとき、1つのする
+ * 判別式が0より大きい時、2点で交わる。tが小さい方が手前になる。
+ */
+bool	is_cross(t_vec3 *s, t_vec3 *d)
+{
+	return (calc_t(s, d) >= 0);
 }
 
 t_window_info	*init_window_info(void)
