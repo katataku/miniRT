@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/14 16:39:06 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/14 17:12:04 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,40 @@ t_window_info	*init_window_info(void)
 	return (info);
 }
 
+
+int	get_t(int trgb)
+{
+	return ((trgb >> 24) & 0xFF);
+}
+
+int	get_r(int trgb)
+{
+	return ((trgb >> 16) & 0xFF);
+}
+
+int	get_g(int trgb)
+{
+	return ((trgb >> 8) & 0xFF);
+}
+
+int	get_b(int trgb)
+{
+	return (trgb & 0xFF);
+}
+
 int	create_trgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
 }
+
+int add_trgb(int a, int b)
+{
+	return(create_trgb(get_t(a) + get_t(b), \
+					   get_r(a) + get_r(b), \
+					   get_g(a) + get_g(b), \
+					   get_b(a) + get_b(b)));
+}
+
 
 double norm(t_vec3 *a)
 {
@@ -84,6 +114,24 @@ double subtended_angle_cos(t_vec3 *a, t_vec3 *b)
 {
 
 	return (vec3_inner_product(a, b) / (norm(a) * norm(b)));
+}
+
+int	calc_ambient_light(void)
+{
+	int	ambient_color = 0xFF00FFFF;
+	double	ambient_ration= 0.8;
+
+	return (create_trgb(
+		get_t(ambient_color), \
+		get_r(ambient_color) * ambient_ration, \
+		get_g(ambient_color) * ambient_ration, \
+		get_b(ambient_color) * ambient_ration
+	));
+}
+
+int	calc_diffuse_light(void)
+{
+	return (1);
 }
 
 // start_vecがカメラの座標。
@@ -123,11 +171,13 @@ void	draw(t_window_info *info)
 			d_vec = sub(object_vec, to_3d(i, j));
 			if (is_cross(start_vec, sub(d_vec, start_vec)))
 			{
-				ambient_vec = vector3(1, 1, -1);
-				double cos = subtended_angle_cos(d_vec, ambient_vec);
-				int magic_nomber_to_adjast_visibility = 200;
-				cos *= magic_nomber_to_adjast_visibility;
-				pixel_put_to_image(info->img, i, j, create_trgb(255, 0 * cos, 255 * cos, 255 * cos));
+				(void)ambient_vec;
+				// ambient_vec = vector3(1, 1, -1);
+				// double cos = subtended_angle_cos(d_vec, ambient_vec);
+				// int magic_nomber_to_adjast_visibility = 200;
+				// cos *= magic_nomber_to_adjast_visibility;
+//				pixel_put_to_image(info->img, i, j, create_trgb(255, 0 * cos, 255 * cos, 255 * cos));
+				pixel_put_to_image(info->img, i, j, calc_ambient_light());
 			}
 			j++;
 		}
