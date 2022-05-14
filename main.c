@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/14 18:30:34 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/14 18:33:51 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,8 @@ void	draw(t_window_info *info)
 	double		object_y;
 	double		object_z;
 
-	object_x = 0.0;
-	object_y = 0.0;
+	object_x = 3.0;
+	object_y = 3.0;
 	object_z = 0.0;
 	object_vec = vector3(object_x, object_y, object_z);
 
@@ -192,7 +192,7 @@ void	draw(t_window_info *info)
 				t_vec3	*p_vec = add(camera_vec,  vec3_multiply(d_vec, t));
 				t_vec3	*n_vec = sub(p_vec, object_vec);
 
-				t_vec3	*light_vec = vector3(100, 10, 10);
+				t_vec3	*light_vec = vector3(0, 0, 0);
 				t_vec3	*l_vec = sub(p_vec, light_vec);
 
 				double cos = subtended_angle_cos(n_vec, l_vec);
