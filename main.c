@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/04/03 00:56:05 by ahayashi         ###   ########.jp       */
+/*   Updated: 2022/05/14 16:39:06 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	pixel_put_to_image(t_image *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+/*
+ * スクリーン座標をワールド座標に変換。
+ * minilibXのpixelを3次元上のスクリーンに変換。
+ * 固定値の意味なんだっけ。
+ */
 t_vec3	*to_3d(double x, double y)
 {
 	t_vec3	*vec;
@@ -38,11 +43,14 @@ bool	is_cross(t_vec3 *s, t_vec3 *d)
 	double	a;
 	double	b;
 	double	c;
+	double	r;
 	double	dif;
+
+	r = 2;
 
 	a = pow(d->x, 2) + pow(d->y, 2) + pow(d->z, 2);
 	b = 2 * (s->x * d->x + s->y * d->y + s->z * d->z);
-	c = pow(s->x, 2) + pow(s->y, 2) + pow(s->z, 2) - 1;
+	c = pow(s->x, 2) + pow(s->y, 2) + pow(s->z, 2) - pow(r, 2);
 	dif = pow(b, 2) - 4 * a * c;
 	return (dif >= 0);
 }
@@ -53,7 +61,7 @@ t_window_info	*init_window_info(void)
 
 	info = ft_calloc(1, sizeof(t_window_info));
 	info->mlx = mlx_init();
-	info->win = mlx_new_window(info->mlx, 1001, 1001, "minirt");
+	info->win = mlx_new_window(info->mlx, W, H, "minirt");
 	info->img = malloc(sizeof(t_image));
 	info->img->mlx_img = mlx_new_image(info->mlx, 1001, 1001);
 	info->img->data_addr = mlx_get_data_addr(info->img->mlx_img, \
@@ -62,12 +70,49 @@ t_window_info	*init_window_info(void)
 	return (info);
 }
 
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+double norm(t_vec3 *a)
+{
+	return (a->x * a->x + a->y * a->y + a->z * a->z);
+}
+
+double subtended_angle_cos(t_vec3 *a, t_vec3 *b)
+{
+
+	return (vec3_inner_product(a, b) / (norm(a) * norm(b)));
+}
+
+// start_vecがカメラの座標。
 void	draw(t_window_info *info)
 {
-	t_vec3		*vec;
-	t_vec3		*start;
+	t_vec3		*d_vec;
+	t_vec3		*camera_vec;
+	t_vec3		*start_vec;
+	t_vec3		*object_vec;
+	t_vec3		*ambient_vec;
 	int			i;
 	int			j;
+	double		camera_x;
+	double		camera_y;
+	double		camera_z;
+	double		object_x;
+	double		object_y;
+	double		object_z;
+
+	object_x = 0.0;
+	object_y = 0.0;
+	object_z = 0.0;
+	object_vec = vector3(object_x, object_y, object_z);
+
+	camera_x = 0.0;
+	camera_y = 0.0;
+	camera_z = 10.0;
+	camera_vec = vector3(camera_x, camera_y, camera_z);
+	start_vec = sub(object_vec, camera_vec);
 
 	i = 0;
 	while (i < W)
@@ -75,10 +120,15 @@ void	draw(t_window_info *info)
 		j = 0;
 		while (j < H)
 		{
-			vec = to_3d(i, j);
-			start = vector3(0.0, 0.0, 10.0);
-			if (is_cross(start, sub(vec, start)))
-				pixel_put_to_image(info->img, i, j, 0xff00ffff);
+			d_vec = sub(object_vec, to_3d(i, j));
+			if (is_cross(start_vec, sub(d_vec, start_vec)))
+			{
+				ambient_vec = vector3(1, 1, -1);
+				double cos = subtended_angle_cos(d_vec, ambient_vec);
+				int magic_nomber_to_adjast_visibility = 200;
+				cos *= magic_nomber_to_adjast_visibility;
+				pixel_put_to_image(info->img, i, j, create_trgb(255, 0 * cos, 255 * cos, 255 * cos));
+			}
 			j++;
 		}
 		i++;
