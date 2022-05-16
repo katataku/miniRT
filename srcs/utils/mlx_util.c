@@ -37,7 +37,7 @@ int	make_color_from_trgb(int t, int r, int g, int b)
  */
 int	add_color(int a, int b)
 {
-	return(make_color_from_trgb( \
+	return (make_color_from_trgb(\
 			get_trgb(a, TRANSPARENT) + get_trgb(b, TRANSPARENT), \
 			get_trgb(a, RED) + get_trgb(b, RED), \
 			get_trgb(a, GREEN) + get_trgb(b, GREEN), \
