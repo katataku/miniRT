@@ -76,15 +76,9 @@ t_window_info	*init_window_info(void)
 	return (info);
 }
 
-double norm(t_vec3 *a)
-{
-	return (a->x * a->x + a->y * a->y + a->z * a->z);
-}
-
 double subtended_angle_cos(t_vec3 *a, t_vec3 *b)
 {
-
-	return (vec3_inner_product(a, b) / (norm(a) * norm(b)));
+	return (vec3_inner_product(a, b) / (vec3_norm(a) * vec3_norm(b)));
 }
 
 int	calc_ambient_light(void)
