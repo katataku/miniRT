@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   io.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/02 16:29:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/16 16:58:35 by takkatao         ###   ########.fr       */
+/*   Created: 2022/05/16 16:57:50 by takkatao          #+#    #+#             */
+/*   Updated: 2022/05/16 17:15:00 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef IO_H
+# define IO_H
 
-# include "mlx.h"
-# include "xlibft.h"
 # include "define.h"
 # include "utils.h"
-# include "io.h"
+# include "xsyscall.h"
+
+t_scene	*read_file(char **argv);
+void	validate_arg(int argc);
 
 #endif

@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   validate_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/02 16:29:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/16 16:58:35 by takkatao         ###   ########.fr       */
+/*   Created: 2022/05/16 16:57:11 by takkatao          #+#    #+#             */
+/*   Updated: 2022/05/16 17:04:54 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include "io.h"
 
-# include "mlx.h"
-# include "xlibft.h"
-# include "define.h"
-# include "utils.h"
-# include "io.h"
-
-#endif
+// TODO:
+// - 出力形式が要件と違うのでputerrを修正する。
+// - status codeはマクロ定数化する。
+void	validate_arg(int argc)
+{
+	if (argc != 2)
+		puterr_exit("", "Error", 1);
+}

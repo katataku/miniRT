@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/15 18:24:10 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/16 17:11:21 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,12 @@ typedef struct s_cylinder {
 	double		cylinder_height;
 	int			color;
 }	t_cylinder;
+
+typedef struct s_scene {
+	t_ambient_lightning	*ambient_lightning;
+	t_camera			*camera;
+	t_light				*light;
+	t_list				*objects;
+}	t_scene;
 
 #endif
