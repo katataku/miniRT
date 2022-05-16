@@ -97,24 +97,21 @@ int	calc_diffuse_light(void)
 void	draw(t_window_info *info)
 {
 	t_vec3		*d_vec;
-	t_vec3		*camera_vec;
 	t_vec3		*start_vec;
 	int			i;
 	int			j;
-	double		camera_x;
-	double		camera_y;
-	double		camera_z;
+	t_camera	camera = {
+			{0.0, 0.0, 10.0},
+			{0.0, 0.0, 0.0},
+			0
+	};
 	t_sphere	sphere = {
 			{3.0, 3.0, 0.0},
 			4,
 			0xFF00FFFF,
 	};
 
-	camera_x = 0.0;
-	camera_y = 0.0;
-	camera_z = 10.0;
-	camera_vec = vector3(camera_x, camera_y, camera_z);
-	start_vec = vec3_sub(&sphere.sphere_center, camera_vec);
+	start_vec = vec3_sub(&sphere.sphere_center, &camera.view_point);
 
 	i = 0;
 	while (i < W)
@@ -126,7 +123,7 @@ void	draw(t_window_info *info)
 			if (is_cross(start_vec, vec3_sub(d_vec, start_vec)))
 			{
 				double	t = calc_t(start_vec, vec3_sub(d_vec, start_vec));
-				t_vec3	*p_vec = vec3_add(camera_vec, vec3_multiply(d_vec, t));
+				t_vec3	*p_vec = vec3_add(&camera.view_point, vec3_multiply(d_vec, t));
 				t_vec3	*n_vec = vec3_sub(p_vec, &sphere.sphere_center);
 
 				t_vec3	*light_vec = vector3(0, 0, 0);
