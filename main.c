@@ -78,14 +78,13 @@ t_window_info	*init_window_info(void)
 
 int	calc_ambient_light(void)
 {
-	int	ambient_color = 0xFF00FFFF;
-	double	ambient_ration= 0.8;
+	t_ambient_lightning	a = {0.8, 0xFF00FFFF};
 
 	return (make_color_from_trgb(
-		get_trgb(ambient_color, TRANSPARENT), \
-		get_trgb(ambient_color, RED) * ambient_ration, \
-		get_trgb(ambient_color, GREEN) * ambient_ration, \
-		get_trgb(ambient_color, BLUE) * ambient_ration
+		get_trgb(a.color, TRANSPARENT), \
+		get_trgb(a.color, RED) * a.lighting_ratio, \
+		get_trgb(a.color, GREEN) * a.lighting_ratio, \
+		get_trgb(a.color, BLUE) * a.lighting_ratio
 	));
 }
 
@@ -101,7 +100,6 @@ void	draw(t_window_info *info)
 	t_vec3		*camera_vec;
 	t_vec3		*start_vec;
 	t_vec3		*object_vec;
-	t_vec3		*ambient_vec;
 	int			i;
 	int			j;
 	double		camera_x;
@@ -131,7 +129,6 @@ void	draw(t_window_info *info)
 			d_vec = vec3_sub(object_vec, to_3d(i, j));
 			if (is_cross(start_vec, vec3_sub(d_vec, start_vec)))
 			{
-				(void)ambient_vec;
 				double	t = calc_t(start_vec, vec3_sub(d_vec, start_vec));
 				t_vec3	*p_vec = vec3_add(camera_vec, vec3_multiply(d_vec, t));
 				t_vec3	*n_vec = vec3_sub(p_vec, object_vec);
