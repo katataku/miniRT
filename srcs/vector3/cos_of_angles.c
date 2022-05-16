@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_xlstnew.c                                       :+:      :+:    :+:   */
+/*   cos_of_angles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 23:48:23 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/02/25 14:08:04 by takkatao         ###   ########.fr       */
+/*   Created: 2022/05/16 14:47:33 by ahayashi          #+#    #+#             */
+/*   Updated: 2022/05/16 14:47:33 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "xlibft.h"
+#include "vector3.h"
 
-t_list	*ft_xlstnew(void *content)
+double	cos_of_angles(t_vec3 *v1, t_vec3 *v2)
 {
-	t_list	*tmp;
-
-	tmp = ft_lstnew(content);
-	if (tmp == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-	return (tmp);
+	return (vec3_inner_product(v1, v2) / (vec3_norm(v1) * vec3_norm(v2)));
 }

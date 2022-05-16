@@ -2,7 +2,7 @@ NAME = minirt
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -MMD -MP
 VECTOR3_SRCS = $(addprefix srcs/vector3/, \
-		add.c print.c sub.c multiply.c vector3.c inner_product.c\
+		add.c cos_of_angles.c inner_product.c multiply.c norm.c print.c sub.c  vector3.c \
 		)
 XSYSCALL_SRCS = $(addprefix srcs/xsyscall/, \
 		xclose.c xfork.c xopen.c xpipe.c xwaitpid.c xdup2.c \
@@ -11,7 +11,7 @@ XLIBFT_SRCS = $(addprefix srcs/xlibft/, \
 		ft_xcalloc.c ft_xlstnew.c ft_xsplit.c ft_xstrdup.c ft_xstrjoin.c \
 		)
 UTILS_SRCS = $(addprefix srcs/utils/, \
-		error.c util.c \
+		error.c mlx_util.c util.c \
 		)
 SRCS = main.c $(VECTOR3_SRCS) $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
 OBJS = $(SRCS:%.c=%.o)

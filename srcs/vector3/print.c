@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   vec3_print.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "vector3.h"
 
-void	print(t_vec3 *vector)
+void	vec3_print(t_vec3 *vector)
 {
 	printf("x:%lf y:%lf z:%lf\n", vector->x, vector->y, vector->z);
 }

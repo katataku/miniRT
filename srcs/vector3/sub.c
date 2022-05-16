@@ -12,7 +12,7 @@
 
 #include "vector3.h"
 
-t_vec3	*sub(t_vec3	*left, t_vec3	*right)
+t_vec3	*vec3_sub(t_vec3	*left, t_vec3	*right)
 {
 	t_vec3	*rtv;
 

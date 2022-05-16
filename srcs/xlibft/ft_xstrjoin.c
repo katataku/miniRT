@@ -20,7 +20,7 @@ char	*ft_xstrjoin(const char *s1, const char *s2)
 	if (fullpath == NULL)
 	{
 		perror("malloc");
-		exit(STATUS_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	return (fullpath);
 }

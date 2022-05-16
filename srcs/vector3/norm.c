@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_xlstnew.c                                       :+:      :+:    :+:   */
+/*   norm.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 23:48:23 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/02/25 14:08:04 by takkatao         ###   ########.fr       */
+/*   Created: 2022/05/16 14:18:26 by ahayashi          #+#    #+#             */
+/*   Updated: 2022/05/16 14:18:26 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "xlibft.h"
+#include "vector3.h"
 
-t_list	*ft_xlstnew(void *content)
+double	vec3_norm(t_vec3 *v)
 {
-	t_list	*tmp;
-
-	tmp = ft_lstnew(content);
-	if (tmp == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-	return (tmp);
+	return (sqrt(v->x * v->x + v->y * v->y + v->z * v->z));
 }

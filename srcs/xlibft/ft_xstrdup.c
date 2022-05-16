@@ -20,7 +20,7 @@ char	*ft_xstrdup(const char *s)
 	if (tmp == NULL)
 	{
 		perror("malloc");
-		exit(STATUS_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	return (tmp);
 }
