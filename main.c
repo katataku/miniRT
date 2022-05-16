@@ -99,26 +99,22 @@ void	draw(t_window_info *info)
 	t_vec3		*d_vec;
 	t_vec3		*camera_vec;
 	t_vec3		*start_vec;
-	t_vec3		*object_vec;
 	int			i;
 	int			j;
 	double		camera_x;
 	double		camera_y;
 	double		camera_z;
-	double		object_x;
-	double		object_y;
-	double		object_z;
-
-	object_x = 3.0;
-	object_y = 3.0;
-	object_z = 0.0;
-	object_vec = vector3(object_x, object_y, object_z);
+	t_sphere	sphere = {
+			{3.0, 3.0, 0.0},
+			4,
+			0xFF00FFFF,
+	};
 
 	camera_x = 0.0;
 	camera_y = 0.0;
 	camera_z = 10.0;
 	camera_vec = vector3(camera_x, camera_y, camera_z);
-	start_vec = vec3_sub(object_vec, camera_vec);
+	start_vec = vec3_sub(&sphere.sphere_center, camera_vec);
 
 	i = 0;
 	while (i < W)
@@ -126,12 +122,12 @@ void	draw(t_window_info *info)
 		j = 0;
 		while (j < H)
 		{
-			d_vec = vec3_sub(object_vec, to_3d(i, j));
+			d_vec = vec3_sub(&sphere.sphere_center, to_3d(i, j));
 			if (is_cross(start_vec, vec3_sub(d_vec, start_vec)))
 			{
 				double	t = calc_t(start_vec, vec3_sub(d_vec, start_vec));
 				t_vec3	*p_vec = vec3_add(camera_vec, vec3_multiply(d_vec, t));
-				t_vec3	*n_vec = vec3_sub(p_vec, object_vec);
+				t_vec3	*n_vec = vec3_sub(p_vec, &sphere.sphere_center);
 
 				t_vec3	*light_vec = vector3(0, 0, 0);
 				t_vec3	*l_vec = vec3_sub(p_vec, light_vec);
