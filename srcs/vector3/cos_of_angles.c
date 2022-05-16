@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   norm.c                                             :+:      :+:    :+:   */
+/*   cos_of_angles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/16 14:18:26 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/16 14:18:26 by ahayashi         ###   ########.jp       */
+/*   Created: 2022/05/16 14:47:33 by ahayashi          #+#    #+#             */
+/*   Updated: 2022/05/16 14:47:33 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector3.h"
 
-double	vec3_norm(t_vec3 *v)
+double	cos_of_angles(t_vec3 *v1, t_vec3 *v2)
 {
-	return (sqrt(v->x * v->x + v->y * v->y + v->z * v->z));
+	return (vec3_inner_product(v1, v2) / (vec3_norm(v1) * vec3_norm(v2)));
 }

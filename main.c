@@ -76,11 +76,6 @@ t_window_info	*init_window_info(void)
 	return (info);
 }
 
-double subtended_angle_cos(t_vec3 *a, t_vec3 *b)
-{
-	return (vec3_inner_product(a, b) / (vec3_norm(a) * vec3_norm(b)));
-}
-
 int	calc_ambient_light(void)
 {
 	int	ambient_color = 0xFF00FFFF;
@@ -144,9 +139,9 @@ void	draw(t_window_info *info)
 				t_vec3	*light_vec = vector3(0, 0, 0);
 				t_vec3	*l_vec = vec3_sub(p_vec, light_vec);
 
-				double cos = subtended_angle_cos(n_vec, l_vec);
-				int magic_nomber_to_adjast_visibility = 20000;
-				cos *= magic_nomber_to_adjast_visibility;
+				double cos = cos_of_angles(n_vec, l_vec);
+//				int magic_nomber_to_adjast_visibility = 100;
+//				cos *= magic_nomber_to_adjast_visibility;
 				printf("%f\n",cos);
 				pixel_put_to_image(info->img, i, j, make_color_from_trgb(255, 0*cos, 255*cos, 255 * cos));
 

@@ -79,3 +79,21 @@ TEST_F(VectorTest, norm) {
 	ASSERT_DOUBLE_EQ(sqrt(46), actual);
 	free(v1);
 }
+
+TEST_F(VectorTest, cos_of_angles) {
+	t_vec3 *v1 = vector3(1.0, 3.0, 6.0);
+	t_vec3 *v2 = vector3(-2.2, 1.2, -3.4);
+	double actual = cos_of_angles(v1, v2);
+	ASSERT_DOUBLE_EQ(-19 / sqrt(46) / sqrt(17.84), actual);
+	free(v1);
+	free(v2);
+}
+
+TEST_F(VectorTest, cos_of_angles_with_same_orientation) {
+	t_vec3 *v1 = vector3(1.0, 3.0, 6.0);
+	t_vec3 *v2 = vector3(1.0, 3.0, 6.0);
+	double actual = cos_of_angles(v1, v2);
+	ASSERT_DOUBLE_EQ(1.0, actual);
+	free(v1);
+	free(v2);
+}
