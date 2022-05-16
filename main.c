@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/14 18:33:51 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/16 10:54:59 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,41 +76,6 @@ t_window_info	*init_window_info(void)
 	return (info);
 }
 
-
-int	get_t(int trgb)
-{
-	return ((trgb >> 24) & 0xFF);
-}
-
-int	get_r(int trgb)
-{
-	return ((trgb >> 16) & 0xFF);
-}
-
-int	get_g(int trgb)
-{
-	return ((trgb >> 8) & 0xFF);
-}
-
-int	get_b(int trgb)
-{
-	return (trgb & 0xFF);
-}
-
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
-int add_trgb(int a, int b)
-{
-	return(create_trgb(get_t(a) + get_t(b), \
-					   get_r(a) + get_r(b), \
-					   get_g(a) + get_g(b), \
-					   get_b(a) + get_b(b)));
-}
-
-
 double norm(t_vec3 *a)
 {
 	return (a->x * a->x + a->y * a->y + a->z * a->z);
@@ -127,11 +92,11 @@ int	calc_ambient_light(void)
 	int	ambient_color = 0xFF00FFFF;
 	double	ambient_ration= 0.8;
 
-	return (create_trgb(
-		get_t(ambient_color), \
-		get_r(ambient_color) * ambient_ration, \
-		get_g(ambient_color) * ambient_ration, \
-		get_b(ambient_color) * ambient_ration
+	return (make_color_from_trgb(
+		get_trgb(ambient_color, TRANSPARENT), \
+		get_trgb(ambient_color, RED) * ambient_ration, \
+		get_trgb(ambient_color, GREEN) * ambient_ration, \
+		get_trgb(ambient_color, BLUE) * ambient_ration
 	));
 }
 
@@ -189,7 +154,7 @@ void	draw(t_window_info *info)
 				int magic_nomber_to_adjast_visibility = 20000;
 				cos *= magic_nomber_to_adjast_visibility;
 				printf("%f\n",cos);
-				pixel_put_to_image(info->img, i, j, create_trgb(255, 0*cos, 255*cos, 255 * cos));
+				pixel_put_to_image(info->img, i, j, make_color_from_trgb(255, 0*cos, 255*cos, 255 * cos));
 
 //				pixel_put_to_image(info->img, i, j, calc_ambient_light());
 			}
