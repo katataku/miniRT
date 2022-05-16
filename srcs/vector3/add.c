@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add.c                                              :+:      :+:    :+:   */
+/*   vec3_add.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "vector3.h"
 
-t_vec3	*add(t_vec3	*left, t_vec3	*right)
+t_vec3	*vec3_add(t_vec3	*left, t_vec3	*right)
 {
 	t_vec3	*rtv;
 

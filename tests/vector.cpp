@@ -30,7 +30,7 @@ TEST_F(VectorTest, vector) {
 TEST_F(VectorTest, add) {
 	t_vec3 *v1 = vector3(0.0, 1.0, 9.0);
 	t_vec3 *v2 = vector3(2.2, 6.0, 1.0);
-	t_vec3 *actual = add(v1, v2);
+	t_vec3 *actual = vec3_add(v1, v2);
 	ASSERT_TRUE(isEqual(actual, 2.2, 7.0, 10.0));
 	free(v1);
 	free(v2);
@@ -40,7 +40,7 @@ TEST_F(VectorTest, add) {
 TEST_F(VectorTest, sub) {
 	t_vec3 *v1 = vector3(0.0, 1.0, 9.0);
 	t_vec3 *v2 = vector3(2.2, 6.0, 1.0);
-	t_vec3 *actual = sub(v1, v2);
+	t_vec3 *actual = vec3_sub(v1, v2);
 	ASSERT_TRUE(isEqual(actual, -2.2, -5.0, 8.0));
 	free(v1);
 	free(v2);

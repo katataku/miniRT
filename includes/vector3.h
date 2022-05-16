@@ -22,8 +22,8 @@ typedef struct s_vector3 {
 	double	z;
 }	t_vec3;
 
-t_vec3	*add(t_vec3	*left, t_vec3	*right);
-t_vec3	*sub(t_vec3	*left, t_vec3	*right);
+t_vec3	*vec3_add(t_vec3	*left, t_vec3	*right);
+t_vec3	*vec3_sub(t_vec3	*left, t_vec3	*right);
 double	vec3_inner_product(t_vec3 *left, t_vec3 *right);
 t_vec3	*vec3_multiply(t_vec3 *v, double scalar);
 void	print(t_vec3 *vector);

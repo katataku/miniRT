@@ -131,7 +131,7 @@ void	draw(t_window_info *info)
 	camera_y = 0.0;
 	camera_z = 10.0;
 	camera_vec = vector3(camera_x, camera_y, camera_z);
-	start_vec = sub(object_vec, camera_vec);
+	start_vec = vec3_sub(object_vec, camera_vec);
 
 	i = 0;
 	while (i < W)
@@ -139,16 +139,16 @@ void	draw(t_window_info *info)
 		j = 0;
 		while (j < H)
 		{
-			d_vec = sub(object_vec, to_3d(i, j));
-			if (is_cross(start_vec, sub(d_vec, start_vec)))
+			d_vec = vec3_sub(object_vec, to_3d(i, j));
+			if (is_cross(start_vec, vec3_sub(d_vec, start_vec)))
 			{
 				(void)ambient_vec;
-				double	t = calc_t(start_vec, sub(d_vec, start_vec));
-				t_vec3	*p_vec = add(camera_vec,  vec3_multiply(d_vec, t));
-				t_vec3	*n_vec = sub(p_vec, object_vec);
+				double	t = calc_t(start_vec, vec3_sub(d_vec, start_vec));
+				t_vec3	*p_vec = vec3_add(camera_vec, vec3_multiply(d_vec, t));
+				t_vec3	*n_vec = vec3_sub(p_vec, object_vec);
 
 				t_vec3	*light_vec = vector3(0, 0, 0);
-				t_vec3	*l_vec = sub(p_vec, light_vec);
+				t_vec3	*l_vec = vec3_sub(p_vec, light_vec);
 
 				double cos = subtended_angle_cos(n_vec, l_vec);
 				int magic_nomber_to_adjast_visibility = 20000;
