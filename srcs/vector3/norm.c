@@ -14,5 +14,5 @@
 
 double	vec3_norm(t_vec3 *v)
 {
-	return (v->x * v->x + v->y * v->y + v->z * v->z);
+	return sqrt(v->x * v->x + v->y * v->y + v->z * v->z);
 }

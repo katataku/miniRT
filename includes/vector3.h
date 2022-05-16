@@ -15,6 +15,7 @@
 
 # include "xlibft.h"
 # include <stdio.h>
+# include <math.h>
 
 typedef struct s_vector3 {
 	double	x;

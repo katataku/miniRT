@@ -59,7 +59,7 @@ TEST_F(VectorTest, inner_product) {
 	t_vec3 *v1 = vector3(0.0, 1.0, 9.0);
 	t_vec3 *v2 = vector3(2.2, 6.0, 1.0);
 	double actual = vec3_inner_product(v1, v2);
-	ASSERT_EQ(15.0, actual);
+	ASSERT_DOUBLE_EQ(15.0, actual);
 	free(v1);
 	free(v2);
 }
@@ -68,7 +68,14 @@ TEST_F(VectorTest, inner_product_is_zero) {
 	t_vec3 *v1 = vector3(-3.0, 1.2, 3.3);
 	t_vec3 *v2 = vector3(2.3, 3.0, 1.0);
 	double actual = vec3_inner_product(v1, v2);
-	ASSERT_EQ(0.0, actual);
+	ASSERT_DOUBLE_EQ(0.0, actual);
 	free(v1);
 	free(v2);
+}
+
+TEST_F(VectorTest, norm) {
+	t_vec3 *v1 = vector3(1.0, 3.0, 6.0);
+	double actual = vec3_norm(v1);
+	ASSERT_DOUBLE_EQ(sqrt(46), actual);
+	free(v1);
 }
