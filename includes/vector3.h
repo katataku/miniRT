@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:58:08 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/14 18:23:18 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/16 11:01:51 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VECTOR3_H
 
 # include "xlibft.h"
+# include <stdio.h>
 
 typedef struct s_vector3 {
 	double	x;
