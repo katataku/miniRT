@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/16 10:54:59 by ahayashi         ###   ########.jp       */
+/*   Updated: 2022/05/16 17:17:42 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	draw(t_window_info *info)
 				double cos = cos_of_angles(n_vec, l_vec);
 //				int magic_nomber_to_adjast_visibility = 100;
 //				cos *= magic_nomber_to_adjast_visibility;
-				printf("%f\n",cos);
+//				printf("%f\n",cos);
 				pixel_put_to_image(info->img, i, j, make_color_from_trgb(255, 0*cos, 255*cos, 255 * cos));
 
 //				pixel_put_to_image(info->img, i, j, calc_ambient_light());
@@ -143,13 +143,16 @@ void	draw(t_window_info *info)
 	}
 }
 
+
 int	main(int argc, char **argv)
 {
 	t_window_info	*info;
+	t_scene			*scene;
 
-	(void)argc;
-	(void)argv;
+	validate_arg(argc);
 	info = init_window_info();
+	scene = read_file(argv);
+	(void)scene;
 	draw(info);
 	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
 	mlx_loop(info->mlx);
