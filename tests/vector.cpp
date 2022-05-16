@@ -47,6 +47,14 @@ TEST_F(VectorTest, sub) {
 	free(actual);
 }
 
+TEST_F(VectorTest, multiply) {
+	t_vec3 *v1 = vector3(0.0, 1.0, 9.0);
+	t_vec3 *actual = vec3_multiply(v1, 2.2);
+	ASSERT_TRUE(isEqual(actual, 0.0, 2.2, 19.8));
+	free(v1);
+	free(actual);
+}
+
 TEST_F(VectorTest, inner_product) {
 	t_vec3 *v1 = vector3(0.0, 1.0, 9.0);
 	t_vec3 *v2 = vector3(2.2, 6.0, 1.0);
