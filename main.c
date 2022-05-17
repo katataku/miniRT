@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/16 17:17:42 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/17 10:44:39 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,11 @@ void	draw(t_window_info *info)
 			4,
 			0xFF00FFFF,
 	};
+	t_light light = {
+			{0.0, 0.0, 0.0},
+			1.0,
+			0xFFFFFFFF
+	};
 
 	start_vec = vec3_sub(&sphere.sphere_center, &camera.view_point);
 
@@ -126,13 +131,9 @@ void	draw(t_window_info *info)
 				t_vec3	*p_vec = vec3_add(&camera.view_point, vec3_multiply(d_vec, t));
 				t_vec3	*n_vec = vec3_sub(p_vec, &sphere.sphere_center);
 
-				t_vec3	*light_vec = vector3(0, 0, 0);
-				t_vec3	*l_vec = vec3_sub(p_vec, light_vec);
+				t_vec3	*l_vec = vec3_sub(p_vec, &light.light_point);
 
 				double cos = cos_of_angles(n_vec, l_vec);
-//				int magic_nomber_to_adjast_visibility = 100;
-//				cos *= magic_nomber_to_adjast_visibility;
-//				printf("%f\n",cos);
 				pixel_put_to_image(info->img, i, j, make_color_from_trgb(255, 0*cos, 255*cos, 255 * cos));
 
 //				pixel_put_to_image(info->img, i, j, calc_ambient_light());

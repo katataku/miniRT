@@ -71,7 +71,6 @@ typedef struct s_camera {
 typedef struct s_light {
 	t_vec3		light_point;
 	double		brightness_ratio;
-	t_vec3		orientation_vector;
 	int			color;
 }	t_light;
 
