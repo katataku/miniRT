@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_arg.c                                     :+:      :+:    :+:   */
+/*   read_light.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/16 16:57:11 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/17 14:34:56 by takkatao         ###   ########.fr       */
+/*   Created: 2022/05/17 16:41:22 by takkatao          #+#    #+#             */
+/*   Updated: 2022/05/17 16:41:23 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "io.h"
 
-// TODO:
-// - 出力形式が要件と違うのでputerrを修正する。
-void	validate_arg(int argc)
+// TODO:atof自作関数に置き換える。
+void	read_light(t_scene *scene, char	**splitted_line)
 {
-	if (argc != 2)
-		puterr_exit("", "Error", EXIT_FAILURE);
+	t_light	*light;
+
+	light = (t_light *)ft_xcalloc(1, sizeof(t_light));
+	light->light_point = gen_vec3_from_line(splitted_line[1]);
+	light->brightness_ratio = atof(splitted_line[2]);
+	light->color = get_color_from_line(splitted_line[3]);
+	scene->light = light;
 }
