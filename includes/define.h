@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/16 17:11:21 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/17 10:46:16 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,13 @@ typedef struct s_scene {
 	t_light				*light;
 	t_list				*objects;
 }	t_scene;
+
+/*
+ * ras can represents s→ + td→
+ */
+typedef struct s_ray {
+	t_vec3	*start_vector;
+	t_vec3	*direction_vector;
+}	t_ray;
 
 #endif
