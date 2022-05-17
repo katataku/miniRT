@@ -74,18 +74,22 @@ double	calc_t(t_ray *ray, t_sphere	*sphere)
 	return (-b - sqrt(dif) / (2 * a));
 }
 
-int	calc_ambient_light(void)
+/*
+ * 環境光を計算する。
+ */
+int	calc_ambient_light(t_ambient_lightning *a)
 {
-	t_ambient_lightning	a = {0.8, 0xFF00FFFF};
-
 	return (make_color_from_trgb(\
-		get_trgb(a.color, TRANSPARENT), \
-		get_trgb(a.color, RED) * a.lighting_ratio, \
-		get_trgb(a.color, GREEN) * a.lighting_ratio, \
-		get_trgb(a.color, BLUE) * a.lighting_ratio \
+		get_trgb(a->color, TRANSPARENT), \
+		get_trgb(a->color, RED) * a->lighting_ratio, \
+		get_trgb(a->color, GREEN) * a->lighting_ratio, \
+		get_trgb(a->color, BLUE) * a->lighting_ratio \
 	));
 }
 
+/*
+ * 拡散反射光を計算する。
+ */
 int	calc_diffuse_light(t_ray *ray, t_sphere *sphere, t_light *light)
 {
 	double	t;
@@ -103,6 +107,8 @@ int	calc_diffuse_light(t_ray *ray, t_sphere *sphere, t_light *light)
 }
 
 /*
+ * レイと球が交差するか判定する関数。
+ *
  * 判別式が0のとき、1つのする
  * 判別式が0より大きい時、2点で交わる。tが小さい方が手前になる。
  */
@@ -111,7 +117,6 @@ bool	is_cross(t_ray *ray, t_sphere *sphere)
 	return (calc_t(ray, sphere) >= 0);
 }
 
-// start_vecがカメラの座標。
 void	draw(t_window_info *info)
 {
 	int			i;
@@ -131,6 +136,7 @@ void	draw(t_window_info *info)
 			1.0,
 			0xFFFFFFFF
 	};
+	t_ambient_lightning	ambient_lightning = {0.8, 0xFF00FFFF};
 	t_ray		ray;
 
 	ray.start_vector = &camera.view_point;
@@ -143,7 +149,7 @@ void	draw(t_window_info *info)
 			ray.direction_vector = vec3_sub(&sphere.sphere_center, to_3d(i, j));
 			if (is_cross(&ray, &sphere))
 			{
-				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, &sphere, &light), calc_ambient_light()));
+				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, &sphere, &light), calc_ambient_light(&ambient_lightning)));
 			}
 			j++;
 		}
