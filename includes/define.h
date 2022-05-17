@@ -106,7 +106,7 @@ typedef struct s_scene {
 }	t_scene;
 
 /*
- * ras can represents s→ + td→
+ * ray can represents 𝐬⃗ + t𝐝⃗
  */
 typedef struct s_ray {
 	t_vec3	*start_vector;

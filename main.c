@@ -130,7 +130,7 @@ void	draw(t_window_info *info, t_scene *scene)
 		j = 0;
 		while (j < H)
 		{
-			ray.direction_vector = vec3_sub(scene->sphere->sphere_center, to_3d(i, j));
+			ray.direction_vector = vec3_sub(to_3d(i, j), ray.start_vector);
 			if (is_cross(&ray, scene->sphere))
 			{
 				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, scene->sphere, scene->light), calc_ambient_light(scene->ambient_lightning)));
