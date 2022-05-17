@@ -2,7 +2,7 @@ NAME = minirt
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -MMD -MP
 IO_SRCS = $(addprefix srcs/io/, \
-		read_file.c validate_arg.c \
+		read_ambient.c read_camera.c read_cylinder.c read_file.c read_light.c read_plane.c read_sphere.c util.c validate_arg.c \
 		)
 VECTOR3_SRCS = $(addprefix srcs/vector3/, \
 		add.c cos_of_angles.c inner_product.c multiply.c norm.c print.c sub.c  vector3.c \
@@ -58,5 +58,5 @@ test:
 	make -C tests
 .PHONY: run
 run:
-	./minirt rt_files/minimalist.rt
+	./minirt rt_files/minimam_sphere.rt
 

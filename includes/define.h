@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/17 10:46:16 by ahayashi         ###   ########.jp       */
+/*   Updated: 2022/05/17 16:38:28 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 # define H 1001
 # define W 1001
+# define MAX_INPUT_LINE_LEN 1024
 
 typedef struct s_image {
 	void	*mlx_img;
@@ -81,14 +82,14 @@ typedef struct s_sphere {
 }	t_sphere;
 
 typedef struct s_plane {
-	t_vec3		coordinates;
-	t_vec3		orientation_vector;
+	t_vec3		*coordinates;
+	t_vec3		*orientation_vector;
 	int			color;
 }	t_plane;
 
 typedef struct s_cylinder {
-	t_vec3		coordinates;
-	t_vec3		orientation_vector;
+	t_vec3		*coordinates;
+	t_vec3		*orientation_vector;
 	double		cylinder_diameter;
 	double		cylinder_height;
 	int			color;
@@ -103,6 +104,8 @@ typedef struct s_scene {
 	t_light				*light;
 	t_list				*objects;
 	t_sphere			*sphere;
+	t_plane				*plane;
+	t_cylinder			*cylinder;
 }	t_scene;
 
 /*
