@@ -43,23 +43,6 @@ t_window_info	*init_window_info(void)
 	return (info);
 }
 
-int	calc_ambient_light(void)
-{
-	t_ambient_lightning	a = {0.8, 0xFF00FFFF};
-
-	return (make_color_from_trgb(
-		get_trgb(a.color, TRANSPARENT), \
-		get_trgb(a.color, RED) * a.lighting_ratio, \
-		get_trgb(a.color, GREEN) * a.lighting_ratio, \
-		get_trgb(a.color, BLUE) * a.lighting_ratio
-	));
-}
-
-int	calc_diffuse_light(void)
-{
-	return (1);
-}
-
 /*
  * 𝑡 =(−𝐵±√(𝐵^2−4𝐴𝐶))/2𝐴
  *
@@ -89,6 +72,31 @@ double 	calc_t(t_ray *ray, t_sphere	*sphere)
 	if (dif < 0)
 		return (-1);
 	return (-b - sqrt(dif) / (2 * a));
+}
+
+int	calc_ambient_light(void)
+{
+	t_ambient_lightning	a = {0.8, 0xFF00FFFF};
+
+	return (make_color_from_trgb(
+		get_trgb(a.color, TRANSPARENT), \
+		get_trgb(a.color, RED) * a.lighting_ratio, \
+		get_trgb(a.color, GREEN) * a.lighting_ratio, \
+		get_trgb(a.color, BLUE) * a.lighting_ratio
+	));
+}
+
+int	calc_diffuse_light(t_ray *ray, t_sphere *sphere, t_light *light)
+{
+	double	t = calc_t(ray, sphere);
+	t_vec3	*p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
+	t_vec3	*n_vec = vec3_sub(p_vec, &sphere->sphere_center);
+
+	t_vec3	*l_vec = vec3_sub(p_vec, &light->light_point);
+
+	double cos = cos_of_angles(n_vec, l_vec);
+
+	return (make_color_from_trgb(255, 0*cos, 255*cos, 255 * cos));
 }
 
 /*
@@ -134,15 +142,7 @@ void	draw(t_window_info *info)
 			ray.direction_vector = vec3_sub(&sphere.sphere_center, to_3d(i, j));
 			if (is_cross(&ray, &sphere))
 			{
-				double	t = calc_t(&ray, &sphere);
-				t_vec3	*p_vec = vec3_add(&camera.view_point, vec3_multiply(ray.direction_vector, t));
-				t_vec3	*n_vec = vec3_sub(p_vec, &sphere.sphere_center);
-
-				t_vec3	*l_vec = vec3_sub(p_vec, &light.light_point);
-
-				double cos = cos_of_angles(n_vec, l_vec);
-				pixel_put_to_image(info->img, i, j, make_color_from_trgb(255, 0*cos, 255*cos, 255 * cos));
-
+				pixel_put_to_image(info->img, i, j, calc_diffuse_light(&ray, &sphere, &light));
 //				pixel_put_to_image(info->img, i, j, calc_ambient_light());
 			}
 			j++;
