@@ -64,7 +64,7 @@ double	calc_t(t_ray *ray, t_sphere	*sphere)
 	double	dif;
 	t_vec3	*s;
 
-	s = vec3_sub(ray->start_vector, &sphere->sphere_center);
+	s = vec3_sub(ray->start_vector, sphere->sphere_center);
 	a = pow(vec3_norm(ray->direction_vector), 2);
 	b = 2 * vec3_inner_product(s, ray->direction_vector);
 	c = pow(vec3_norm(s), 2) - pow(sphere->diameter / 2, 2);
@@ -100,8 +100,8 @@ int	calc_diffuse_light(t_ray *ray, t_sphere *sphere, t_light *light)
 
 	t = calc_t(ray, sphere);
 	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
-	n_vec = vec3_sub(p_vec, &sphere->sphere_center);
-	l_vec = vec3_sub(p_vec, &light->light_point);
+	n_vec = vec3_sub(p_vec, sphere->sphere_center);
+	l_vec = vec3_sub(p_vec, light->light_point);
 	cos = cos_of_angles(n_vec, l_vec);
 	return (make_color_from_trgb(255, 0 * cos, 255 * cos, 255 * cos));
 }
@@ -117,39 +117,23 @@ bool	is_cross(t_ray *ray, t_sphere *sphere)
 	return (calc_t(ray, sphere) >= 0);
 }
 
-void	draw(t_window_info *info)
+void	draw(t_window_info *info, t_scene *scene)
 {
 	int			i;
 	int			j;
-	t_camera	camera = {
-			{0.0, 0.0, 10.0},
-			{0.0, 0.0, 0.0},
-			0
-	};
-	t_sphere	sphere = {
-			{3.0, 3.0, 0.0},
-			1,
-			0xFF00FFFF,
-	};
-	t_light		light = {
-			{0.0, 0.0, 0.0},
-			1.0,
-			0xFFFFFFFF
-	};
-	t_ambient_lightning	ambient_lightning = {0.8, 0xFF00FFFF};
 	t_ray		ray;
 
-	ray.start_vector = &camera.view_point;
+	ray.start_vector = scene->camera->view_point;
 	i = 0;
 	while (i < W)
 	{
 		j = 0;
 		while (j < H)
 		{
-			ray.direction_vector = vec3_sub(&sphere.sphere_center, to_3d(i, j));
-			if (is_cross(&ray, &sphere))
+			ray.direction_vector = vec3_sub(scene->sphere->sphere_center, to_3d(i, j));
+			if (is_cross(&ray, scene->sphere))
 			{
-				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, &sphere, &light), calc_ambient_light(&ambient_lightning)));
+				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, scene->sphere, scene->light), calc_ambient_light(scene->ambient_lightning)));
 			}
 			j++;
 		}
@@ -165,8 +149,7 @@ int	main(int argc, char **argv)
 	validate_arg(argc);
 	info = init_window_info();
 	scene = read_file(argv);
-	(void)scene;
-	draw(info);
+	draw(info, scene);
 	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
 	mlx_loop(info->mlx);
 	return (0);

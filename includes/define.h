@@ -63,19 +63,19 @@ typedef struct s_ambient_lightning {
 }	t_ambient_lightning;
 
 typedef struct s_camera {
-	t_vec3		view_point;
-	t_vec3		orientation_vector;
+	t_vec3		*view_point;
+	t_vec3		*orientation_vector;
 	double		fov;
 }	t_camera;
 
 typedef struct s_light {
-	t_vec3		light_point;
+	t_vec3		*light_point;
 	double		brightness_ratio;
 	int			color;
 }	t_light;
 
 typedef struct s_sphere {
-	t_vec3		sphere_center;
+	t_vec3		*sphere_center;
 	double		diameter;
 	int			color;
 }	t_sphere;
@@ -94,11 +94,15 @@ typedef struct s_cylinder {
 	int			color;
 }	t_cylinder;
 
+/*
+ * 雑にsphereを持たせているが本来はt_listに含まれている
+ */
 typedef struct s_scene {
 	t_ambient_lightning	*ambient_lightning;
 	t_camera			*camera;
 	t_light				*light;
 	t_list				*objects;
+	t_sphere			*sphere;
 }	t_scene;
 
 /*
