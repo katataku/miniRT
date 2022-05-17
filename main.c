@@ -56,7 +56,7 @@ t_window_info	*init_window_info(void)
  * 判別式が0より大きい時、2点で交わる。tが小さい方が手前になる。
  * 交わらない場合は決め打ちでtを-1にする。tがマイナスということは視点の後ろにある。
  */
-double 	calc_t(t_ray *ray, t_sphere	*sphere)
+double	calc_t(t_ray *ray, t_sphere	*sphere)
 {
 	double	a;
 	double	b;
@@ -78,25 +78,28 @@ int	calc_ambient_light(void)
 {
 	t_ambient_lightning	a = {0.8, 0xFF00FFFF};
 
-	return (make_color_from_trgb(
+	return (make_color_from_trgb(\
 		get_trgb(a.color, TRANSPARENT), \
 		get_trgb(a.color, RED) * a.lighting_ratio, \
 		get_trgb(a.color, GREEN) * a.lighting_ratio, \
-		get_trgb(a.color, BLUE) * a.lighting_ratio
+		get_trgb(a.color, BLUE) * a.lighting_ratio \
 	));
 }
 
 int	calc_diffuse_light(t_ray *ray, t_sphere *sphere, t_light *light)
 {
-	double	t = calc_t(ray, sphere);
-	t_vec3	*p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
-	t_vec3	*n_vec = vec3_sub(p_vec, &sphere->sphere_center);
+	double	t;
+	double	cos;
+	t_vec3	*p_vec;
+	t_vec3	*n_vec;
+	t_vec3	*l_vec;
 
-	t_vec3	*l_vec = vec3_sub(p_vec, &light->light_point);
-
-	double cos = cos_of_angles(n_vec, l_vec);
-
-	return (make_color_from_trgb(255, 0*cos, 255*cos, 255 * cos));
+	t = calc_t(ray, sphere);
+	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
+	n_vec = vec3_sub(p_vec, &sphere->sphere_center);
+	l_vec = vec3_sub(p_vec, &light->light_point);
+	cos = cos_of_angles(n_vec, l_vec);
+	return (make_color_from_trgb(255, 0 * cos, 255 * cos, 255 * cos));
 }
 
 /*
@@ -107,7 +110,6 @@ bool	is_cross(t_ray *ray, t_sphere *sphere)
 {
 	return (calc_t(ray, sphere) >= 0);
 }
-
 
 // start_vecがカメラの座標。
 void	draw(t_window_info *info)
@@ -124,15 +126,14 @@ void	draw(t_window_info *info)
 			1,
 			0xFF00FFFF,
 	};
-	t_light light = {
+	t_light		light = {
 			{0.0, 0.0, 0.0},
 			1.0,
 			0xFFFFFFFF
 	};
+	t_ray		ray;
 
-	t_ray ray;
 	ray.start_vector = &camera.view_point;
-
 	i = 0;
 	while (i < W)
 	{
@@ -149,7 +150,6 @@ void	draw(t_window_info *info)
 		i++;
 	}
 }
-
 
 int	main(int argc, char **argv)
 {
