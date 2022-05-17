@@ -142,8 +142,7 @@ void	draw(t_window_info *info)
 			ray.direction_vector = vec3_sub(&sphere.sphere_center, to_3d(i, j));
 			if (is_cross(&ray, &sphere))
 			{
-				pixel_put_to_image(info->img, i, j, calc_diffuse_light(&ray, &sphere, &light));
-//				pixel_put_to_image(info->img, i, j, calc_ambient_light());
+				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, &sphere, &light), calc_ambient_light()));
 			}
 			j++;
 		}
