@@ -51,10 +51,12 @@ clean:
 re: fclean all
 
 .PHONY: all fclean clean re
-
+-include $(DEPENDS)
+# DELETE #
 .PHONY: test
 test:
 	make -C tests
+.PHONY: run
+run:
+	./minirt rt_files/minimalist.rt
 
-
--include $(DEPENDS)
