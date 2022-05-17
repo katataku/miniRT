@@ -62,10 +62,21 @@ t_scene	*read_file(char **argv)
 	int		fd;
 	char	*line[1024];
 
-	scene = (t_scene *)ft_xcalloc(1, sizeof(*scene));
+	scene = (t_scene *)ft_xcalloc(1, sizeof(t_scene));
 	fd = xopen(argv[1], O_RDONLY, 0);
 	while (get_next_line(fd, line))
 		read_element(scene, *line);
 	xclose(fd);
-	return (NULL);
+	scene->camera = (t_camera *)ft_xcalloc(1, sizeof(t_camera));
+	scene->camera->view_point = vector3(0.0, 0.0, 10.0);
+	scene->ambient_lightning = (t_ambient_lightning *) ft_xcalloc(1, sizeof(t_ambient_lightning));
+	scene->ambient_lightning->lighting_ratio = 0.8;
+	scene->ambient_lightning->color = 0xFF00FFFF;
+	scene->light = (t_light *) ft_xcalloc(1, sizeof(t_light));
+	scene->light->light_point = vector3(0.0, 0.0, 0.0);
+	scene->sphere = (t_sphere *) ft_xcalloc(1, sizeof(t_sphere));
+	scene->sphere->sphere_center = vector3(3.0, 3.0, 0.0);
+	scene->sphere->diameter = 1;
+	scene->sphere->color = 0xFF00FFFF;
+	return (scene);
 }

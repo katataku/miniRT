@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/16 17:17:42 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/17 10:44:39 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,39 +28,6 @@ t_vec3	*to_3d(double x, double y)
 	return (vec);
 }
 
-/*
- * return -1, if t is not calculated.
- */
-double	calc_t(t_vec3 *s, t_vec3 *d)
-{
-	double	a;
-	double	b;
-	double	c;
-	double	r;
-	double	dif;
-	double	t;
-
-
-	r = 2;
-	a = pow(d->x, 2) + pow(d->y, 2) + pow(d->z, 2);
-	b = 2 * (s->x * d->x + s->y * d->y + s->z * d->z);
-	c = pow(s->x, 2) + pow(s->y, 2) + pow(s->z, 2) - pow(r, 2);
-	dif = pow(b, 2) - 4 * a * c;
-	if (dif < 0)
-		return (-1);
-	t = - b - sqrt(dif) / (2 * a);
-	return (t);
-}
-
-/*
- * 判別式が0のとき、1つのする
- * 判別式が0より大きい時、2点で交わる。tが小さい方が手前になる。
- */
-bool	is_cross(t_vec3 *s, t_vec3 *d)
-{
-	return (calc_t(s, d) >= 0);
-}
-
 t_window_info	*init_window_info(void)
 {
 	t_window_info	*info;
@@ -76,73 +43,103 @@ t_window_info	*init_window_info(void)
 	return (info);
 }
 
-int	calc_ambient_light(void)
+/*
+ * 𝑡 =(−𝐵±√(𝐵^2−4𝐴𝐶))/2𝐴
+ *
+ * 𝐴 = |𝐝⃗|^2
+ * 𝐵 = 2(𝐬⃗⋅𝐝⃗)
+ * 𝐶 = |𝐬⃗|^2−𝑟^2
+ * ※球が原点にあるとき。球の中心が原点に重なるように平行移動してあげれば良いので
+ * カメラの位置ベクトルから球の中心の位置ベクトルを引いたものを𝐬⃗とする
+ *
+ * 判別式が0のとき、1つのする
+ * 判別式が0より大きい時、2点で交わる。tが小さい方が手前になる。
+ * 交わらない場合は決め打ちでtを-1にする。tがマイナスということは視点の後ろにある。
+ */
+double	calc_t(t_ray *ray, t_sphere	*sphere)
 {
-	t_ambient_lightning	a = {0.8, 0xFF00FFFF};
+	double	a;
+	double	b;
+	double	c;
+	double	dif;
+	t_vec3	*s;
 
-	return (make_color_from_trgb(
-		get_trgb(a.color, TRANSPARENT), \
-		get_trgb(a.color, RED) * a.lighting_ratio, \
-		get_trgb(a.color, GREEN) * a.lighting_ratio, \
-		get_trgb(a.color, BLUE) * a.lighting_ratio
+	s = vec3_sub(ray->start_vector, sphere->sphere_center);
+	a = pow(vec3_norm(ray->direction_vector), 2);
+	b = 2 * vec3_inner_product(s, ray->direction_vector);
+	c = pow(vec3_norm(s), 2) - pow(sphere->diameter / 2, 2);
+	dif = pow(b, 2) - 4 * a * c;
+	if (dif < 0)
+		return (-1);
+	return (-b - sqrt(dif) / (2 * a));
+}
+
+/*
+ * 環境光を計算する。
+ */
+int	calc_ambient_light(t_ambient_lightning *a)
+{
+	return (make_color_from_trgb(\
+		get_trgb(a->color, TRANSPARENT), \
+		get_trgb(a->color, RED) * a->lighting_ratio, \
+		get_trgb(a->color, GREEN) * a->lighting_ratio, \
+		get_trgb(a->color, BLUE) * a->lighting_ratio \
 	));
 }
 
-int	calc_diffuse_light(void)
+/*
+ * 拡散反射光を計算する。
+ */
+int	calc_diffuse_light(t_ray *ray, t_sphere *sphere, t_light *light)
 {
-	return (1);
+	double	t;
+	double	cos;
+	t_vec3	*p_vec;
+	t_vec3	*n_vec;
+	t_vec3	*l_vec;
+
+	t = calc_t(ray, sphere);
+	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
+	n_vec = vec3_sub(p_vec, sphere->sphere_center);
+	l_vec = vec3_sub(p_vec, light->light_point);
+	cos = cos_of_angles(n_vec, l_vec);
+	return (make_color_from_trgb(255, 0 * cos, 255 * cos, 255 * cos));
 }
 
-// start_vecがカメラの座標。
-void	draw(t_window_info *info)
+/*
+ * レイと球が交差するか判定する関数。
+ *
+ * 判別式が0のとき、1つのする
+ * 判別式が0より大きい時、2点で交わる。tが小さい方が手前になる。
+ */
+bool	is_cross(t_ray *ray, t_sphere *sphere)
 {
-	t_vec3		*d_vec;
-	t_vec3		*start_vec;
+	return (calc_t(ray, sphere) >= 0);
+}
+
+void	draw(t_window_info *info, t_scene *scene)
+{
 	int			i;
 	int			j;
-	t_camera	camera = {
-			{0.0, 0.0, 10.0},
-			{0.0, 0.0, 0.0},
-			0
-	};
-	t_sphere	sphere = {
-			{3.0, 3.0, 0.0},
-			4,
-			0xFF00FFFF,
-	};
+	t_ray		ray;
 
-	start_vec = vec3_sub(&sphere.sphere_center, &camera.view_point);
-
+	ray.start_vector = scene->camera->view_point;
 	i = 0;
 	while (i < W)
 	{
 		j = 0;
 		while (j < H)
 		{
-			d_vec = vec3_sub(&sphere.sphere_center, to_3d(i, j));
-			if (is_cross(start_vec, vec3_sub(d_vec, start_vec)))
+			ray.direction_vector = vec3_sub(to_3d(i, j), ray.start_vector);
+			if (is_cross(&ray, scene->sphere))
 			{
-				double	t = calc_t(start_vec, vec3_sub(d_vec, start_vec));
-				t_vec3	*p_vec = vec3_add(&camera.view_point, vec3_multiply(d_vec, t));
-				t_vec3	*n_vec = vec3_sub(p_vec, &sphere.sphere_center);
-
-				t_vec3	*light_vec = vector3(0, 0, 0);
-				t_vec3	*l_vec = vec3_sub(p_vec, light_vec);
-
-				double cos = cos_of_angles(n_vec, l_vec);
-//				int magic_nomber_to_adjast_visibility = 100;
-//				cos *= magic_nomber_to_adjast_visibility;
-//				printf("%f\n",cos);
-				pixel_put_to_image(info->img, i, j, make_color_from_trgb(255, 0*cos, 255*cos, 255 * cos));
-
-//				pixel_put_to_image(info->img, i, j, calc_ambient_light());
+				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, scene->sphere, scene->light), calc_ambient_light(scene->ambient_lightning)));
 			}
 			j++;
 		}
 		i++;
 	}
 }
-
 
 int	main(int argc, char **argv)
 {
@@ -152,8 +149,7 @@ int	main(int argc, char **argv)
 	validate_arg(argc);
 	info = init_window_info();
 	scene = read_file(argv);
-	(void)scene;
-	draw(info);
+	draw(info, scene);
 	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
 	mlx_loop(info->mlx);
 	return (0);
