@@ -141,11 +141,24 @@ void	draw_sphere(t_window_info *info, t_scene *scene)
 	}
 }
 
+/*
+ * 𝑡 = −(𝐬⃗⋅𝐧⃗)/(𝐝⃗⋅𝐧⃗)
+ *
+ * 分母が0より小さいときは解なし。
+ * ※平面が原点にあるとき。カメラの位置ベクトルから平面上の任意の点の位置ベクトルを引いたものを𝐬⃗とする
+ */
 double	calc_t_plane(t_ray *ray, t_plane *plane)
 {
-	(void)ray;
-	(void)plane;
-	return (0);
+	float	denominator;
+	float	fraction;
+	t_vec3	*s;
+
+	s = vec3_sub(ray->start_vector, plane->coordinates);
+	denominator = vec3_inner_product(ray->direction_vector, plane->orientation_vector);
+	if (denominator <= 0)
+		return (-1);
+	fraction = vec3_inner_product(s, plane->orientation_vector);
+	return (-fraction/denominator);
 }
 
 /*
