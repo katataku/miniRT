@@ -141,9 +141,59 @@ void	draw_sphere(t_window_info *info, t_scene *scene)
 	}
 }
 
+double	calc_t_plane(t_ray *ray, t_plane *plane)
+{
+	(void)ray;
+	(void)plane;
+	return (0);
+}
+
+/*
+ *
+ */
+bool	is_cross_plane(t_ray *ray, t_plane *plane)
+{
+	return (calc_t_plane(ray, plane) >= 0);
+}
+
+/*
+ * 拡散反射光を計算する。
+ */
+int	calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light)
+{
+	(void)ray;
+	(void)plane;
+	(void)light;
+	return (make_color_from_trgb(255, 0, 0, 0));
+}
+
+void	draw_plane(t_window_info *info, t_scene *scene)
+{
+	int			i;
+	int			j;
+	t_ray		ray;
+
+	ray.start_vector = scene->camera->view_point;
+	i = 0;
+	while (i < W)
+	{
+		j = 0;
+		while (j < H)
+		{
+			ray.direction_vector = vec3_sub(to_3d(i, j), ray.start_vector);
+			if (is_cross_plane(&ray, scene->plane))
+			{
+				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light_plane(&ray, scene->plane, scene->light), calc_ambient_light(scene->ambient_lightning)));
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 void	draw(t_window_info *info, t_scene *scene)
 {
-	draw_sphere(info, scene);
+	draw_plane(info, scene);
 }
 
 int	main(int argc, char **argv)
