@@ -117,7 +117,7 @@ bool	is_cross(t_ray *ray, t_sphere *sphere)
 	return (calc_t(ray, sphere) >= 0);
 }
 
-void	draw(t_window_info *info, t_scene *scene)
+void	draw_sphere(t_window_info *info, t_scene *scene)
 {
 	int			i;
 	int			j;
@@ -139,6 +139,11 @@ void	draw(t_window_info *info, t_scene *scene)
 		}
 		i++;
 	}
+}
+
+void	draw(t_window_info *info, t_scene *scene)
+{
+	draw_sphere(info, scene);
 }
 
 int	main(int argc, char **argv)
