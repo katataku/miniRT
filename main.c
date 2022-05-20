@@ -158,7 +158,7 @@ double	calc_t_plane(t_ray *ray, t_plane *plane)
 	if (denominator <= 0)
 		return (-1);
 	fraction = vec3_inner_product(s, plane->orientation_vector);
-	return (-fraction/denominator);
+	return (-fraction / denominator);
 }
 
 /*
