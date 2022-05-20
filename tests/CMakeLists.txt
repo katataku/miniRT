@@ -22,6 +22,7 @@ add_library(minirt
 add_executable(main
         main.cpp
         vector.cpp
+        io.cpp
         )
 
 target_link_libraries(main
