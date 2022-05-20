@@ -59,4 +59,6 @@ test:
 .PHONY: run
 run:
 	./minirt rt_files/minimam_sphere.rt
-
+.PHONY: plane
+plane:
+	./minirt rt_files/minimam_plane.rt
