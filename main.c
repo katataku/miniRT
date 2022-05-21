@@ -174,10 +174,16 @@ bool	is_cross_plane(t_ray *ray, t_plane *plane)
  */
 int	calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light)
 {
-	(void)ray;
-	(void)plane;
-	(void)light;
-	return (make_color_from_trgb(255, 0, 0, 0));
+	double	t;
+	double	cos;
+	t_vec3	*p_vec;
+	t_vec3	*l_vec;
+
+	t = calc_t_plane(ray, plane);
+	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
+	l_vec = vec3_sub(p_vec, light->light_point);
+	cos = cos_of_angles(plane->orientation_vector, l_vec);
+	return (make_color_from_trgb(255, 0 * cos, 255 * cos, 255 * cos));
 }
 
 void	draw_plane(t_window_info *info, t_scene *scene)
