@@ -71,7 +71,7 @@ double	calc_t(t_ray *ray, t_sphere	*sphere)
 	dif = pow(b, 2) - 4 * a * c;
 	if (dif < 0)
 		return (-1);
-	return (-b - sqrt(dif) / (2 * a));
+	return ((-b - sqrt(dif)) / (2 * a));
 }
 
 /*
@@ -101,9 +101,15 @@ int	calc_diffuse_light(t_ray *ray, t_sphere *sphere, t_light *light)
 	t = calc_t(ray, sphere);
 	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
 	n_vec = vec3_sub(p_vec, sphere->sphere_center);
-	l_vec = vec3_sub(p_vec, light->light_point);
+	l_vec = vec3_sub(light->light_point, p_vec);
 	cos = cos_of_angles(n_vec, l_vec);
-	return (make_color_from_trgb(255, 0 * cos, 255 * cos, 255 * cos));
+	if (cos <= 0)
+		return (0);
+	return (make_color_from_trgb(
+			get_trgb(light->color, TRANSPARENT),
+			get_trgb(light->color, RED) * light->brightness_ratio * cos,
+			get_trgb(light->color, GREEN) * light->brightness_ratio * cos,
+			get_trgb(light->color, BLUE) * light->brightness_ratio * cos));
 }
 
 /*
@@ -117,7 +123,7 @@ bool	is_cross(t_ray *ray, t_sphere *sphere)
 	return (calc_t(ray, sphere) >= 0);
 }
 
-void	draw(t_window_info *info, t_scene *scene)
+void	draw_sphere(t_window_info *info, t_scene *scene)
 {
 	int			i;
 	int			j;
@@ -135,10 +141,100 @@ void	draw(t_window_info *info, t_scene *scene)
 			{
 				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, scene->sphere, scene->light), calc_ambient_light(scene->ambient_lightning)));
 			}
+			else
+			{
+				pixel_put_to_image(info->img, i, j, calc_ambient_light(scene->ambient_lightning));
+			}
 			j++;
 		}
 		i++;
 	}
+}
+
+/*
+ * 𝑡 = −(𝐬⃗⋅𝐧⃗)/(𝐝⃗⋅𝐧⃗)
+ *
+ * 分母が0より小さいときは解なし。
+ * ※平面が原点にあるとき。カメラの位置ベクトルから平面上の任意の点の位置ベクトルを引いたものを𝐬⃗とする
+ */
+double	calc_t_plane(t_ray *ray, t_plane *plane)
+{
+	float	denominator;
+	float	fraction;
+	t_vec3	*s;
+
+	s = vec3_sub(ray->start_vector, plane->coordinates);
+	denominator = vec3_inner_product(ray->direction_vector, plane->orientation_vector);
+	if (denominator == 0)
+		return (-1);
+	fraction = vec3_inner_product(s, plane->orientation_vector);
+	return (-fraction / denominator);
+}
+
+/*
+ *
+ */
+bool	is_cross_plane(t_ray *ray, t_plane *plane)
+{
+	return (calc_t_plane(ray, plane) >= 0);
+}
+
+/*
+ * 拡散反射光を計算する。
+ * cosの値がマイナスになる場合は光が当たっていないとして扱う
+ */
+int	calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light)
+{
+	double	t;
+	double	cos;
+	t_vec3	*p_vec;
+	t_vec3	*l_vec;
+
+	t = calc_t_plane(ray, plane);
+	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
+	l_vec = vec3_sub(light->light_point, p_vec);
+	cos = cos_of_angles(plane->orientation_vector, l_vec);
+	if (cos <= 0)
+		return (0);
+	return (make_color_from_trgb(
+			get_trgb(light->color, TRANSPARENT),
+			get_trgb(light->color, RED) * light->brightness_ratio * cos,
+			get_trgb(light->color, GREEN) * light->brightness_ratio * cos,
+			get_trgb(light->color, BLUE) * light->brightness_ratio * cos));
+}
+
+void	draw_plane(t_window_info *info, t_scene *scene)
+{
+	int			i;
+	int			j;
+	t_ray		ray;
+
+	ray.start_vector = scene->camera->view_point;
+	i = 0;
+	while (i < W)
+	{
+		j = 0;
+		while (j < H)
+		{
+			ray.direction_vector = vec3_sub(to_3d(i, j), ray.start_vector);
+			if (is_cross_plane(&ray, scene->plane))
+			{
+				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light_plane(&ray, scene->plane, scene->light), calc_ambient_light(scene->ambient_lightning)));
+			}
+			else
+			{
+				pixel_put_to_image(info->img, i, j, calc_ambient_light(scene->ambient_lightning));
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void	draw(t_window_info *info, t_scene *scene)
+{
+	draw_sphere(info, scene);
+//	draw_plane(info, scene);
 }
 
 int	main(int argc, char **argv)
