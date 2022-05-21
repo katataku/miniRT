@@ -155,7 +155,7 @@ double	calc_t_plane(t_ray *ray, t_plane *plane)
 
 	s = vec3_sub(ray->start_vector, plane->coordinates);
 	denominator = vec3_inner_product(ray->direction_vector, plane->orientation_vector);
-	if (denominator <= 0)
+	if (denominator == 0)
 		return (-1);
 	fraction = vec3_inner_product(s, plane->orientation_vector);
 	return (-fraction / denominator);
