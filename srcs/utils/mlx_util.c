@@ -32,15 +32,20 @@ int	make_color_from_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-/*
- * TODO: 各バイトごとのオーバーフローを考慮。
- */
+static int	min(int a, int b)
+{
+	if (a <= b)
+		return (a);
+	else
+		return (b);
+}
+
 int	add_color(int a, int b)
 {
 	return (make_color_from_trgb(\
-			get_trgb(a, TRANSPARENT) + get_trgb(b, TRANSPARENT), \
-			get_trgb(a, RED) + get_trgb(b, RED), \
-			get_trgb(a, GREEN) + get_trgb(b, GREEN), \
-			get_trgb(a, BLUE) + get_trgb(b, BLUE) \
+			min(get_trgb(a, TRANSPARENT) + get_trgb(b, TRANSPARENT), 0xFF), \
+			min(get_trgb(a, RED) + get_trgb(b, RED), 0xFF), \
+			min(get_trgb(a, GREEN) + get_trgb(b, GREEN), 0xFF), \
+			min(get_trgb(a, BLUE) + get_trgb(b, BLUE), 0xFF) \
 			));
 }
