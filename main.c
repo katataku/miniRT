@@ -71,7 +71,7 @@ double	calc_t(t_ray *ray, t_sphere	*sphere)
 	dif = pow(b, 2) - 4 * a * c;
 	if (dif < 0)
 		return (-1);
-	return (-b - sqrt(dif) / (2 * a));
+	return ((-b - sqrt(dif)) / (2 * a));
 }
 
 /*
@@ -101,9 +101,15 @@ int	calc_diffuse_light(t_ray *ray, t_sphere *sphere, t_light *light)
 	t = calc_t(ray, sphere);
 	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
 	n_vec = vec3_sub(p_vec, sphere->sphere_center);
-	l_vec = vec3_sub(p_vec, light->light_point);
+	l_vec = vec3_sub(light->light_point, p_vec);
 	cos = cos_of_angles(n_vec, l_vec);
-	return (make_color_from_trgb(255, 0 * cos, 255 * cos, 255 * cos));
+	if (cos <= 0)
+		return (0);
+	return (make_color_from_trgb(
+			get_trgb(light->color, TRANSPARENT),
+			get_trgb(light->color, RED) * light->brightness_ratio * cos,
+			get_trgb(light->color, GREEN) * light->brightness_ratio * cos,
+			get_trgb(light->color, BLUE) * light->brightness_ratio * cos));
 }
 
 /*
@@ -219,7 +225,8 @@ void	draw_plane(t_window_info *info, t_scene *scene)
 
 void	draw(t_window_info *info, t_scene *scene)
 {
-	draw_plane(info, scene);
+	draw_sphere(info, scene);
+//	draw_plane(info, scene);
 }
 
 int	main(int argc, char **argv)

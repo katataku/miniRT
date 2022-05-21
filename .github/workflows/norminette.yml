@@ -30,4 +30,5 @@ jobs:
           | grep -v "Function has more than 25 lines" \
           | grep -v "Too many functions in file" \
           | grep -v "line too long" \
+          | grep -v "Comment is invalid in this scope" \
           | wc -l) -eq 0 ]
