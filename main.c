@@ -171,6 +171,7 @@ bool	is_cross_plane(t_ray *ray, t_plane *plane)
 
 /*
  * 拡散反射光を計算する。
+ * cosの値がマイナスになる場合は光が当たっていないとして扱う
  */
 int	calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light)
 {
@@ -181,9 +182,15 @@ int	calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light)
 
 	t = calc_t_plane(ray, plane);
 	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
-	l_vec = vec3_sub(p_vec, light->light_point);
+	l_vec = vec3_sub(light->light_point, p_vec);
 	cos = cos_of_angles(plane->orientation_vector, l_vec);
-	return (make_color_from_trgb(255, 0 * cos, 255 * cos, 255 * cos));
+	if (cos <= 0)
+		return (0);
+	return (make_color_from_trgb(
+			get_trgb(light->color, TRANSPARENT),
+			get_trgb(light->color, RED) * light->brightness_ratio * cos,
+			get_trgb(light->color, GREEN) * light->brightness_ratio * cos,
+			get_trgb(light->color, BLUE) * light->brightness_ratio * cos));
 }
 
 void	draw_plane(t_window_info *info, t_scene *scene)
