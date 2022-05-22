@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/23 01:34:21 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/23 01:47:56 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@ t_vec3	*normalize(t_vec3 *vec)
 	return (vec3_multiply(vec, 1 / vec3_norm(vec)));
 }
 
+t_vec3	*calc_camera_ray(t_scene *scene)
+{
+	t_vec3	*lookat;
+	t_vec3	*lookfrom;
+	t_vec3	*camera_ray;
+
+	lookfrom = scene->camera->view_point;
+	lookat = vec3_add(lookfrom, vector3(0, 0, -1));
+	camera_ray = normalize(vec3_sub(lookat, lookfrom));
+	return (camera_ray);
+}
+
 /*
  * スクリーン座標をワールド座標に変換。
  * minilibXのpixelを3次元上のスクリーンに変換。
@@ -25,24 +37,16 @@ t_vec3	*normalize(t_vec3 *vec)
 t_vec3	*to_3d(t_scene *scene, double x, double y)
 {
 	t_vec3	*vec;
-	t_vec3	*vup;
-	t_vec3	*lookat;
-	t_vec3	*lookfrom;
 	t_vec3	*camera_ray;
 	t_vec3	*u;
 	t_vec3	*v;
-	double	subject_distance;
 	double	screen_width;
 
-	subject_distance = 1;
-	screen_width = subject_distance * (tan(M_PI * scene->camera->fov / 180));
-	vup = scene->camera->orientation_vector;
-	lookfrom = scene->camera->view_point;
-	lookat = vec3_add(lookfrom, vector3(0, 0, -1));
-	camera_ray = normalize(vec3_sub(lookat, lookfrom));
-	u = normalize(vec3_outer_product(vup, camera_ray));
+	screen_width = (tan(M_PI * scene->camera->fov / 180));
+	camera_ray = calc_camera_ray(scene);
+	u = normalize(vec3_outer_product(scene->camera->orientation_vector, camera_ray));
 	v = normalize(vec3_outer_product(u, camera_ray));
-	vec = vec3_add(lookfrom, camera_ray);
+	vec = vec3_add(scene->camera->view_point, camera_ray);
 	vec = vec3_add(vec, vec3_multiply(u, screen_width - 2 * screen_width * x / W));
 	vec = vec3_add(vec, vec3_multiply(v, screen_width - 2 * screen_width * y / H));
 	return (vec);
