@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/23 01:04:04 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/23 01:34:21 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ t_vec3	*to_3d(t_scene *scene, double x, double y)
 	t_vec3	*camera_ray;
 	t_vec3	*u;
 	t_vec3	*v;
+	double	subject_distance;
+	double	screen_width;
 
+	subject_distance = 1;
+	screen_width = subject_distance * (tan(M_PI * scene->camera->fov / 180));
 	vup = scene->camera->orientation_vector;
 	lookfrom = scene->camera->view_point;
 	lookat = vec3_add(lookfrom, vector3(0, 0, -1));
@@ -39,8 +43,8 @@ t_vec3	*to_3d(t_scene *scene, double x, double y)
 	u = normalize(vec3_outer_product(vup, camera_ray));
 	v = normalize(vec3_outer_product(u, camera_ray));
 	vec = vec3_add(lookfrom, camera_ray);
-	vec = vec3_add(vec, vec3_multiply(u, -1 + 2 * x / W));
-	vec = vec3_add(vec, vec3_multiply(v, 1 - 2 * y / H));
+	vec = vec3_add(vec, vec3_multiply(u, screen_width - 2 * screen_width * x / W));
+	vec = vec3_add(vec, vec3_multiply(v, screen_width - 2 * screen_width * y / H));
 	return (vec);
 }
 
