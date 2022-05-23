@@ -6,16 +6,12 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/23 01:47:56 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:05:50 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vec3	*normalize(t_vec3 *vec)
-{
-	return (vec3_multiply(vec, 1 / vec3_norm(vec)));
-}
 
 t_vec3	*calc_camera_ray(t_scene *scene)
 {
@@ -25,7 +21,7 @@ t_vec3	*calc_camera_ray(t_scene *scene)
 
 	lookfrom = scene->camera->view_point;
 	lookat = vec3_add(lookfrom, vector3(0, 0, -1));
-	camera_ray = normalize(vec3_sub(lookat, lookfrom));
+	camera_ray = vec3_normalize(vec3_sub(lookat, lookfrom));
 	return (camera_ray);
 }
 
@@ -44,8 +40,8 @@ t_vec3	*to_3d(t_scene *scene, double x, double y)
 
 	screen_width = (tan(M_PI * scene->camera->fov / 180));
 	camera_ray = calc_camera_ray(scene);
-	u = normalize(vec3_outer_product(scene->camera->orientation_vector, camera_ray));
-	v = normalize(vec3_outer_product(u, camera_ray));
+	u = vec3_normalize(vec3_outer_product(scene->camera->orientation_vector, camera_ray));
+	v = vec3_normalize(vec3_outer_product(u, camera_ray));
 	vec = vec3_add(scene->camera->view_point, camera_ray);
 	vec = vec3_add(vec, vec3_multiply(u, screen_width - 2 * screen_width * x / W));
 	vec = vec3_add(vec, vec3_multiply(v, screen_width - 2 * screen_width * y / H));

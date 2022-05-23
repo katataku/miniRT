@@ -108,3 +108,21 @@ TEST_F(VectorTest, outer_product) {
 	free(v1);
 	free(v2);
 }
+
+TEST_F(VectorTest, normalize_1d {
+	t_vec3 *v1 = vector3(0.0, 0.0, 3.0);
+	t_vec3 *actual = vec3_normalize(v1);
+	ASSERT_DOUBLE_EQ(0, actual->x);
+	ASSERT_DOUBLE_EQ(0, actual->y);
+	ASSERT_DOUBLE_EQ(1, actual->z);
+	free(v1);
+}
+
+TEST_F(VectorTest, normalize_2d) {
+	t_vec3 *v1 = vector3(3.0, 4.0, 0.0);
+	t_vec3 *actual = vec3_normalize(v1);
+	ASSERT_DOUBLE_EQ(3.0 / 5.0, actual->x);
+	ASSERT_DOUBLE_EQ(4.0 / 5.0, actual->y);
+	ASSERT_DOUBLE_EQ(0, actual->z);
+	free(v1);
+}

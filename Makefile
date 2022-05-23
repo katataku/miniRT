@@ -5,7 +5,7 @@ IO_SRCS = $(addprefix srcs/io/, \
 		read_ambient.c read_camera.c read_cylinder.c read_file.c read_light.c read_plane.c read_sphere.c util.c validate_arg.c \
 		)
 VECTOR3_SRCS = $(addprefix srcs/vector3/, \
-		add.c cos_of_angles.c inner_product.c multiply.c norm.c outer_product.c print.c sub.c  vector3.c \
+		add.c cos_of_angles.c inner_product.c multiply.c norm.c normalize.c outer_product.c print.c sub.c  vector3.c \
 		)
 XSYSCALL_SRCS = $(addprefix srcs/xsyscall/, \
 		xclose.c xfork.c xopen.c xpipe.c xwaitpid.c xdup2.c \
