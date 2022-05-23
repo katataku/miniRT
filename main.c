@@ -6,13 +6,17 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/23 16:05:50 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:32:11 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-
+/*
+ * カメラから見る方向への、正規化されたrayを計算する
+ * カメラの位置(lookfrom)は入力ファイルのview_pointから設定。
+ * カメラの見る向きは入力ファイルのorientation_vecの向きに設定。
+ */
 t_vec3	*calc_camera_ray(t_scene *scene)
 {
 	t_vec3	*lookat;
@@ -20,15 +24,28 @@ t_vec3	*calc_camera_ray(t_scene *scene)
 	t_vec3	*camera_ray;
 
 	lookfrom = scene->camera->view_point;
-	lookat = vec3_add(lookfrom, vector3(0, 0, -1));
+	lookat = vec3_add(lookfrom, scene->camera->orientation_vector);
 	camera_ray = vec3_normalize(vec3_sub(lookat, lookfrom));
 	return (camera_ray);
 }
 
 /*
+ * vupを計算する。
+ * vupは(1, 0, 0)を基本とするが、
+ * このベクトルとcamera_rayが並行な場合は他のベクトルをvupとする
+ */
+t_vec3	*calc_vup(t_vec3 *camera_ray)
+{
+	if (camera_ray->y == 0 && camera_ray->z == 0)
+		return (vector3(0, 1, 0));
+	return (vector3(1, 0, 0));
+}
+
+/*
  * スクリーン座標をワールド座標に変換。
  * minilibXのpixelを3次元上のスクリーンに変換。
- * 固定値の意味なんだっけ。
+ * カメラからスクリーンの距離は1で固定。
+ * u,vはスクリーン上での基底ベクトル。基底ベクトルはvupと直交するように設定する。
  */
 t_vec3	*to_3d(t_scene *scene, double x, double y)
 {
@@ -38,13 +55,13 @@ t_vec3	*to_3d(t_scene *scene, double x, double y)
 	t_vec3	*v;
 	double	screen_width;
 
-	screen_width = (tan(M_PI * scene->camera->fov / 180));
+	screen_width = tan(M_PI * scene->camera->fov / 180);
 	camera_ray = calc_camera_ray(scene);
-	u = vec3_normalize(vec3_outer_product(scene->camera->orientation_vector, camera_ray));
+	u = vec3_normalize(vec3_outer_product(calc_vup(camera_ray), camera_ray));
 	v = vec3_normalize(vec3_outer_product(u, camera_ray));
 	vec = vec3_add(scene->camera->view_point, camera_ray);
-	vec = vec3_add(vec, vec3_multiply(u, screen_width - 2 * screen_width * x / W));
-	vec = vec3_add(vec, vec3_multiply(v, screen_width - 2 * screen_width * y / H));
+	vec = vec3_add(vec, vec3_multiply(u, -1 * screen_width + 2 * screen_width * x / W));
+	vec = vec3_add(vec, vec3_multiply(v, -1 * screen_width + 2 * screen_width * y / H));
 	return (vec);
 }
 
