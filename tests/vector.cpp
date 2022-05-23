@@ -97,3 +97,32 @@ TEST_F(VectorTest, cos_of_angles_with_same_orientation) {
 	free(v1);
 	free(v2);
 }
+
+TEST_F(VectorTest, outer_product) {
+	t_vec3 *v1 = vector3(1.0, 2.0, 3.0);
+	t_vec3 *v2 = vector3(4.0, 5.0, 6.0);
+	t_vec3 *actual = vec3_outer_product(v1, v2);
+	ASSERT_DOUBLE_EQ(-3, actual->x);
+	ASSERT_DOUBLE_EQ(6, actual->y);
+	ASSERT_DOUBLE_EQ(-3, actual->z);
+	free(v1);
+	free(v2);
+}
+
+TEST_F(VectorTest, normalize_1d {
+	t_vec3 *v1 = vector3(0.0, 0.0, 3.0);
+	t_vec3 *actual = vec3_normalize(v1);
+	ASSERT_DOUBLE_EQ(0, actual->x);
+	ASSERT_DOUBLE_EQ(0, actual->y);
+	ASSERT_DOUBLE_EQ(1, actual->z);
+	free(v1);
+}
+
+TEST_F(VectorTest, normalize_2d) {
+	t_vec3 *v1 = vector3(3.0, 4.0, 0.0);
+	t_vec3 *actual = vec3_normalize(v1);
+	ASSERT_DOUBLE_EQ(3.0 / 5.0, actual->x);
+	ASSERT_DOUBLE_EQ(4.0 / 5.0, actual->y);
+	ASSERT_DOUBLE_EQ(0, actual->z);
+	free(v1);
+}
