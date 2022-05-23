@@ -6,25 +6,49 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/17 10:44:39 by ahayashi         ###   ########.jp       */
+/*   Updated: 2022/05/23 01:47:56 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+t_vec3	*normalize(t_vec3 *vec)
+{
+	return (vec3_multiply(vec, 1 / vec3_norm(vec)));
+}
+
+t_vec3	*calc_camera_ray(t_scene *scene)
+{
+	t_vec3	*lookat;
+	t_vec3	*lookfrom;
+	t_vec3	*camera_ray;
+
+	lookfrom = scene->camera->view_point;
+	lookat = vec3_add(lookfrom, vector3(0, 0, -1));
+	camera_ray = normalize(vec3_sub(lookat, lookfrom));
+	return (camera_ray);
+}
 
 /*
  * スクリーン座標をワールド座標に変換。
  * minilibXのpixelを3次元上のスクリーンに変換。
  * 固定値の意味なんだっけ。
  */
-t_vec3	*to_3d(double x, double y)
+t_vec3	*to_3d(t_scene *scene, double x, double y)
 {
 	t_vec3	*vec;
+	t_vec3	*camera_ray;
+	t_vec3	*u;
+	t_vec3	*v;
+	double	screen_width;
 
-	vec = (t_vec3 *)malloc(sizeof(t_vec3));
-	vec->x = -1 + 2 * x / W;
-	vec->y = 1 - 2 * y / H;
-	vec->z = 9;
+	screen_width = (tan(M_PI * scene->camera->fov / 180));
+	camera_ray = calc_camera_ray(scene);
+	u = normalize(vec3_outer_product(scene->camera->orientation_vector, camera_ray));
+	v = normalize(vec3_outer_product(u, camera_ray));
+	vec = vec3_add(scene->camera->view_point, camera_ray);
+	vec = vec3_add(vec, vec3_multiply(u, screen_width - 2 * screen_width * x / W));
+	vec = vec3_add(vec, vec3_multiply(v, screen_width - 2 * screen_width * y / H));
 	return (vec);
 }
 
@@ -136,7 +160,7 @@ void	draw_sphere(t_window_info *info, t_scene *scene)
 		j = 0;
 		while (j < H)
 		{
-			ray.direction_vector = vec3_sub(to_3d(i, j), ray.start_vector);
+			ray.direction_vector = vec3_sub(to_3d(scene, i, j), ray.start_vector);
 			if (is_cross(&ray, scene->sphere))
 			{
 				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, scene->sphere, scene->light), calc_ambient_light(scene->ambient_lightning)));
@@ -216,7 +240,7 @@ void	draw_plane(t_window_info *info, t_scene *scene)
 		j = 0;
 		while (j < H)
 		{
-			ray.direction_vector = vec3_sub(to_3d(i, j), ray.start_vector);
+			ray.direction_vector = vec3_sub(to_3d(scene, i, j), ray.start_vector);
 			if (is_cross_plane(&ray, scene->plane))
 			{
 				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light_plane(&ray, scene->plane, scene->light), calc_ambient_light(scene->ambient_lightning)));
