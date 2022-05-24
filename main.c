@@ -93,58 +93,30 @@ int	calc_ambient_light(t_ambient_lightning *a)
 	));
 }
 
-void	draw_sphere(t_window_info *info, t_scene *scene)
-{
-	int			i;
-	int			j;
-	t_ray		ray;
-
-	ray.start_vector = scene->camera->view_point;
-	i = 0;
-	while (i < W)
-	{
-		j = 0;
-		while (j < H)
-		{
-			ray.direction_vector = vec3_sub(to_3d(scene, i, j), ray.start_vector);
-			if (is_cross(&ray, scene->sphere))
-			{
-				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, scene->sphere, scene->light), calc_ambient_light(scene->ambient_lightning)));
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	draw_plane(t_window_info *info, t_scene *scene)
-{
-	int			i;
-	int			j;
-	t_ray		ray;
-
-	ray.start_vector = scene->camera->view_point;
-	i = 0;
-	while (i < W)
-	{
-		j = 0;
-		while (j < H)
-		{
-			ray.direction_vector = vec3_sub(to_3d(scene, i, j), ray.start_vector);
-			if (is_cross_plane(&ray, scene->plane))
-			{
-				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light_plane(&ray, scene->plane, scene->light), calc_ambient_light(scene->ambient_lightning)));
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
 void	draw(t_window_info *info, t_scene *scene)
 {
-	draw_sphere(info, scene);
-//	draw_plane(info, scene);
+	int			i;
+	int			j;
+	t_ray		ray;
+
+	ray.start_vector = scene->camera->view_point;
+	i = 0;
+	while (i < W)
+	{
+		j = 0;
+		while (j < H)
+		{
+			ray.direction_vector = vec3_sub(to_3d(scene, i, j), ray.start_vector);
+			if (is_cross(&ray, scene->object))
+			{
+				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, scene->object, scene->light), calc_ambient_light(scene->ambient_lightning)));
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 /*
  *
  * t_object *find_nearest_objects(ray, scene, ignore) {

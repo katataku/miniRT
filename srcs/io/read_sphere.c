@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:41:50 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/17 16:41:52 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:00:53 by ahayashi         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@ void	read_sphere(t_scene *scene, char	**splitted_line)
 	sphere->sphere_center = gen_vec3_from_line(splitted_line[1]);
 	sphere->diameter = atof(splitted_line[2]);
 	sphere->color = get_color_from_line(splitted_line[3]);
-	scene->sphere = sphere;
+	scene->object = (t_object *) ft_xcalloc(1, sizeof(t_object));
+	scene->object->ptr = sphere;
+	scene->object->identifier = T_SPHERE;
 }

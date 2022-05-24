@@ -13,10 +13,11 @@ include_directories("../includes")
 include_directories("../mlx")
 
 add_library(minirt
-  STATIC
- ${SRCS}
-  ${LIBFT}
-  ${XSYSCALL}
+        STATIC
+        ${SRCS}
+        ${LIBFT}
+        ${XSYSCALL}
+#        ../main.c
 )
 
 add_executable(main

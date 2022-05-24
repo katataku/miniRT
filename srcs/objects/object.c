@@ -15,16 +15,17 @@
 bool	is_cross(t_ray *ray, t_object *object)
 {
 	if (object->identifier == T_PLANE)
-		return (is_cross_plane(ray, object));
+		return (is_cross_plane(ray, object->ptr));
 	else if (object->identifier == T_SPHERE)
-		return (is_cross_sphere(ray, object));
+		return (is_cross_sphere(ray, object->ptr));
 	return (false);
 }
 
 int	calc_diffuse_light(t_ray *ray, t_object *object, t_light *light)
 {
-	(void)ray;
-	(void)object;
-	(void)light;
+	if (object->identifier == T_PLANE)
+		return (calc_diffuse_light_plane(ray, object->ptr, light));
+	else if (object->identifier == T_SPHERE)
+		return (calc_diffuse_light_sphere(ray, object->ptr, light));
 	return (0);
 }

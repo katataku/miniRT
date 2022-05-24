@@ -32,6 +32,6 @@ double	calc_t_sphere(t_ray *ray, t_sphere	*sphere);
 
 //object
 bool	is_cross(t_ray *ray, t_object *object);
-int	calc_diffuse_light(t_ray *ray, t_object *object, t_light *light);
+int		calc_diffuse_light(t_ray *ray, t_object *object, t_light *light);
 
 #endif
