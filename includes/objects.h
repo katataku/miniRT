@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:29:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 14:21:30 by ahayashi         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:58:03 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@
 //plane
 double	calc_t_plane(t_ray *ray, t_plane *plane);
 bool	is_cross_plane(t_ray *ray, t_plane *plane);
-int     calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light);
+int		calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light);
 void	draw_plane(t_window_info *info, t_scene *scene);
-int	calc_diffuse_light_sphere(t_ray *ray, t_sphere *sphere, t_light *light);
+int		calc_diffuse_light_sphere(t_ray *ray, t_sphere *sphere, t_light *light);
 bool	is_cross_sphere(t_ray *ray, t_sphere *sphere);
 double	calc_t_sphere(t_ray *ray, t_sphere	*sphere);
-
 
 //object
 bool	is_cross(t_ray *ray, t_object *object);

@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:03:51 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/24 15:55:48 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:58:41 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	read_element(t_scene *scene, char *line)
 {
-	char	**splitted_line;
-	t_object *object;
+	char		**splitted_line;
+	t_object	*object;
 
 	object = NULL;
 	splitted_line = ft_xsplit(line, ' ');
