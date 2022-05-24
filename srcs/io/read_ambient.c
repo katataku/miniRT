@@ -15,9 +15,9 @@
 // TODO:atof自作関数に置き換える。
 void	read_ambient(t_scene *scene, char	**splitted_line)
 {
-	t_ambient_lightning	*ambient;
+	t_ambient_light	*ambient;
 
-	ambient = (t_ambient_lightning *)ft_xcalloc(1, sizeof(t_ambient_lightning));
+	ambient = (t_ambient_light *)ft_xcalloc(1, sizeof(t_ambient_light));
 	ambient->ratio = atof(splitted_line[1]);
 	ambient->color = get_color_from_line(splitted_line[2]);
 	scene->ambient_lightning = ambient;

@@ -24,11 +24,11 @@ double	calc_t_plane(t_ray *ray, t_plane *plane)
 	float	fraction;
 	t_vec3	*s;
 
-	s = vec3_sub(ray->start_vector, plane->point);
-	denominator = vec3_inner_product(ray->direction_vector, plane->orientation_vector);
+	s = vec3_sub(ray->start_vec, plane->point);
+	denominator = vec3_inner_product(ray->direction_vec, plane->normal_vec);
 	if (denominator == 0)
 		return (-1);
-	fraction = vec3_inner_product(s, plane->orientation_vector);
+	fraction = vec3_inner_product(s, plane->normal_vec);
 	return (-fraction / denominator);
 }
 
@@ -49,9 +49,9 @@ int	calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light)
 	t_vec3	*l_vec;
 
 	t = calc_t_plane(ray, plane);
-	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
+	p_vec = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t));
 	l_vec = vec3_sub(light->point, p_vec);
-	cos = cos_of_angles(plane->orientation_vector, l_vec);
+	cos = cos_of_angles(plane->normal_vec, l_vec);
 	if (cos <= 0)
 		return (0);
 	return (make_color_from_trgb(

@@ -24,7 +24,7 @@ int	calc_diffuse_light_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
 	t_vec3	*l_vec;
 
 	t = calc_t_sphere(ray, sphere);
-	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
+	p_vec = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t));
 	n_vec = vec3_sub(p_vec, sphere->center);
 	l_vec = vec3_sub(light->point, p_vec);
 	cos = cos_of_angles(n_vec, l_vec);
@@ -69,9 +69,9 @@ double	calc_t_sphere(t_ray *ray, t_sphere	*sphere)
 	double	dif;
 	t_vec3	*s;
 
-	s = vec3_sub(ray->start_vector, sphere->center);
-	a = pow(vec3_norm(ray->direction_vector), 2);
-	b = 2 * vec3_inner_product(s, ray->direction_vector);
+	s = vec3_sub(ray->start_vec, sphere->center);
+	a = pow(vec3_norm(ray->direction_vec), 2);
+	b = 2 * vec3_inner_product(s, ray->direction_vec);
 	c = pow(vec3_norm(s), 2) - pow(sphere->diameter / 2, 2);
 	dif = pow(b, 2) - 4 * a * c;
 	if (dif < 0)

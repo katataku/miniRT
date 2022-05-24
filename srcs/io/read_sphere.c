@@ -24,6 +24,6 @@ t_object	*read_sphere(char	**splitted_line)
 	sphere->color = get_color_from_line(splitted_line[3]);
 	object = (t_object *) ft_xcalloc(1, sizeof(t_object));
 	object->ptr = sphere;
-	object->identifier = T_SPHERE;
+	object->type = T_SPHERE;
 	return (object);
 }

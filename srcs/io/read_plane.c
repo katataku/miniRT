@@ -19,10 +19,10 @@ t_object	*read_plane(char	**splitted_line)
 
 	plane = (t_plane *)ft_xcalloc(1, sizeof(t_plane));
 	plane->point = gen_vec3_from_line(splitted_line[1]);
-	plane->orientation_vector = gen_vec3_from_line(splitted_line[2]);
+	plane->normal_vec = gen_vec3_from_line(splitted_line[2]);
 	plane->color = get_color_from_line(splitted_line[3]);
 	object = (t_object *) ft_xcalloc(1, sizeof(t_object));
 	object->ptr = plane;
-	object->identifier = T_PLANE;
+	object->type = T_PLANE;
 	return (object);
 }

@@ -24,7 +24,7 @@ t_vec3	*calc_camera_ray(t_scene *scene)
 	t_vec3	*camera_ray;
 
 	lookfrom = scene->camera->point;
-	lookat = vec3_add(lookfrom, scene->camera->orientation_vector);
+	lookat = vec3_add(lookfrom, scene->camera->orientation_vec);
 	camera_ray = vec3_normalize(vec3_sub(lookat, lookfrom));
 	return (camera_ray);
 }
@@ -83,7 +83,7 @@ t_window_info	*init_window_info(void)
 /*
  * 環境光を計算する。
  */
-int	calc_ambient_light(t_ambient_lightning *a)
+int	calc_ambient_light(t_ambient_light *a)
 {
 	return (make_color_from_trgb(\
 		get_trgb(a->color, TRANSPARENT), \
@@ -124,10 +124,10 @@ bool	is_draw_shadow(t_ray *camera_ray, t_object *object, t_light *light, t_list 
 	t_ray	*shadow_ray;
 
 	t = calc_t(camera_ray, object);
-	p_vec = vec3_add(camera_ray->start_vector, vec3_multiply(camera_ray->direction_vector, t));
+	p_vec = vec3_add(camera_ray->start_vec, vec3_multiply(camera_ray->direction_vec, t));
 	shadow_ray = (t_ray *)ft_xcalloc(1, sizeof(t_ray));
-	shadow_ray->start_vector = p_vec;
-	shadow_ray->direction_vector = vec3_sub(light->point, p_vec);
+	shadow_ray->start_vec = p_vec;
+	shadow_ray->direction_vec = vec3_sub(light->point, p_vec);
 	if (find_nearest_objects(shadow_ray, objects, object) == NULL)
 		return (false);
 	return (true);
@@ -140,14 +140,14 @@ void	draw(t_window_info *info, t_scene *scene)
 	t_ray		ray;
 	t_object	*object;
 
-	ray.start_vector = scene->camera->point;
+	ray.start_vec = scene->camera->point;
 	i = 0;
 	while (i < W)
 	{
 		j = 0;
 		while (j < H)
 		{
-			ray.direction_vector = vec3_sub(to_3d(scene, i, j), ray.start_vector);
+			ray.direction_vec = vec3_sub(to_3d(scene, i, j), ray.start_vec);
 			object = find_nearest_objects(&ray, scene->objects, NULL);
 			if (object != NULL && is_draw_shadow(&ray, object, scene->light, scene->objects) == false)
 			{
