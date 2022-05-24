@@ -58,25 +58,33 @@ TEST_F(IoTest, light) {
 
 TEST_F(IoTest, sphere) {
 	t_scene	*scene;
+	t_object *object;
+	t_sphere *sphere;
 
 	scene = (t_scene *)ft_xcalloc(1, sizeof(t_scene));
-	read_sphere(scene, ft_xsplit("sp 0,10,20 20 0,100,200", ' '));
-	ASSERT_TRUE(vector_eq(scene->sphere->sphere_center, vector3(0, 10, 20)));
-	ASSERT_EQ(scene->sphere->diameter, 20);
-	ASSERT_EQ(scene->sphere->color, make_color_from_trgb(255, 0, 100, 200));
-	free(scene->sphere);
+	object = read_sphere(scene, ft_xsplit("sp 0,10,20 20 0,100,200", ' '));
+	sphere = (t_sphere *)object->ptr;
+	ASSERT_EQ(object->identifier, T_SPHERE);
+	ASSERT_TRUE(vector_eq(sphere->sphere_center, vector3(0, 10, 20)));
+	ASSERT_EQ(sphere->diameter, 20);
+	ASSERT_EQ(sphere->color, make_color_from_trgb(255, 0, 100, 200));
+	free(object);
 	free(scene);
 }
 
 TEST_F(IoTest, plane) {
 	t_scene	*scene;
+	t_object *object;
+	t_plane	*plane;
 
 	scene = (t_scene *)ft_xcalloc(1, sizeof(t_scene));
-	read_plane(scene, ft_xsplit("pl 0,1,2 0,10.0,20.0 0,100,200", ' '));
-	ASSERT_TRUE(vector_eq(scene->plane->coordinates, vector3(0, 1, 2)));
-	ASSERT_TRUE(vector_eq(scene->plane->orientation_vector, vector3(0, 10, 20)));
-	ASSERT_EQ(scene->plane->color, make_color_from_trgb(255, 0, 100, 200));
-	free(scene->plane);
+	object = read_plane(scene, ft_xsplit("pl 0,1,2 0,10.0,20.0 0,100,200", ' '));
+	plane = (t_plane *)object->ptr;
+	ASSERT_TRUE(vector_eq(plane->coordinates, vector3(0, 1, 2)));
+	ASSERT_TRUE(vector_eq(plane->orientation_vector, vector3(0, 10, 20)));
+	ASSERT_EQ(plane->color, make_color_from_trgb(255, 0, 100, 200));
+	free(object->ptr);
+	free(object);
 	free(scene);
 }
 
