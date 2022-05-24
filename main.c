@@ -6,7 +6,7 @@
 /*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 13:50:41 by ahayashi         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:56:42 by ahayashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,10 +178,6 @@ void	draw_sphere(t_window_info *info, t_scene *scene)
 			{
 				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, scene->sphere, scene->light), calc_ambient_light(scene->ambient_lightning)));
 			}
-			else
-			{
-				pixel_put_to_image(info->img, i, j, calc_ambient_light(scene->ambient_lightning));
-			}
 			j++;
 		}
 		i++;
@@ -257,10 +253,6 @@ void	draw_plane(t_window_info *info, t_scene *scene)
 			if (is_cross_plane(&ray, scene->plane))
 			{
 				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light_plane(&ray, scene->plane, scene->light), calc_ambient_light(scene->ambient_lightning)));
-			}
-			else
-			{
-				pixel_put_to_image(info->img, i, j, calc_ambient_light(scene->ambient_lightning));
 			}
 			j++;
 		}
