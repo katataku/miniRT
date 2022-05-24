@@ -22,15 +22,6 @@ static int	calc_color(int color, double ratio, int reflection)
 	));
 }
 
-bool	is_cross(t_ray *ray, t_object *object)
-{
-	if (object->type == T_PLANE)
-		return (is_cross_plane(ray, object->ptr));
-	else if (object->type == T_SPHERE)
-		return (is_cross_sphere(ray, object->ptr));
-	return (false);
-}
-
 int	calc_diffuse_light(t_ray *ray, t_object *object, t_light *light)
 {
 	double	cos;

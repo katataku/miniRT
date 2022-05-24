@@ -31,17 +31,6 @@ double	calc_lambert_cos_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
 }
 
 /*
- * レイと球が交差するか判定する関数。
- *
- * 判別式が0のとき、1つのする
- * 判別式が0より大きい時、2点で交わる。tが小さい方が手前になる。
- */
-bool	is_cross_sphere(t_ray *ray, t_sphere *sphere)
-{
-	return (calc_t_sphere(ray, sphere) >= 0);
-}
-
-/*
  * 𝑡 =(−𝐵±√(𝐵^2−4𝐴𝐶))/2𝐴
  *
  * 𝐴 = |𝐝⃗|^2

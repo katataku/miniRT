@@ -32,11 +32,6 @@ double	calc_t_plane(t_ray *ray, t_plane *plane)
 	return (-fraction / denominator);
 }
 
-bool	is_cross_plane(t_ray *ray, t_plane *plane)
-{
-	return (calc_t_plane(ray, plane) >= 0);
-}
-
 /*
  * 拡散反射光を計算する。
  * cosの値がマイナスになる場合は光が当たっていないとして扱う
