@@ -33,11 +33,20 @@ bool	is_cross(t_ray *ray, t_object *object)
 
 int	calc_diffuse_light(t_ray *ray, t_object *object, t_light *light)
 {
+	double	cos;
+	double	reflection;
+
 	if (object->type == T_PLANE)
-		return (calc_diffuse_light_plane(ray, object->ptr, light));
-	else if (object->type == T_SPHERE)
-		return (calc_diffuse_light_sphere(ray, object->ptr, light));
-	return (0);
+	{
+		cos = calc_lambert_cos_plane(ray, object->ptr, light);
+		reflection = ((t_sphere *)(object->ptr))->color;
+	}
+	else
+	{
+		cos = calc_lambert_cos_sphere(ray, object->ptr, light);
+		reflection = ((t_sphere *)(object->ptr))->color;
+	}
+	return (calc_color(light->color, light->ratio * cos, reflection));
 }
 
 int	calc_ambient_light(t_ambient_light *a, t_object *object)

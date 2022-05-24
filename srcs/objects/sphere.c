@@ -12,10 +12,7 @@
 
 #include "objects.h"
 
-/*
- * 拡散反射光を計算する。
- */
-int	calc_diffuse_light_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
+double	calc_lambert_cos_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
 {
 	double	t;
 	double	cos;
@@ -30,11 +27,7 @@ int	calc_diffuse_light_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
 	cos = cos_of_angles(n_vec, l_vec);
 	if (cos <= 0)
 		return (0);
-	return (make_color_from_trgb(
-			0xFF,
-			get_trgb(light->color, RED) * light->ratio * cos * get_trgb(sphere->color, RED) / 255,
-			get_trgb(light->color, GREEN) * light->ratio * cos * get_trgb(sphere->color, GREEN) / 255,
-			get_trgb(light->color, BLUE) * light->ratio * cos  * get_trgb(sphere->color, BLUE) / 255));
+	return (cos);
 }
 
 /*

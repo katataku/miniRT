@@ -41,7 +41,7 @@ bool	is_cross_plane(t_ray *ray, t_plane *plane)
  * 拡散反射光を計算する。
  * cosの値がマイナスになる場合は光が当たっていないとして扱う
  */
-int	calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light)
+double	calc_lambert_cos_plane(t_ray *ray, t_plane *plane, t_light *light)
 {
 	double	t;
 	double	cos;
@@ -54,9 +54,5 @@ int	calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light)
 	cos = cos_of_angles(plane->normal_vec, l_vec);
 	if (cos <= 0)
 		return (0);
-	return (make_color_from_trgb(
-			0xFF,
-			get_trgb(light->color, RED) * light->ratio * cos * get_trgb(plane->color, RED) / 255,
-			get_trgb(light->color, GREEN) * light->ratio * cos * get_trgb(plane->color, GREEN) / 255,
-			get_trgb(light->color, BLUE) * light->ratio * cos  * get_trgb(plane->color, BLUE) / 255));
+	return (cos);
 }

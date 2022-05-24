@@ -19,20 +19,19 @@
 # include "utils.h"
 
 //sphere
+double	calc_lambert_cos_sphere(t_ray *ray, t_sphere *sphere, t_light *light);
+bool	is_cross_sphere(t_ray *ray, t_sphere *sphere);
+double	calc_t_sphere(t_ray *ray, t_sphere	*sphere);
 
 //plane
 double	calc_t_plane(t_ray *ray, t_plane *plane);
 bool	is_cross_plane(t_ray *ray, t_plane *plane);
-int		calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light);
-void	draw_plane(t_window_info *info, t_scene *scene);
-int		calc_diffuse_light_sphere(t_ray *ray, t_sphere *sphere, t_light *light);
-bool	is_cross_sphere(t_ray *ray, t_sphere *sphere);
-double	calc_t_sphere(t_ray *ray, t_sphere	*sphere);
+double	calc_lambert_cos_plane(t_ray *ray, t_plane *plane, t_light *light);
 
 //object
 bool	is_cross(t_ray *ray, t_object *object);
-int		calc_diffuse_light(t_ray *ray, t_object *object, t_light *light);
 double	calc_t(t_ray *ray, t_object *object);
 int		calc_ambient_light(t_ambient_light *a, t_object *object);
+int		calc_diffuse_light(t_ray *ray, t_object *object, t_light *light);
 
 #endif
