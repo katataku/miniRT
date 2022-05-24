@@ -18,5 +18,6 @@
 # include "define.h"
 # include "utils.h"
 # include "io.h"
+# include "objects.h"
 
 #endif

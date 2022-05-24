@@ -2,6 +2,9 @@ NAME = minirt
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -MMD -MP
 IO_SRCS = $(addprefix srcs/io/, \
+		object.c plane.c sphere.c \
+		)
+OBJECTS_SRCS = $(addprefix srcs/objects/, \
 		read_ambient.c read_camera.c read_cylinder.c read_file.c read_light.c read_plane.c read_sphere.c util.c validate_arg.c \
 		)
 VECTOR3_SRCS = $(addprefix srcs/vector3/, \

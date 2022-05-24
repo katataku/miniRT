@@ -6,7 +6,7 @@
 /*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 13:56:42 by ahayashi         ###   ########.fr       */
+/*   Updated: 2022/05/24 14:16:37 by ahayashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,37 +81,6 @@ t_window_info	*init_window_info(void)
 }
 
 /*
- * 𝑡 =(−𝐵±√(𝐵^2−4𝐴𝐶))/2𝐴
- *
- * 𝐴 = |𝐝⃗|^2
- * 𝐵 = 2(𝐬⃗⋅𝐝⃗)
- * 𝐶 = |𝐬⃗|^2−𝑟^2
- * ※球が原点にあるとき。球の中心が原点に重なるように平行移動してあげれば良いので
- * カメラの位置ベクトルから球の中心の位置ベクトルを引いたものを𝐬⃗とする
- *
- * 判別式が0のとき、1つのする
- * 判別式が0より大きい時、2点で交わる。tが小さい方が手前になる。
- * 交わらない場合は決め打ちでtを-1にする。tがマイナスということは視点の後ろにある。
- */
-double	calc_t(t_ray *ray, t_sphere	*sphere)
-{
-	double	a;
-	double	b;
-	double	c;
-	double	dif;
-	t_vec3	*s;
-
-	s = vec3_sub(ray->start_vector, sphere->sphere_center);
-	a = pow(vec3_norm(ray->direction_vector), 2);
-	b = 2 * vec3_inner_product(s, ray->direction_vector);
-	c = pow(vec3_norm(s), 2) - pow(sphere->diameter / 2, 2);
-	dif = pow(b, 2) - 4 * a * c;
-	if (dif < 0)
-		return (-1);
-	return ((-b - sqrt(dif)) / (2 * a));
-}
-
-/*
  * 環境光を計算する。
  */
 int	calc_ambient_light(t_ambient_lightning *a)
@@ -122,42 +91,6 @@ int	calc_ambient_light(t_ambient_lightning *a)
 		get_trgb(a->color, GREEN) * a->lighting_ratio, \
 		get_trgb(a->color, BLUE) * a->lighting_ratio \
 	));
-}
-
-/*
- * 拡散反射光を計算する。
- */
-int	calc_diffuse_light(t_ray *ray, t_sphere *sphere, t_light *light)
-{
-	double	t;
-	double	cos;
-	t_vec3	*p_vec;
-	t_vec3	*n_vec;
-	t_vec3	*l_vec;
-
-	t = calc_t(ray, sphere);
-	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
-	n_vec = vec3_sub(p_vec, sphere->sphere_center);
-	l_vec = vec3_sub(light->light_point, p_vec);
-	cos = cos_of_angles(n_vec, l_vec);
-	if (cos <= 0)
-		return (0);
-	return (make_color_from_trgb(
-			get_trgb(light->color, TRANSPARENT),
-			get_trgb(light->color, RED) * light->brightness_ratio * cos,
-			get_trgb(light->color, GREEN) * light->brightness_ratio * cos,
-			get_trgb(light->color, BLUE) * light->brightness_ratio * cos));
-}
-
-/*
- * レイと球が交差するか判定する関数。
- *
- * 判別式が0のとき、1つのする
- * 判別式が0より大きい時、2点で交わる。tが小さい方が手前になる。
- */
-bool	is_cross(t_ray *ray, t_sphere *sphere)
-{
-	return (calc_t(ray, sphere) >= 0);
 }
 
 void	draw_sphere(t_window_info *info, t_scene *scene)
@@ -182,58 +115,6 @@ void	draw_sphere(t_window_info *info, t_scene *scene)
 		}
 		i++;
 	}
-}
-
-/*
- * 𝑡 = −(𝐬⃗⋅𝐧⃗)/(𝐝⃗⋅𝐧⃗)
- *
- * 分母が0より小さいときは解なし。
- * ※平面が原点にあるとき。カメラの位置ベクトルから平面上の任意の点の位置ベクトルを引いたものを𝐬⃗とする
- */
-double	calc_t_plane(t_ray *ray, t_plane *plane)
-{
-	float	denominator;
-	float	fraction;
-	t_vec3	*s;
-
-	s = vec3_sub(ray->start_vector, plane->coordinates);
-	denominator = vec3_inner_product(ray->direction_vector, plane->orientation_vector);
-	if (denominator == 0)
-		return (-1);
-	fraction = vec3_inner_product(s, plane->orientation_vector);
-	return (-fraction / denominator);
-}
-
-/*
- *
- */
-bool	is_cross_plane(t_ray *ray, t_plane *plane)
-{
-	return (calc_t_plane(ray, plane) >= 0);
-}
-
-/*
- * 拡散反射光を計算する。
- * cosの値がマイナスになる場合は光が当たっていないとして扱う
- */
-int	calc_diffuse_light_plane(t_ray *ray, t_plane *plane, t_light *light)
-{
-	double	t;
-	double	cos;
-	t_vec3	*p_vec;
-	t_vec3	*l_vec;
-
-	t = calc_t_plane(ray, plane);
-	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
-	l_vec = vec3_sub(light->light_point, p_vec);
-	cos = cos_of_angles(plane->orientation_vector, l_vec);
-	if (cos <= 0)
-		return (0);
-	return (make_color_from_trgb(
-			get_trgb(light->color, TRANSPARENT),
-			get_trgb(light->color, RED) * light->brightness_ratio * cos,
-			get_trgb(light->color, GREEN) * light->brightness_ratio * cos,
-			get_trgb(light->color, BLUE) * light->brightness_ratio * cos));
 }
 
 void	draw_plane(t_window_info *info, t_scene *scene)
@@ -264,6 +145,32 @@ void	draw(t_window_info *info, t_scene *scene)
 {
 	draw_sphere(info, scene);
 //	draw_plane(info, scene);
+/*
+ *
+ * t_object *find_nearest_objects(ray, scene, ignore) {
+ * int min_t;
+ * t_object *find;
+ * while (i) {
+ *  is_corss(object);
+ * }
+ * return find;
+ * }
+ *
+ *
+ * while (i)
+ * 	while (j)
+ * 	 object = find_nearest_objects(i,j);
+ * 	 if (object != NULL) {
+ * 	 	if (find_nearest_objects(i,j) {
+ * 	 		// color = black
+ * 	 	}
+ * 	 	else
+*	 	 	color = cal_diffuse_light(ray, object, light);
+ * 	 	image_to_put(color);
+ * 	 }
+ *
+ *
+ */
 }
 
 int	main(int argc, char **argv)
