@@ -31,10 +31,10 @@ int	calc_diffuse_light_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
 	if (cos <= 0)
 		return (0);
 	return (make_color_from_trgb(
-			get_trgb(light->color, TRANSPARENT),
-			get_trgb(light->color, RED) * light->ratio * cos,
-			get_trgb(light->color, GREEN) * light->ratio * cos,
-			get_trgb(light->color, BLUE) * light->ratio * cos));
+			0xFF,
+			get_trgb(light->color, RED) * light->ratio * cos * get_trgb(sphere->color, RED) / 255,
+			get_trgb(light->color, GREEN) * light->ratio * cos * get_trgb(sphere->color, GREEN) / 255,
+			get_trgb(light->color, BLUE) * light->ratio * cos  * get_trgb(sphere->color, BLUE) / 255));
 }
 
 /*
