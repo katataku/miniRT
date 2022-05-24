@@ -6,13 +6,13 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:39:53 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/24 15:47:05 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:55:22 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "io.h"
 
-t_object	*read_plane(t_scene *scene, char	**splitted_line)
+t_object	*read_plane(char	**splitted_line)
 {
 	t_object	*object;
 	t_plane		*plane;

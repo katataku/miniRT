@@ -6,14 +6,14 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:41:50 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/24 15:48:24 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:55:16 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "io.h"
 
 // TODO:atof自作関数に置き換える。
-t_object	*read_sphere(t_scene *scene, char	**splitted_line)
+t_object	*read_sphere(char	**splitted_line)
 {
 	t_object	*object;
 	t_sphere	*sphere;
