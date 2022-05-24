@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/23 16:32:11 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/23 20:47:56 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,26 @@ void	draw(t_window_info *info, t_scene *scene)
 //	draw_plane(info, scene);
 }
 
+int	close_windows(t_scene *scene)
+{
+	(void)scene;
+	exit(0);
+}
+
+int	deal_key(int key_code, t_scene *scene)
+{
+	if (key_code == KEY_ESC)
+		close_windows(scene);
+	return (0);
+}
+
+void	register_hooks(t_window_info *info, t_scene *scene)
+{
+	mlx_hook(info->win, X_EVENT_KEY_PRESS, 1, &deal_key, scene);
+	mlx_hook(info->win, X_EVENT_KEY_EXIT, 1, &close_windows, scene);
+	mlx_loop(info->mlx);
+}
+
 int	main(int argc, char **argv)
 {
 	t_window_info	*info;
@@ -284,6 +304,6 @@ int	main(int argc, char **argv)
 	scene = read_file(argv);
 	draw(info, scene);
 	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
-	mlx_loop(info->mlx);
+	register_hooks(info, scene);
 	return (0);
 }

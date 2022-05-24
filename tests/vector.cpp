@@ -109,7 +109,7 @@ TEST_F(VectorTest, outer_product) {
 	free(v2);
 }
 
-TEST_F(VectorTest, normalize_1d {
+TEST_F(VectorTest, normalize_1d) {
 	t_vec3 *v1 = vector3(0.0, 0.0, 3.0);
 	t_vec3 *actual = vec3_normalize(v1);
 	ASSERT_DOUBLE_EQ(0, actual->x);

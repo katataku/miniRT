@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/17 16:38:28 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/23 20:45:19 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # define H 1001
 # define W 1001
 # define MAX_INPUT_LINE_LEN 1024
+# define X_EVENT_KEY_PRESS 2
+# define X_EVENT_KEY_EXIT 17 // Exit program key code
+# define KEY_ESC 65307
 
 typedef struct s_image {
 	void	*mlx_img;
