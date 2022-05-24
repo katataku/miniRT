@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 16:33:44 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/24 17:11:21 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	calc_ambient_light(t_ambient_lightning *a)
 	));
 }
 
-t_object	*find_nearest_objects(t_ray *ray,t_list *objects)
+t_object	*find_nearest_objects(t_ray *ray, t_list *objects, t_object *ignore_object)
 {
 	t_object	*rtv;
 	double		t;
@@ -103,15 +103,34 @@ t_object	*find_nearest_objects(t_ray *ray,t_list *objects)
 	rtv = NULL;
 	while (objects != NULL)
 	{
-		t = calc_t(ray, objects->content);
-		if (t >= 0 && t < min)
+		if (ignore_object != objects->content)
 		{
-			rtv = objects->content;
-			min = t;
+			t = calc_t(ray, objects->content);
+			if (t > 0 && t < min)
+			{
+				rtv = objects->content;
+				min = t;
+			}
 		}
 		objects = objects->next;
 	}
 	return (rtv);
+}
+
+bool	is_draw_shadow(t_ray *camera_ray, t_object *object, t_light *light, t_list *objects)
+{
+	double	t;
+	t_vec3	*p_vec;
+	t_ray	*shadow_ray;
+
+	t = calc_t(camera_ray, object);
+	p_vec = vec3_add(camera_ray->start_vector, vec3_multiply(camera_ray->direction_vector, t));
+	shadow_ray = (t_ray *)ft_xcalloc(1, sizeof(t_ray));
+	shadow_ray->start_vector = p_vec;
+	shadow_ray->direction_vector = vec3_sub(light->light_point, p_vec);
+	if (find_nearest_objects(shadow_ray, objects, object) == NULL)
+		return (false);
+	return (true);
 }
 
 void	draw(t_window_info *info, t_scene *scene)
@@ -129,8 +148,8 @@ void	draw(t_window_info *info, t_scene *scene)
 		while (j < H)
 		{
 			ray.direction_vector = vec3_sub(to_3d(scene, i, j), ray.start_vector);
-			object = find_nearest_objects(&ray, scene->objects);
-			if (object != NULL)
+			object = find_nearest_objects(&ray, scene->objects, NULL);
+			if (object != NULL && is_draw_shadow(&ray, object, scene->light, scene->objects) == false)
 			{
 				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, object, scene->light), calc_ambient_light(scene->ambient_lightning)));
 			}
