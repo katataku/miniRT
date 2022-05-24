@@ -159,33 +159,6 @@ void	draw(t_window_info *info, t_scene *scene)
 	}
 }
 
-/*
- *
- * t_object *find_nearest_objects(ray, scene, ignore) {
- * int min_t;
- * t_object *find;
- * while (i) {
- *  is_corss(object);
- * }
- * return find;
- * }
- *
- *
- * while (i)
- * 	while (j)
- * 	 object = find_nearest_objects(i,j);
- * 	 if (object != NULL) {
- * 	 	if (find_nearest_objects(i,j) {
- * 	 		// color = black
- * 	 	}
- * 	 	else
-*	 	 	color = cal_diffuse_light(ray, object, light);
- * 	 	image_to_put(color);
- * 	 }
- *
- *
- */
-
 int	close_windows(t_scene *scene)
 {
 	(void)scene;
