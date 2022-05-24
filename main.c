@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 16:01:16 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/24 16:08:31 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,20 @@ int	calc_ambient_light(t_ambient_lightning *a)
 	));
 }
 
+t_object	*find_nearest_objects(t_ray *ray,t_list *objects)
+{
+	t_object	*rtv;
+
+	rtv = NULL;
+	while (objects != NULL)
+	{
+		if (is_cross(ray, objects->content))
+			rtv = objects->content;
+		objects = objects->next;
+	}
+	return (rtv);
+}
+
 void	draw(t_window_info *info, t_scene *scene)
 {
 	int			i;
@@ -100,7 +114,6 @@ void	draw(t_window_info *info, t_scene *scene)
 	t_ray		ray;
 	t_object	*object;
 
-	object = scene->objects->content;
 	ray.start_vector = scene->camera->view_point;
 	i = 0;
 	while (i < W)
@@ -109,7 +122,8 @@ void	draw(t_window_info *info, t_scene *scene)
 		while (j < H)
 		{
 			ray.direction_vector = vec3_sub(to_3d(scene, i, j), ray.start_vector);
-			if (is_cross(&ray, object))
+			object = find_nearest_objects(&ray, scene->objects);
+			if (object != NULL)
 			{
 				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, object, scene->light), calc_ambient_light(scene->ambient_lightning)));
 			}

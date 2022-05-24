@@ -61,7 +61,7 @@ test:
 	make -C tests
 .PHONY: run
 run:
-	./minirt rt_files/minimam_sphere.rt
+	./minirt rt_files/minimalist.rt
 .PHONY: sphere
 sphere:
 	./minirt rt_files/minimam_sphere.rt

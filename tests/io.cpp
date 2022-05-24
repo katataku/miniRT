@@ -75,6 +75,7 @@ TEST_F(IoTest, plane) {
 
 	object = read_plane(ft_xsplit("pl 0,1,2 0,10.0,20.0 0,100,200", ' '));
 	plane = (t_plane *)object->ptr;
+	ASSERT_EQ(object->identifier, T_PLANE);
 	ASSERT_TRUE(vector_eq(plane->coordinates, vector3(0, 1, 2)));
 	ASSERT_TRUE(vector_eq(plane->orientation_vector, vector3(0, 10, 20)));
 	ASSERT_EQ(plane->color, make_color_from_trgb(255, 0, 100, 200));
