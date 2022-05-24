@@ -49,23 +49,3 @@ int	add_color(int a, int b)
 			min(get_trgb(a, BLUE) + get_trgb(b, BLUE), 0xFF) \
 			));
 }
-
-int	close_windows(t_scene *scene)
-{
-	(void)scene;
-	exit(0);
-}
-
-int	deal_key(int key_code, t_scene *scene)
-{
-	if (key_code == KEY_ESC)
-		close_windows(scene);
-	return (0);
-}
-
-void	register_hooks(t_window_info *info, t_scene *scene)
-{
-	mlx_hook(info->win, X_EVENT_KEY_PRESS, 1, &deal_key, scene);
-	mlx_hook(info->win, X_EVENT_KEY_EXIT, 1, &close_windows, scene);
-	mlx_loop(info->mlx);
-}

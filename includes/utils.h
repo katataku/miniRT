@@ -16,7 +16,6 @@
 # include "define.h"
 # include "libft.h"
 # include "xlibft.h"
-# include "mlx.h"
 
 enum e_trgb
 {
@@ -33,8 +32,5 @@ void	pixel_put_to_image(t_image *data, int x, int y, int color);
 int		get_trgb(int color, int trgb_type);
 int		make_color_from_trgb(int t, int r, int g, int b);
 int		add_color(int a, int b);
-int		close_windows(t_scene *scene);
-int		deal_key(int key_code, t_scene *scene);
-void	register_hooks(t_window_info *info, t_scene *scene);
 
 #endif
