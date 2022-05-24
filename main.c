@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 14:16:37 by ahayashi         ###   ########.fr       */
+/*   Updated: 2022/05/24 16:01:16 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ void	draw(t_window_info *info, t_scene *scene)
 	int			i;
 	int			j;
 	t_ray		ray;
+	t_object	*object;
 
+	object = scene->objects->content;
 	ray.start_vector = scene->camera->view_point;
 	i = 0;
 	while (i < W)
@@ -107,9 +109,9 @@ void	draw(t_window_info *info, t_scene *scene)
 		while (j < H)
 		{
 			ray.direction_vector = vec3_sub(to_3d(scene, i, j), ray.start_vector);
-			if (is_cross(&ray, scene->object))
+			if (is_cross(&ray, object))
 			{
-				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, scene->object, scene->light), calc_ambient_light(scene->ambient_lightning)));
+				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, object, scene->light), calc_ambient_light(scene->ambient_lightning)));
 			}
 			j++;
 		}
