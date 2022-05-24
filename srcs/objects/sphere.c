@@ -25,16 +25,16 @@ int	calc_diffuse_light_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
 
 	t = calc_t_sphere(ray, sphere);
 	p_vec = vec3_add(ray->start_vector, vec3_multiply(ray->direction_vector, t));
-	n_vec = vec3_sub(p_vec, sphere->sphere_center);
-	l_vec = vec3_sub(light->light_point, p_vec);
+	n_vec = vec3_sub(p_vec, sphere->center);
+	l_vec = vec3_sub(light->point, p_vec);
 	cos = cos_of_angles(n_vec, l_vec);
 	if (cos <= 0)
 		return (0);
 	return (make_color_from_trgb(
 			get_trgb(light->color, TRANSPARENT),
-			get_trgb(light->color, RED) * light->brightness_ratio * cos,
-			get_trgb(light->color, GREEN) * light->brightness_ratio * cos,
-			get_trgb(light->color, BLUE) * light->brightness_ratio * cos));
+			get_trgb(light->color, RED) * light->ratio * cos,
+			get_trgb(light->color, GREEN) * light->ratio * cos,
+			get_trgb(light->color, BLUE) * light->ratio * cos));
 }
 
 /*
@@ -69,7 +69,7 @@ double	calc_t_sphere(t_ray *ray, t_sphere	*sphere)
 	double	dif;
 	t_vec3	*s;
 
-	s = vec3_sub(ray->start_vector, sphere->sphere_center);
+	s = vec3_sub(ray->start_vector, sphere->center);
 	a = pow(vec3_norm(ray->direction_vector), 2);
 	b = 2 * vec3_inner_product(s, ray->direction_vector);
 	c = pow(vec3_norm(s), 2) - pow(sphere->diameter / 2, 2);

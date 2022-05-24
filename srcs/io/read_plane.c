@@ -18,7 +18,7 @@ t_object	*read_plane(char	**splitted_line)
 	t_plane		*plane;
 
 	plane = (t_plane *)ft_xcalloc(1, sizeof(t_plane));
-	plane->coordinates = gen_vec3_from_line(splitted_line[1]);
+	plane->point = gen_vec3_from_line(splitted_line[1]);
 	plane->orientation_vector = gen_vec3_from_line(splitted_line[2]);
 	plane->color = get_color_from_line(splitted_line[3]);
 	object = (t_object *) ft_xcalloc(1, sizeof(t_object));

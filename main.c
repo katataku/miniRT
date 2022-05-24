@@ -23,7 +23,7 @@ t_vec3	*calc_camera_ray(t_scene *scene)
 	t_vec3	*lookfrom;
 	t_vec3	*camera_ray;
 
-	lookfrom = scene->camera->view_point;
+	lookfrom = scene->camera->point;
 	lookat = vec3_add(lookfrom, scene->camera->orientation_vector);
 	camera_ray = vec3_normalize(vec3_sub(lookat, lookfrom));
 	return (camera_ray);
@@ -59,7 +59,7 @@ t_vec3	*to_3d(t_scene *scene, double x, double y)
 	camera_ray = calc_camera_ray(scene);
 	u = vec3_normalize(vec3_outer_product(calc_vup(camera_ray), camera_ray));
 	v = vec3_normalize(vec3_outer_product(u, camera_ray));
-	vec = vec3_add(scene->camera->view_point, camera_ray);
+	vec = vec3_add(scene->camera->point, camera_ray);
 	vec = vec3_add(vec, vec3_multiply(u, -1 * screen_width + 2 * screen_width * x / W));
 	vec = vec3_add(vec, vec3_multiply(v, -1 * screen_width + 2 * screen_width * y / H));
 	return (vec);
@@ -87,9 +87,9 @@ int	calc_ambient_light(t_ambient_lightning *a)
 {
 	return (make_color_from_trgb(\
 		get_trgb(a->color, TRANSPARENT), \
-		get_trgb(a->color, RED) * a->lighting_ratio, \
-		get_trgb(a->color, GREEN) * a->lighting_ratio, \
-		get_trgb(a->color, BLUE) * a->lighting_ratio \
+		get_trgb(a->color, RED) * a->ratio, \
+		get_trgb(a->color, GREEN) * a->ratio, \
+		get_trgb(a->color, BLUE) * a->ratio \
 	));
 }
 
@@ -127,7 +127,7 @@ bool	is_draw_shadow(t_ray *camera_ray, t_object *object, t_light *light, t_list 
 	p_vec = vec3_add(camera_ray->start_vector, vec3_multiply(camera_ray->direction_vector, t));
 	shadow_ray = (t_ray *)ft_xcalloc(1, sizeof(t_ray));
 	shadow_ray->start_vector = p_vec;
-	shadow_ray->direction_vector = vec3_sub(light->light_point, p_vec);
+	shadow_ray->direction_vector = vec3_sub(light->point, p_vec);
 	if (find_nearest_objects(shadow_ray, objects, object) == NULL)
 		return (false);
 	return (true);
@@ -140,7 +140,7 @@ void	draw(t_window_info *info, t_scene *scene)
 	t_ray		ray;
 	t_object	*object;
 
-	ray.start_vector = scene->camera->view_point;
+	ray.start_vector = scene->camera->point;
 	i = 0;
 	while (i < W)
 	{
