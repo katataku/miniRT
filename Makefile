@@ -4,6 +4,9 @@ CFLAGS = -Wall -Wextra -Werror -MMD -MP
 IO_SRCS = $(addprefix srcs/io/, \
 		read_ambient.c read_camera.c read_cylinder.c read_file.c read_light.c read_plane.c read_sphere.c util.c validate_arg.c \
 		)
+OBJECTS_SRCS = $(addprefix srcs/objects/, \
+		object.c plane.c sphere.c \
+		)
 VECTOR3_SRCS = $(addprefix srcs/vector3/, \
 		add.c cos_of_angles.c inner_product.c multiply.c norm.c normalize.c outer_product.c print.c sub.c  vector3.c \
 		)
@@ -16,7 +19,7 @@ XLIBFT_SRCS = $(addprefix srcs/xlibft/, \
 UTILS_SRCS = $(addprefix srcs/utils/, \
 		error.c mlx_util.c util.c \
 		)
-SRCS = main.c $(IO_SRCS) $(VECTOR3_SRCS) $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
+SRCS = main.c $(IO_SRCS) $(OBJECTS_SRCS) $(VECTOR3_SRCS) $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
 OBJS = $(SRCS:%.c=%.o)
 DEPENDS	= $(OBJS:.o=.d)
 LIBS = -lft -Llibft -lm
@@ -58,7 +61,7 @@ test:
 	make -C tests
 .PHONY: run
 run:
-	./minirt rt_files/minimam_sphere.rt
+	./minirt rt_files/minimalist.rt
 .PHONY: sphere
 sphere:
 	./minirt rt_files/minimam_sphere.rt

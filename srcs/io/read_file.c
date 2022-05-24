@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:03:51 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/17 16:42:20 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:58:41 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 static void	read_element(t_scene *scene, char *line)
 {
-	char	**splitted_line;
+	char		**splitted_line;
+	t_object	*object;
 
+	object = NULL;
 	splitted_line = ft_xsplit(line, ' ');
 	if (ft_strcmp(splitted_line[0], "A") == 0)
 		read_ambient(scene, splitted_line);
@@ -24,11 +26,15 @@ static void	read_element(t_scene *scene, char *line)
 	if (ft_strcmp(splitted_line[0], "L") == 0)
 		read_light(scene, splitted_line);
 	if (ft_strcmp(splitted_line[0], "sp") == 0)
-		read_sphere(scene, splitted_line);
+		object = read_sphere(splitted_line);
 	if (ft_strcmp(splitted_line[0], "pl") == 0)
-		read_plane(scene, splitted_line);
+		object = read_plane(splitted_line);
 	if (ft_strcmp(splitted_line[0], "cy") == 0)
 		read_cylinder(scene, splitted_line);
+	if (object != NULL)
+	{
+		ft_lstadd_back(&(scene->objects), ft_lstnew(object));
+	}
 }
 
 t_scene	*read_file(char **argv)

@@ -18,10 +18,10 @@ void	read_cylinder(t_scene *scene, char	**splitted_line)
 	t_cylinder	*cylinder;
 
 	cylinder = (t_cylinder *)ft_xcalloc(1, sizeof(t_cylinder));
-	cylinder->coordinates = gen_vec3_from_line(splitted_line[1]);
-	cylinder->orientation_vector = gen_vec3_from_line(splitted_line[2]);
-	cylinder->cylinder_diameter = atof(splitted_line[3]);
-	cylinder->cylinder_height = atof(splitted_line[4]);
+	cylinder->point = gen_vec3_from_line(splitted_line[1]);
+	cylinder->orientation_vec = gen_vec3_from_line(splitted_line[2]);
+	cylinder->diameter = atof(splitted_line[3]);
+	cylinder->height = atof(splitted_line[4]);
 	cylinder->color = get_color_from_line(splitted_line[5]);
 	scene->cylinder = cylinder;
 }

@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/23 20:45:19 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/24 16:31:32 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include "math.h"
 # include "vector3.h"
+# include <float.h>
 
 # define H 1001
 # define W 1001
@@ -57,66 +58,64 @@ enum e_object
  * オブジェクトの種類によって型が違うのでidentifierで区別してからptrをキャストする。
  * ******/
 typedef struct s_object {
-	enum e_object	identifier;
+	enum e_object	type;
 	void			*ptr;
 }	t_object;
 
-typedef struct s_ambient_lightning {
-	double		lighting_ratio;
-	int			color;
-}	t_ambient_lightning;
+typedef struct s_ambient_light {
+	double	ratio;
+	int		color;
+}	t_ambient_light;
 
 typedef struct s_camera {
-	t_vec3		*view_point;
-	t_vec3		*orientation_vector;
-	double		fov;
+	t_vec3	*point;
+	t_vec3	*orientation_vec;
+	double	fov;
 }	t_camera;
 
 typedef struct s_light {
-	t_vec3		*light_point;
-	double		brightness_ratio;
-	int			color;
+	t_vec3	*point;
+	double	ratio;
+	int		color;
 }	t_light;
 
 typedef struct s_sphere {
-	t_vec3		*sphere_center;
-	double		diameter;
-	int			color;
+	t_vec3	*center;
+	double	diameter;
+	int		color;
 }	t_sphere;
 
 typedef struct s_plane {
-	t_vec3		*coordinates;
-	t_vec3		*orientation_vector;
-	int			color;
+	t_vec3	*point;
+	t_vec3	*normal_vec;
+	int		color;
 }	t_plane;
 
 typedef struct s_cylinder {
-	t_vec3		*coordinates;
-	t_vec3		*orientation_vector;
-	double		cylinder_diameter;
-	double		cylinder_height;
-	int			color;
+	t_vec3	*point;
+	t_vec3	*orientation_vec;
+	double	diameter;
+	double	height;
+	int		color;
 }	t_cylinder;
 
 /*
  * 雑にsphereを持たせているが本来はt_listに含まれている
  */
 typedef struct s_scene {
-	t_ambient_lightning	*ambient_lightning;
-	t_camera			*camera;
-	t_light				*light;
-	t_list				*objects;
-	t_sphere			*sphere;
-	t_plane				*plane;
-	t_cylinder			*cylinder;
+	t_ambient_light	*ambient_lightning;
+	t_camera		*camera;
+	t_light			*light;
+	t_list			*objects;
+	t_cylinder		*cylinder;
 }	t_scene;
 
 /*
  * ray can represents 𝐬⃗ + t𝐝⃗
  */
 typedef struct s_ray {
-	t_vec3	*start_vector;
-	t_vec3	*direction_vector;
+	t_vec3	*start_vec;
+	t_vec3	*direction_vec;
 }	t_ray;
 
 #endif

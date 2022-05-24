@@ -18,8 +18,8 @@ void	read_light(t_scene *scene, char	**splitted_line)
 	t_light	*light;
 
 	light = (t_light *)ft_xcalloc(1, sizeof(t_light));
-	light->light_point = gen_vec3_from_line(splitted_line[1]);
-	light->brightness_ratio = atof(splitted_line[2]);
+	light->point = gen_vec3_from_line(splitted_line[1]);
+	light->ratio = atof(splitted_line[2]);
 	light->color = get_color_from_line(splitted_line[3]);
 	scene->light = light;
 }
