@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:15:28 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 14:17:32 by ahayashi         ###   ########.fr       */
+/*   Updated: 2022/05/24 16:27:41 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,13 @@ int	calc_diffuse_light(t_ray *ray, t_object *object, t_light *light)
 	else if (object->identifier == T_SPHERE)
 		return (calc_diffuse_light_sphere(ray, object->ptr, light));
 	return (0);
+}
+
+double	calc_t(t_ray *ray, t_object *object)
+{
+	if (object->identifier == T_PLANE)
+		return (calc_t_plane(ray, object->ptr));
+	else if (object->identifier == T_SPHERE)
+		return (calc_t_sphere(ray, object->ptr));
+	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 16:08:31 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/24 16:33:44 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,19 @@ int	calc_ambient_light(t_ambient_lightning *a)
 t_object	*find_nearest_objects(t_ray *ray,t_list *objects)
 {
 	t_object	*rtv;
+	double		t;
+	double		min;
 
+	min = DBL_MAX;
 	rtv = NULL;
 	while (objects != NULL)
 	{
-		if (is_cross(ray, objects->content))
+		t = calc_t(ray, objects->content);
+		if (t >= 0 && t < min)
+		{
 			rtv = objects->content;
+			min = t;
+		}
 		objects = objects->next;
 	}
 	return (rtv);

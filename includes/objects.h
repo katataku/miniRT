@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:29:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 15:58:03 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/24 16:28:27 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ double	calc_t_sphere(t_ray *ray, t_sphere	*sphere);
 //object
 bool	is_cross(t_ray *ray, t_object *object);
 int		calc_diffuse_light(t_ray *ray, t_object *object, t_light *light);
+double	calc_t(t_ray *ray, t_object *object);
 
 #endif
