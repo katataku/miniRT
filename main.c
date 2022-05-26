@@ -80,19 +80,6 @@ t_window_info	*init_window_info(void)
 	return (info);
 }
 
-/*
- * 環境光を計算する。
- */
-int	calc_ambient_light(t_ambient_light *a)
-{
-	return (make_color_from_trgb(\
-		get_trgb(a->color, TRANSPARENT), \
-		get_trgb(a->color, RED) * a->ratio, \
-		get_trgb(a->color, GREEN) * a->ratio, \
-		get_trgb(a->color, BLUE) * a->ratio \
-	));
-}
-
 t_object	*find_nearest_objects(t_ray *ray, t_list *objects, t_object *ignore_object)
 {
 	t_object	*rtv;
@@ -151,7 +138,7 @@ void	draw(t_window_info *info, t_scene *scene)
 			object = find_nearest_objects(&ray, scene->objects, NULL);
 			if (object != NULL && is_draw_shadow(&ray, object, scene->light, scene->objects) == false)
 			{
-				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, object, scene->light), calc_ambient_light(scene->ambient_lightning)));
+				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, object, scene->light), calc_ambient_light(scene->ambient_lightning, object)));
 			}
 			j++;
 		}

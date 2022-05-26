@@ -12,10 +12,7 @@
 
 #include "objects.h"
 
-/*
- * 拡散反射光を計算する。
- */
-int	calc_diffuse_light_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
+double	calc_lambert_cos_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
 {
 	double	t;
 	double	cos;
@@ -30,22 +27,7 @@ int	calc_diffuse_light_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
 	cos = cos_of_angles(n_vec, l_vec);
 	if (cos <= 0)
 		return (0);
-	return (make_color_from_trgb(
-			get_trgb(light->color, TRANSPARENT),
-			get_trgb(light->color, RED) * light->ratio * cos,
-			get_trgb(light->color, GREEN) * light->ratio * cos,
-			get_trgb(light->color, BLUE) * light->ratio * cos));
-}
-
-/*
- * レイと球が交差するか判定する関数。
- *
- * 判別式が0のとき、1つのする
- * 判別式が0より大きい時、2点で交わる。tが小さい方が手前になる。
- */
-bool	is_cross_sphere(t_ray *ray, t_sphere *sphere)
-{
-	return (calc_t_sphere(ray, sphere) >= 0);
+	return (cos);
 }
 
 /*
