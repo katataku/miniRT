@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 17:11:21 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/26 20:16:02 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,15 @@ t_vec3	*calc_camera_ray(t_scene *scene)
 	t_vec3	*lookat;
 	t_vec3	*lookfrom;
 	t_vec3	*camera_ray;
+	t_vec3	*camera_ray_norm;
 
 	lookfrom = scene->camera->point;
 	lookat = vec3_add(lookfrom, scene->camera->orientation_vec);
-	camera_ray = vec3_normalize(vec3_sub(lookat, lookfrom));
-	return (camera_ray);
+	camera_ray = vec3_sub(lookat, lookfrom);
+	camera_ray_norm = vec3_normalize(camera_ray);
+	free(lookat);
+	free(camera_ray);
+	return (camera_ray_norm);
 }
 
 /*
@@ -108,14 +112,18 @@ bool	is_draw_shadow(t_ray *camera_ray, t_object *object, t_light *light, t_list 
 {
 	double	t;
 	t_vec3	*p_vec;
-	t_ray	*shadow_ray;
+	t_vec3	*d_vec;
+	t_ray	shadow_ray;
 
 	t = calc_t(camera_ray, object);
-	p_vec = vec3_add(camera_ray->start_vec, vec3_multiply(camera_ray->direction_vec, t));
-	shadow_ray = (t_ray *)ft_xcalloc(1, sizeof(t_ray));
-	shadow_ray->start_vec = p_vec;
-	shadow_ray->direction_vec = vec3_sub(light->point, p_vec);
-	if (find_nearest_objects(shadow_ray, objects, object) == NULL)
+	d_vec = vec3_multiply(camera_ray->direction_vec, t);
+	p_vec = vec3_add(camera_ray->start_vec, d_vec);
+	shadow_ray.start_vec = p_vec;
+	shadow_ray.direction_vec = vec3_sub(light->point, p_vec);
+	free(d_vec);
+	free(p_vec);
+	free(shadow_ray.direction_vec);
+	if (find_nearest_objects(&shadow_ray, objects, object) == NULL)
 		return (false);
 	return (true);
 }
@@ -126,6 +134,7 @@ void	draw(t_window_info *info, t_scene *scene)
 	int			j;
 	t_ray		ray;
 	t_object	*object;
+	t_vec3		*vec_3d;
 
 	ray.start_vec = scene->camera->point;
 	i = 0;
@@ -134,12 +143,15 @@ void	draw(t_window_info *info, t_scene *scene)
 		j = 0;
 		while (j < H)
 		{
-			ray.direction_vec = vec3_sub(to_3d(scene, i, j), ray.start_vec);
+			vec_3d = to_3d(scene, i, j);
+			ray.direction_vec = vec3_sub(vec_3d, ray.start_vec);
 			object = find_nearest_objects(&ray, scene->objects, NULL);
 			if (object != NULL && is_draw_shadow(&ray, object, scene->light, scene->objects) == false)
 			{
 				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, object, scene->light), calc_ambient_light(scene->ambient_lightning, object)));
 			}
+			free(vec_3d);
+			free(ray.direction_vec);
 			j++;
 		}
 		i++;
