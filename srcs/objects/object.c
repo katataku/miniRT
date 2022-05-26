@@ -30,7 +30,7 @@ int	calc_diffuse_light(t_ray *ray, t_object *object, t_light *light)
 	if (object->type == T_PLANE)
 	{
 		cos = calc_lambert_cos_plane(ray, object->ptr, light);
-		reflection = ((t_sphere *)(object->ptr))->color;
+		reflection = ((t_plane *)(object->ptr))->color;
 	}
 	else
 	{
