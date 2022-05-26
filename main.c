@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/26 20:00:57 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/26 20:16:02 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void	draw(t_window_info *info, t_scene *scene)
 	int			j;
 	t_ray		ray;
 	t_object	*object;
+	t_vec3		*vec_3d;
 
 	ray.start_vec = scene->camera->point;
 	i = 0;
@@ -142,12 +143,15 @@ void	draw(t_window_info *info, t_scene *scene)
 		j = 0;
 		while (j < H)
 		{
-			ray.direction_vec = vec3_sub(to_3d(scene, i, j), ray.start_vec);
+			vec_3d = to_3d(scene, i, j);
+			ray.direction_vec = vec3_sub(vec_3d, ray.start_vec);
 			object = find_nearest_objects(&ray, scene->objects, NULL);
 			if (object != NULL && is_draw_shadow(&ray, object, scene->light, scene->objects) == false)
 			{
 				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, object, scene->light), calc_ambient_light(scene->ambient_lightning, object)));
 			}
+			free(vec_3d);
+			free(ray.direction_vec);
 			j++;
 		}
 		i++;

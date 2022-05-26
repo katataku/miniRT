@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:30:16 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 14:30:16 by ahayashi         ###   ########.jp       */
+/*   Updated: 2022/05/26 20:20:18 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,21 @@ double	calc_lambert_cos_sphere(t_ray *ray, t_sphere *sphere, t_light *light)
 {
 	double	t;
 	double	cos;
+	t_vec3	*d_vec;
 	t_vec3	*p_vec;
 	t_vec3	*n_vec;
 	t_vec3	*l_vec;
 
 	t = calc_t_sphere(ray, sphere);
-	p_vec = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t));
+	d_vec = vec3_multiply(ray->direction_vec, t);
+	p_vec = vec3_add(ray->start_vec, d_vec);
 	n_vec = vec3_sub(p_vec, sphere->center);
 	l_vec = vec3_sub(light->point, p_vec);
 	cos = cos_of_angles(n_vec, l_vec);
+	free(d_vec);
+	free(p_vec);
+	free(n_vec);
+	free(l_vec);
 	if (cos <= 0)
 		return (0);
 	return (cos);
