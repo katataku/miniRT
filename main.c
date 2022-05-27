@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/27 13:41:20 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/27 13:47:08 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,11 @@ t_object	*find_nearest_objects(t_ray *ray, t_list *objects, t_object *ignore_obj
 
 bool	is_draw_shadow(t_ray *camera_ray, t_object *object, t_light *light, t_list *objects)
 {
-	double	t;
-	t_vec3	*p_vec;
-	t_vec3	*d_vec;
-	t_ray	shadow_ray;
+	double		t;
+	t_vec3		*p_vec;
+	t_vec3		*d_vec;
+	t_ray		shadow_ray;
+	t_object	*nearest_object;
 
 	t = calc_t(camera_ray, object);
 	d_vec = vec3_multiply(camera_ray->direction_vec, t);
@@ -121,8 +122,10 @@ bool	is_draw_shadow(t_ray *camera_ray, t_object *object, t_light *light, t_list 
 	shadow_ray.start_vec = p_vec;
 	shadow_ray.direction_vec = vec3_sub(light->point, p_vec);
 	free(d_vec);
+	nearest_object = find_nearest_objects(&shadow_ray, objects, object);
+	free(p_vec);
 	free(shadow_ray.direction_vec);
-	if (find_nearest_objects(&shadow_ray, objects, object) == NULL)
+	if (nearest_object == NULL)
 		return (false);
 	return (true);
 }
