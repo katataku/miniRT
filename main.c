@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/27 14:06:08 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/27 14:09:17 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ t_vec3	*to_3d(t_scene *scene, double x, double y)
 	free(tmp2);
 	free(u);
 	free(v);
+	free(vup);
 	free(u_base);
 	free(v_base);
 	return (vec);
