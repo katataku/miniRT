@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/27 17:46:37 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:12:11 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,30 +175,40 @@ bool	is_draw_shadow(t_ray *camera_ray, t_object *object, t_light *light, t_list 
 	return (true);
 }
 
+void	draw_pixel(t_window_info *info, t_scene *scene, int i, int j)
+{
+	t_ray		ray;
+	t_object	*object;
+	t_vec3		*vec_3d;
+	int			color;
+
+	ray.start_vec = scene->camera->point;
+	vec_3d = to_3d(scene, i, j);
+	ray.direction_vec = vec3_sub(vec_3d, ray.start_vec);
+	object = find_nearest_objects(&ray, scene->objects, NULL);
+	if (object != NULL && \
+		is_draw_shadow(&ray, object, scene->light, scene->objects) == false)
+	{
+		color = add_color(calc_diffuse_light(&ray, object, scene->light), \
+			calc_ambient_light(scene->ambient_lightning, object));
+		pixel_put_to_image(info->img, i, j, color);
+	}
+	free(vec_3d);
+	free(ray.direction_vec);
+}
+
 void	draw(t_window_info *info, t_scene *scene)
 {
 	int			i;
 	int			j;
-	t_ray		ray;
-	t_object	*object;
-	t_vec3		*vec_3d;
 
-	ray.start_vec = scene->camera->point;
 	i = 0;
 	while (i < W)
 	{
 		j = 0;
 		while (j < H)
 		{
-			vec_3d = to_3d(scene, i, j);
-			ray.direction_vec = vec3_sub(vec_3d, ray.start_vec);
-			object = find_nearest_objects(&ray, scene->objects, NULL);
-			if (object != NULL && is_draw_shadow(&ray, object, scene->light, scene->objects) == false)
-			{
-				pixel_put_to_image(info->img, i, j, add_color(calc_diffuse_light(&ray, object, scene->light), calc_ambient_light(scene->ambient_lightning, object)));
-			}
-			free(vec_3d);
-			free(ray.direction_vec);
+			draw_pixel(info, scene, i, j);
 			j++;
 		}
 		i++;
