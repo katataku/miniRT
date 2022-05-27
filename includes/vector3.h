@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:58:08 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/23 16:05:50 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/27 16:21:12 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_vector3 {
 
 double	cos_of_angles(t_vec3 *v1, t_vec3 *v2);
 t_vec3	*vec3_add(t_vec3	*left, t_vec3	*right);
+t_vec3	*vec3_add4(t_vec3	*v1, t_vec3	*v2, t_vec3	*v3, t_vec3	*v4);
 t_vec3	*vec3_sub(t_vec3	*left, t_vec3	*right);
 double	vec3_inner_product(t_vec3 *left, t_vec3 *right);
 t_vec3	*vec3_outer_product(t_vec3 *left, t_vec3 *right);

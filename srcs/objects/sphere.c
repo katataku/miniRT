@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:30:16 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/26 23:32:34 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/27 13:54:37 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ double	calc_t_sphere(t_ray *ray, t_sphere	*sphere)
 	b = 2 * vec3_inner_product(s, ray->direction_vec);
 	c = pow(vec3_norm(s), 2) - pow(sphere->diameter / 2, 2);
 	dif = pow(b, 2) - 4 * a * c;
+	free(s);
 	if (dif < 0)
 		return (-1);
 	return ((-b - sqrt(dif)) / (2 * a));

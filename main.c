@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/26 20:16:02 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/27 16:46:58 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,52 @@ t_vec3	*calc_vup(t_vec3 *camera_ray)
 	return (vector3(1, 0, 0));
 }
 
+t_vec3	*calc_u_base(t_vec3	*camera_ray)
+{
+	t_vec3	*u_base;
+	t_vec3	*vup;
+	t_vec3	*tmp1;
+
+	vup = calc_vup(camera_ray);
+	tmp1 = vec3_outer_product(vup, camera_ray);
+	u_base = vec3_normalize(tmp1);
+	free(vup);
+	free(tmp1);
+	return (u_base);
+}
+
+t_vec3	*calc_u(t_scene *scene, t_vec3	*camera_ray, double x)
+{
+	t_vec3	*u;
+	t_vec3	*u_base;
+	double	screen_width;
+
+	screen_width = tan(M_PI * scene->camera->fov / 180);
+	u_base = calc_u_base(camera_ray);
+	u = vec3_multiply(u_base, -1 * screen_width + 2 * screen_width * x / W);
+	free(u_base);
+	return (u);
+}
+
+t_vec3	*calc_v(t_scene *scene, t_vec3	*camera_ray, double y)
+{
+	t_vec3	*v;
+	t_vec3	*v_base;
+	t_vec3	*u_base;
+	t_vec3	*tmp1;
+	double	screen_width;
+
+	screen_width = tan(M_PI * scene->camera->fov / 180);
+	u_base = calc_u_base(camera_ray);
+	tmp1 = vec3_outer_product(u_base, camera_ray);
+	v_base = vec3_normalize(tmp1);
+	v = vec3_multiply(v_base, -1 * screen_width + 2 * screen_width * y / H);
+	free(tmp1);
+	free(u_base);
+	free(v_base);
+	return (v);
+}
+
 /*
  * スクリーン座標をワールド座標に変換。
  * minilibXのpixelを3次元上のスクリーンに変換。
@@ -57,15 +103,14 @@ t_vec3	*to_3d(t_scene *scene, double x, double y)
 	t_vec3	*camera_ray;
 	t_vec3	*u;
 	t_vec3	*v;
-	double	screen_width;
 
-	screen_width = tan(M_PI * scene->camera->fov / 180);
 	camera_ray = calc_camera_ray(scene);
-	u = vec3_normalize(vec3_outer_product(calc_vup(camera_ray), camera_ray));
-	v = vec3_normalize(vec3_outer_product(u, camera_ray));
-	vec = vec3_add(scene->camera->point, camera_ray);
-	vec = vec3_add(vec, vec3_multiply(u, -1 * screen_width + 2 * screen_width * x / W));
-	vec = vec3_add(vec, vec3_multiply(v, -1 * screen_width + 2 * screen_width * y / H));
+	u = calc_u(scene, camera_ray, x);
+	v = calc_v(scene, camera_ray, y);
+	vec = vec3_add4(scene->camera->point, camera_ray, u, v);
+	free(camera_ray);
+	free(u);
+	free(v);
 	return (vec);
 }
 
@@ -110,10 +155,11 @@ t_object	*find_nearest_objects(t_ray *ray, t_list *objects, t_object *ignore_obj
 
 bool	is_draw_shadow(t_ray *camera_ray, t_object *object, t_light *light, t_list *objects)
 {
-	double	t;
-	t_vec3	*p_vec;
-	t_vec3	*d_vec;
-	t_ray	shadow_ray;
+	double		t;
+	t_vec3		*p_vec;
+	t_vec3		*d_vec;
+	t_ray		shadow_ray;
+	t_object	*nearest_object;
 
 	t = calc_t(camera_ray, object);
 	d_vec = vec3_multiply(camera_ray->direction_vec, t);
@@ -121,9 +167,10 @@ bool	is_draw_shadow(t_ray *camera_ray, t_object *object, t_light *light, t_list 
 	shadow_ray.start_vec = p_vec;
 	shadow_ray.direction_vec = vec3_sub(light->point, p_vec);
 	free(d_vec);
+	nearest_object = find_nearest_objects(&shadow_ray, objects, object);
 	free(p_vec);
 	free(shadow_ray.direction_vec);
-	if (find_nearest_objects(&shadow_ray, objects, object) == NULL)
+	if (nearest_object == NULL)
 		return (false);
 	return (true);
 }
@@ -171,10 +218,17 @@ int	deal_key(int key_code, t_scene *scene)
 	return (0);
 }
 
+int	main_loop(t_window_info *info)
+{
+	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
+	return (0);
+}
+
 void	register_hooks(t_window_info *info, t_scene *scene)
 {
 	mlx_hook(info->win, X_EVENT_KEY_PRESS, 1, &deal_key, scene);
 	mlx_hook(info->win, X_EVENT_KEY_EXIT, 1, &close_windows, scene);
+	mlx_loop_hook(info->mlx, &main_loop, info);
 	mlx_loop(info->mlx);
 }
 
@@ -187,7 +241,6 @@ int	main(int argc, char **argv)
 	info = init_window_info();
 	scene = read_file(argv);
 	draw(info, scene);
-	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
 	register_hooks(info, scene);
 	return (0);
 }

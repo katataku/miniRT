@@ -25,11 +25,12 @@ DEPENDS	= $(OBJS:.o=.d)
 LIBS = -lft -Llibft -lm
 INCS = -Ilibft/includes -Iincludes -Imlx
 MLX_FOR_MAC = -Lmlx -L/usr/X11R6/lib -lX11 -lXext -lmlx_Darwin -framework OpenGL -framework AppKit
+MLX_FOR_LINUX = -L/usr/lib -Imlx_linux -lXext -lX11 -lm
 LIBFT = libft/libft.a
 MLX = mlx/libmlx.a
 
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
-	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(MLX_FOR_MAC) $(LIBS)
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(MLX) $(MLX_FOR_MAC) $(LIBS)
 
 $(LIBFT):
 	make -C libft
