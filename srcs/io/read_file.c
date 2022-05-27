@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:03:51 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/24 15:58:41 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/27 14:17:58 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	read_element(t_scene *scene, char *line)
 {
 	char		**splitted_line;
 	t_object	*object;
+	int			i;
 
 	object = NULL;
 	splitted_line = ft_xsplit(line, ' ');
@@ -32,9 +33,11 @@ static void	read_element(t_scene *scene, char *line)
 	if (ft_strcmp(splitted_line[0], "cy") == 0)
 		read_cylinder(scene, splitted_line);
 	if (object != NULL)
-	{
 		ft_lstadd_back(&(scene->objects), ft_lstnew(object));
-	}
+	i = -1;
+	while (splitted_line[++i] != NULL)
+		free(splitted_line[i]);
+	free(splitted_line);
 }
 
 t_scene	*read_file(char **argv)
@@ -46,7 +49,10 @@ t_scene	*read_file(char **argv)
 	scene = (t_scene *)ft_xcalloc(1, sizeof(t_scene));
 	fd = xopen(argv[1], O_RDONLY, 0);
 	while (get_next_line(fd, line))
+	{
 		read_element(scene, *line);
+		free(*line);
+	}
 	xclose(fd);
 	return (scene);
 }
