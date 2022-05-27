@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 16:57:50 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/24 15:58:21 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/27 17:42:20 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "define.h"
 # include "utils.h"
 # include "xsyscall.h"
+# include "libft.h"
 
 t_scene		*read_file(char **argv);
 void		validate_arg(int argc);

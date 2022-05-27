@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stdlib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 18:04:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/03/04 16:26:21 by ahayashi         ###   ########.jp       */
+/*   Updated: 2022/05/27 17:41:03 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 
 int		ft_abs(int n);
+double	ft_atod(const char *str);
 int		ft_atoi(const char *str);
 long	ft_atol(const char *str);
 void	*ft_calloc(size_t count, size_t size);
