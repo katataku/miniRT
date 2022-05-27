@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:34:31 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/27 14:19:41 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/27 14:23:11 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,16 @@ t_vec3	*gen_vec3_from_line(char *vec_line)
 {
 	char	**splitted_vec_line;
 	t_vec3	*rtv;
+	int		i;
 
 	splitted_vec_line = ft_xsplit(vec_line, ',');
 	rtv = vector3(\
 			atof(splitted_vec_line[0]), \
 			atof(splitted_vec_line[1]), \
 			atof(splitted_vec_line[2]));
+	i = -1;
+	while (splitted_vec_line[++i] != NULL)
+		free(splitted_vec_line[i]);
+	free(splitted_vec_line);
 	return (rtv);
 }
