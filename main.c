@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/27 15:06:25 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/27 16:28:39 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,29 @@ t_vec3	*calc_vup(t_vec3 *camera_ray)
 	return (vector3(1, 0, 0));
 }
 
+t_vec3	*calc_u_base(t_vec3	*camera_ray)
+{
+	t_vec3	*u_base;
+	t_vec3	*vup;
+	t_vec3	*tmp1;
+
+	vup = calc_vup(camera_ray);
+	tmp1 = vec3_outer_product(vup, camera_ray);
+	u_base = vec3_normalize(tmp1);
+	free(vup);
+	free(tmp1);
+	return (u_base);
+}
+
 t_vec3	*calc_u(t_scene *scene, t_vec3	*camera_ray, double x)
 {
 	t_vec3	*u;
 	t_vec3	*u_base;
-	t_vec3	*vup;
-	t_vec3	*tmp1;
 	double	screen_width;
 
 	screen_width = tan(M_PI * scene->camera->fov / 180);
-	vup = calc_vup(camera_ray);
-	tmp1 = vec3_outer_product(vup, camera_ray);
-	u_base = vec3_normalize(tmp1);
+	u_base = calc_u_base(camera_ray);
 	u = vec3_multiply(u_base, -1 * screen_width + 2 * screen_width * x / W);
-	free(vup);
-	free(tmp1);
 	free(u_base);
 	return (u);
 }
@@ -69,20 +77,15 @@ t_vec3	*calc_v(t_scene *scene, t_vec3	*camera_ray, double y)
 	t_vec3	*v;
 	t_vec3	*v_base;
 	t_vec3	*u_base;
-	t_vec3	*vup;
 	t_vec3	*tmp1;
 	double	screen_width;
 
 	screen_width = tan(M_PI * scene->camera->fov / 180);
-	vup = calc_vup(camera_ray);
-	tmp1 = vec3_outer_product(vup, camera_ray);
-	u_base = vec3_normalize(tmp1);
-	free(tmp1);
+	u_base = calc_u_base(camera_ray);
 	tmp1 = vec3_outer_product(u_base, camera_ray);
 	v_base = vec3_normalize(tmp1);
 	v = vec3_multiply(v_base, -1 * screen_width + 2 * screen_width * y / H);
 	free(tmp1);
-	free(vup);
 	free(u_base);
 	free(v_base);
 	return (v);
@@ -100,18 +103,12 @@ t_vec3	*to_3d(t_scene *scene, double x, double y)
 	t_vec3	*camera_ray;
 	t_vec3	*u;
 	t_vec3	*v;
-	t_vec3	*tmp1;
-	t_vec3	*tmp2;
 
 	camera_ray = calc_camera_ray(scene);
 	u = calc_u(scene, camera_ray, x);
 	v = calc_v(scene, camera_ray, y);
-	tmp1 = vec3_add(scene->camera->point, camera_ray);
-	tmp2 = vec3_add(u, v);
-	vec = vec3_add(tmp1, tmp2);
+	vec = vec3_add4(scene->camera->point, camera_ray, u, v);
 	free(camera_ray);
-	free(tmp1);
-	free(tmp2);
 	free(u);
 	free(v);
 	return (vec);
