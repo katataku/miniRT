@@ -34,15 +34,20 @@ t_vec3	*calc_camera_ray(t_scene *scene)
 }
 
 /*
- * vupを計算する。
- * vupは(1, 0, 0)を基本とするが、
- * このベクトルとcamera_rayが並行な場合は他のベクトルをvupとする
+ * vupを計算する。vupはカメラの上方向のベクトル。
+ * カメラはz軸の正方向を上にしているとする。
+ * カメラの視線ベクトルとvupが並行になってしまうと外積が0になってしまうため、少し角度をつける。
  */
 t_vec3	*calc_vup(t_vec3 *camera_ray)
 {
-	if (camera_ray->y == 0 && camera_ray->z == 0)
-		return (vector3(0, 1, 0));
-	return (vector3(0, 0, -1));
+	double	sum;
+
+	if (camera_ray->x == 0 && camera_ray->y == 0)
+	{
+		sum = sqrt(pow(0.1, 2) + 1);
+		return (vector3(0, 0.1 / sum, 1 / sum));
+	}
+	return (vector3(0, 0, 1));
 }
 
 t_vec3	*calc_u_base(t_vec3	*camera_ray)
