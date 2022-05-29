@@ -31,7 +31,7 @@ static void	read_element(t_scene *scene, char *line)
 	if (ft_strcmp(splitted_line[0], "pl") == 0)
 		object = read_plane(splitted_line);
 	if (ft_strcmp(splitted_line[0], "cy") == 0)
-		read_cylinder(scene, splitted_line);
+		object = read_cylinder(splitted_line);
 	if (object != NULL)
 		ft_lstadd_back(&(scene->objects), ft_lstnew(object));
 	i = -1;

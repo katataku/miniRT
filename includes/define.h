@@ -94,7 +94,7 @@ typedef struct s_plane {
 typedef struct s_cylinder {
 	t_vec3	*point;
 	t_vec3	*orientation_vec;
-	double	diameter;
+	double	radius;
 	double	height;
 	int		color;
 }	t_cylinder;

@@ -84,16 +84,17 @@ TEST_F(IoTest, plane) {
 }
 
 TEST_F(IoTest, cylinder) {
-	t_scene	*scene;
+	t_object *object;
+	t_cylinder	*cylinder;
 
-	scene = (t_scene *)ft_xcalloc(1, sizeof(t_scene));
-	read_cylinder(scene, ft_xsplit("cy 0.0,1.0,2 0,10,20.0 14.2 21.42 0,100,200", ' '));
-	ASSERT_TRUE(vector_eq(scene->cylinder->point, vector3(0, 1, 2)));
-	ASSERT_TRUE(vector_eq(scene->cylinder->orientation_vec, vector3(0, 10, 20)));
-	ASSERT_EQ(scene->cylinder->diameter, 14.2);
-	ASSERT_EQ(scene->cylinder->height, 21.42);
-	ASSERT_EQ(scene->cylinder->color, make_color_from_trgb(255, 0, 100, 200));
-	free(scene->cylinder);
-	free(scene);
+	object = read_cylinder(ft_xsplit("cy 0.0,1.0,2 0,10,20.0 14.2 21.42 0,100,200", ' '));
+	cylinder = (t_cylinder *)object->ptr;
+	ASSERT_TRUE(vector_eq(cylinder->point, vector3(0, 1, 2)));
+	ASSERT_TRUE(vector_eq(cylinder->orientation_vec, vector3(0, 10, 20)));
+	ASSERT_EQ(cylinder->radius, 7.1);
+	ASSERT_EQ(cylinder->height, 21.42);
+	ASSERT_EQ(cylinder->color, make_color_from_trgb(255, 0, 100, 200));
+	free(cylinder);
+	free(object);
 }
 

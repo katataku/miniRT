@@ -26,6 +26,6 @@ void		read_camera(t_scene *scene, char **splitted_line);
 void		read_light(t_scene *scene, char **splitted_line);
 t_object	*read_sphere(char	**splitted_line);
 t_object	*read_plane(char	**splitted_line);
-void		read_cylinder(t_scene *scene, char **splitted_line);
+t_object	*read_cylinder(char	**splitted_line);
 
 #endif
