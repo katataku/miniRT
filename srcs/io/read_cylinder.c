@@ -21,6 +21,7 @@ t_object	*read_cylinder(char	**splitted_line)
 	cylinder = (t_cylinder *)ft_xcalloc(1, sizeof(t_cylinder));
 	cylinder->point = gen_vec3_from_line(splitted_line[1]);
 	cylinder->orientation_vec = gen_vec3_from_line(splitted_line[2]);
+	cylinder->orientation_vec = vec3_normalize(cylinder->orientation_vec);
 	cylinder->radius = atof(splitted_line[3]) / 2;
 	cylinder->height = atof(splitted_line[4]);
 	cylinder->color = get_color_from_line(splitted_line[5]);
