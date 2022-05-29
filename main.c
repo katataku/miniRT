@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/27 16:46:58 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/29 16:12:51 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,20 @@ t_vec3	*calc_camera_ray(t_scene *scene)
 }
 
 /*
- * vupを計算する。
- * vupは(1, 0, 0)を基本とするが、
- * このベクトルとcamera_rayが並行な場合は他のベクトルをvupとする
+ * vupを計算する。vupはカメラの上方向のベクトル。
+ * カメラはz軸の正方向を上にしているとする。
+ * カメラの視線ベクトルとvupが並行になってしまうと外積が0になってしまうため、少し角度をつける。
  */
 t_vec3	*calc_vup(t_vec3 *camera_ray)
 {
-	if (camera_ray->y == 0 && camera_ray->z == 0)
-		return (vector3(0, 1, 0));
-	return (vector3(1, 0, 0));
+	double	sum;
+
+	if (camera_ray->x == 0 && camera_ray->y == 0)
+	{
+		sum = sqrt(pow(0.1, 2) + 1);
+		return (vector3(0, 0.1 / sum, 1 / sum));
+	}
+	return (vector3(0, 0, 1));
 }
 
 t_vec3	*calc_u_base(t_vec3	*camera_ray)
@@ -67,7 +72,7 @@ t_vec3	*calc_u(t_scene *scene, t_vec3	*camera_ray, double x)
 
 	screen_width = tan(M_PI * scene->camera->fov / 180);
 	u_base = calc_u_base(camera_ray);
-	u = vec3_multiply(u_base, -1 * screen_width + 2 * screen_width * x / W);
+	u = vec3_multiply(u_base, screen_width - 2 * screen_width * x / W);
 	free(u_base);
 	return (u);
 }
