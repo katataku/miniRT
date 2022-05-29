@@ -52,7 +52,14 @@ double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder)
 	b = 2 * vec3_inner_product(d_cross_n, s_minus_c_cross_n);
 	c = pow(vec3_norm(s_minus_c_cross_n), 2) - pow(cylinder->radius, 2);
 	dif = pow(b, 2) - 4 * a * c;
-	if (dif < 0)
+	if (dif < 0 || a == 0)
+		return (-1);
+	double	t;
+	t = (-b - sqrt(dif)) / (2 * a);
+	t_vec3	*p2;
+	p2 = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t));
+	double h = sqrt(pow(vec3_norm(vec3_sub(p2, cylinder->point)), 2) - pow(cylinder->radius, 2));
+	if (h >= cylinder->height)
 		return (-1);
 	return ((-b - sqrt(dif)) / (2 * a));
 }
