@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:23:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/29 14:23:44 by ahayashi         ###   ########.jp       */
+/*   Updated: 2022/05/29 15:44:47 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,24 @@
 
 double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cylinder, t_light *light)
 {
-	(void)ray;
-	(void)cylinder;
-	(void)light;
-	return (1);
+	double	cos;
+	t_vec3	*center;
+	t_vec3	*p_vec;
+	t_vec3	*n_vec;
+	t_vec3	*l_vec;
+
+
+	double t = calc_t_cylinder(ray, cylinder);
+	p_vec = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t));
+	double h = sqrt(pow(vec3_norm(vec3_sub(p_vec, cylinder->point)), 2) - pow(cylinder->radius, 2));
+	center = vec3_add(cylinder->point, vec3_multiply(cylinder->orientation_vec, h));
+	n_vec = vec3_sub(p_vec, center);
+	l_vec = vec3_sub(light->point, p_vec);
+	cos = cos_of_angles(n_vec, l_vec);
+	if (cos <= 0)
+		return (0);
+
+	return (cos);
 }
 
 /*
