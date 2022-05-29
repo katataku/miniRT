@@ -42,7 +42,6 @@ int	calc_diffuse_light(t_ray *ray, t_object *object, t_light *light)
 		cos = calc_lambert_cos_cylinder(ray, object->ptr, light);
 		object_color = ((t_cylinder *)(object->ptr))->color;
 	}
-
 	return (calc_color(light->color, light->ratio * cos, object_color));
 }
 

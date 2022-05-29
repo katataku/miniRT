@@ -29,7 +29,6 @@ double	calc_lambert_cos_plane(t_ray *ray, t_plane *plane, t_light *light);
 double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cylinder, t_light *light);
 double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder);
 
-
 //object
 double	calc_t(t_ray *ray, t_object *object);
 int		calc_ambient_light(t_ambient_light *a, t_object *object);

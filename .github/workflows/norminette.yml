@@ -31,4 +31,5 @@ jobs:
           | grep -v "Too many functions in file" \
           | grep -v "line too long" \
           | grep -v "Comment is invalid in this scope" \
+          | grep -v "Too many variables declarations in a function" \
           | wc -l) -eq 0 ]
