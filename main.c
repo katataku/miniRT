@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/29 16:10:13 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/29 16:12:51 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_vec3	*calc_vup(t_vec3 *camera_ray)
 {
 	if (camera_ray->y == 0 && camera_ray->z == 0)
 		return (vector3(0, 1, 0));
-	return (vector3(0, 0, 1));
+	return (vector3(0, 0, -1));
 }
 
 t_vec3	*calc_u_base(t_vec3	*camera_ray)
