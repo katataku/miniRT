@@ -69,3 +69,6 @@ sphere:
 .PHONY: plane
 plane:
 	./minirt rt_files/minimam_plane.rt
+.PHONY: cy
+cy:
+	./minirt rt_files/minimam_cylinder.rt
