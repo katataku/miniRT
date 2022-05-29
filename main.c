@@ -72,7 +72,7 @@ t_vec3	*calc_u(t_scene *scene, t_vec3	*camera_ray, double x)
 
 	screen_width = tan(M_PI * scene->camera->fov / 180);
 	u_base = calc_u_base(camera_ray);
-	u = vec3_multiply(u_base, -1 * screen_width + 2 * screen_width * x / W);
+	u = vec3_multiply(u_base, screen_width - 2 * screen_width * x / W);
 	free(u_base);
 	return (u);
 }
