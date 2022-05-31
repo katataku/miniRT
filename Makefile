@@ -1,6 +1,9 @@
 NAME = minirt
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -MMD -MP
+CAMERA_SRCS = $(addprefix srcs/camera/, \
+		camera.c screen.c \
+		)
 IO_SRCS = $(addprefix srcs/io/, \
 		read_ambient.c read_camera.c read_cylinder.c read_file.c read_light.c read_plane.c read_sphere.c util.c validate_arg.c \
 		)
@@ -19,7 +22,7 @@ XLIBFT_SRCS = $(addprefix srcs/xlibft/, \
 UTILS_SRCS = $(addprefix srcs/utils/, \
 		error.c mlx_util.c util.c \
 		)
-SRCS = main.c $(IO_SRCS) $(OBJECTS_SRCS) $(VECTOR3_SRCS) $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
+SRCS = main.c $(CAMERA_SRCS) $(IO_SRCS) $(OBJECTS_SRCS) $(VECTOR3_SRCS) $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
 OBJS = $(SRCS:%.c=%.o)
 DEPENDS	= $(OBJS:.o=.d)
 LIBS = -lft -Llibft -lm

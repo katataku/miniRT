@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_ambient.c                                     :+:      :+:    :+:   */
+/*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/17 16:40:39 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/31 14:39:02 by takkatao         ###   ########.fr       */
+/*   Created: 2022/05/31 14:18:53 by takkatao          #+#    #+#             */
+/*   Updated: 2022/05/31 14:18:54 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "io.h"
+#ifndef CAMERA_H
+# define CAMERA_H
 
-// TODO:atof自作関数に置き換える。
-void	read_ambient(t_scene *scene, char	**splitted_line)
-{
-	t_ambient_light	*ambient;
+# include "xlibft.h"
+# include "define.h"
+# include "utils.h"
 
-	ambient = (t_ambient_light *)ft_xcalloc(1, sizeof(t_ambient_light));
-	ambient->ratio = atof(splitted_line[1]);
-	ambient->color = get_color_from_line(splitted_line[2]);
-	scene->ambient_light = ambient;
-}
+t_vec3	*calc_camera_ray(t_scene *scene);
+t_vec3	*to_screen_vec(t_scene *scene, double x, double y);
+
+#endif

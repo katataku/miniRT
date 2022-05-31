@@ -20,14 +20,14 @@ static bool	vector_eq(t_vec3 *a, t_vec3 *b)
 	return (a->x == b->x) && (a->y == b->y) && (a->z == b->z);
 }
 
-TEST_F(IoTest, ambient_lightning) {
+TEST_F(IoTest, ambient_light) {
 	t_scene	*scene;
 
 	scene = (t_scene *)ft_xcalloc(1, sizeof(t_scene));
 	read_ambient(scene, ft_xsplit("A 0.2 0,100,200", ' '));
-	ASSERT_EQ(scene->ambient_lightning->ratio, 0.2);
-	ASSERT_EQ(scene->ambient_lightning->color, make_color_from_trgb(255, 0, 100, 200));
-	free(scene->ambient_lightning);
+	ASSERT_EQ(scene->ambient_light->ratio, 0.2);
+	ASSERT_EQ(scene->ambient_light->color, make_color_from_trgb(255, 0, 100, 200));
+	free(scene->ambient_light);
 	free(scene);
 }
 

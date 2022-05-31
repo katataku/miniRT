@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/31 13:27:43 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:39:02 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define X_EVENT_KEY_PRESS 2
 # define X_EVENT_KEY_EXIT 17 // Exit program key code
 # define KEY_ESC 65307
+# define COLOR_BLACK 0xFF000000
 
 typedef struct s_image {
 	void	*mlx_img;
@@ -113,7 +114,7 @@ typedef struct s_cylinder {
  * 雑にsphereを持たせているが本来はt_listに含まれている
  */
 typedef struct s_scene {
-	t_ambient_light	*ambient_lightning;
+	t_ambient_light	*ambient_light;
 	t_camera		*camera;
 	t_light			*light;
 	t_list			*objects;

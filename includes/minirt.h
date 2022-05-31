@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:29:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/16 16:58:35 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:19:49 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@
 # include "utils.h"
 # include "io.h"
 # include "objects.h"
+# include "camera.h"
 
 #endif
