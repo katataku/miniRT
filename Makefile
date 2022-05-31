@@ -61,14 +61,14 @@ re: fclean all
 test:
 	make -C tests
 .PHONY: run
-run:
+run: $(NAME)
 	./minirt rt_files/minimalist.rt
 .PHONY: sphere
-sphere:
+sphere: $(NAME)
 	./minirt rt_files/minimam_sphere.rt
 .PHONY: plane
-plane:
+plane: $(NAME)
 	./minirt rt_files/minimam_plane.rt
 .PHONY: cy
-cy:
+cy: $(NAME)
 	./minirt rt_files/minimam_cylinder.rt
