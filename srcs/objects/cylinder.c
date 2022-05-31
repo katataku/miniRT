@@ -6,57 +6,13 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:23:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/31 13:51:16 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:59:07 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "objects.h"
 
-double	calc_height(t_vec3 *p_vec, t_cylinder	*cylinder)
-{
-	double	h;
-	t_vec3	*hypotenuse_vec;
-
-	hypotenuse_vec = vec3_sub(p_vec, cylinder->point);
-	h = sqrt(pow(vec3_norm(hypotenuse_vec), 2) - pow(cylinder->radius, 2));
-	free(hypotenuse_vec);
-	return (h);
-}
-
-t_vec3	*create_p_vec(t_vec3 *s, t_vec3 *d, double t)
-{
-	t_vec3	*p_vec;
-	t_vec3	*d_vec;
-
-	d_vec = vec3_multiply(d, t);
-	p_vec = vec3_add(s, d_vec);
-	free(d_vec);
-	return (p_vec);
-}
-
-double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cy, t_light *light)
-{
-	double	cos;
-	double	h;
-	t_vec3	*center;
-	t_vec3	*n_vec;
-	t_vec3	*l_vec;
-
-	h = calc_height(ray->p_vec, cy);
-	center = create_p_vec(cy->point, cy->orientation_vec, h);
-	if (ray->t_type == T_T1)
-		n_vec = vec3_sub(ray->p_vec, center);
-	else
-		n_vec = vec3_sub(center, ray->p_vec);
-	l_vec = vec3_sub(light->point, ray->p_vec);
-	cos = cos_of_angles(n_vec, l_vec);
-	free(center);
-	if (cos < 0)
-		return (0);
-	return (cos);
-}
-
-double	calc_a(t_ray *ray, t_cylinder	*cy)
+static double	calc_a(t_ray *ray, t_cylinder	*cy)
 {
 	t_vec3	*d_cross_n;
 	double	outer_norm;
@@ -69,7 +25,7 @@ double	calc_a(t_ray *ray, t_cylinder	*cy)
 	return (a);
 }
 
-double	calc_b(t_ray *ray, t_cylinder *cy)
+static double	calc_b(t_ray *ray, t_cylinder *cy)
 {
 	t_vec3	*d_cross_n;
 	t_vec3	*s_minus_c_cross_n;
@@ -86,7 +42,7 @@ double	calc_b(t_ray *ray, t_cylinder *cy)
 	return (b);
 }
 
-double	calc_c(t_ray *ray, t_cylinder	*cy)
+static double	calc_c(t_ray *ray, t_cylinder	*cy)
 {
 	t_vec3	*s_minus_c_cross_n;
 	t_vec3	*s_minus_c;

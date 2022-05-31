@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:29:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/29 14:24:00 by ahayashi         ###   ########.jp       */
+/*   Updated: 2022/05/31 13:59:36 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ double	calc_lambert_cos_sphere(t_ray *ray, t_sphere *sphere, t_light *light);
 double	calc_t_plane(t_ray *ray, t_plane *plane);
 double	calc_lambert_cos_plane(t_ray *ray, t_plane *plane, t_light *light);
 
-double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cylinder, t_light *light);
+//cylinder
+double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cy, t_light *light);
 double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder);
+double	calc_height(t_vec3 *p_vec, t_cylinder	*cylinder);
+t_vec3	*create_p_vec(t_vec3 *s, t_vec3 *d, double t);
+
 
 //object
 double	calc_t(t_ray *ray, t_object *object);
