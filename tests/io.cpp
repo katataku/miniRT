@@ -20,14 +20,14 @@ static bool	vector_eq(t_vec3 *a, t_vec3 *b)
 	return (a->x == b->x) && (a->y == b->y) && (a->z == b->z);
 }
 
-TEST_F(IoTest, ambient_lightning) {
+TEST_F(IoTest, ambient_light) {
 	t_scene	*scene;
 
 	scene = (t_scene *)ft_xcalloc(1, sizeof(t_scene));
 	read_ambient(scene, ft_xsplit("A 0.2 0,100,200", ' '));
-	ASSERT_EQ(scene->ambient_lightning->ratio, 0.2);
-	ASSERT_EQ(scene->ambient_lightning->color, make_color_from_trgb(255, 0, 100, 200));
-	free(scene->ambient_lightning);
+	ASSERT_EQ(scene->ambient_light->ratio, 0.2);
+	ASSERT_EQ(scene->ambient_light->color, make_color_from_trgb(255, 0, 100, 200));
+	free(scene->ambient_light);
 	free(scene);
 }
 
@@ -37,7 +37,7 @@ TEST_F(IoTest, camera) {
 	scene = (t_scene *)ft_xcalloc(1, sizeof(t_scene));
 	read_camera(scene, ft_xsplit("C -50,0,20 0,1,2 70", ' '));
 	ASSERT_TRUE(vector_eq(scene->camera->point, vector3(-50, 0, 20)));
-	ASSERT_TRUE(vector_eq(scene->camera->orientation_vec, vector3(0, 1, 2)));
+	ASSERT_TRUE(vector_eq(scene->camera->orientation_vec,vec3_normalize(vector3(0, 1, 2))));
 	ASSERT_EQ(scene->camera->fov, 70);
 	free(scene->camera);
 	free(scene);
@@ -90,7 +90,7 @@ TEST_F(IoTest, cylinder) {
 	object = read_cylinder(ft_xsplit("cy 0.0,1.0,2 0,10,20.0 14.2 21.42 0,100,200", ' '));
 	cylinder = (t_cylinder *)object->ptr;
 	ASSERT_TRUE(vector_eq(cylinder->point, vector3(0, 1, 2)));
-	ASSERT_TRUE(vector_eq(cylinder->orientation_vec, vector3(0, 10, 20)));
+	ASSERT_TRUE(vector_eq(cylinder->orientation_vec,vec3_normalize(vector3(0, 10, 20))));
 	ASSERT_EQ(cylinder->radius, 7.1);
 	ASSERT_EQ(cylinder->height, 21.42);
 	ASSERT_EQ(cylinder->color, make_color_from_trgb(255, 0, 100, 200));

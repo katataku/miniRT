@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 16:31:32 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:39:02 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define X_EVENT_KEY_PRESS 2
 # define X_EVENT_KEY_EXIT 17 // Exit program key code
 # define KEY_ESC 65307
+# define COLOR_BLACK 0xFF000000
 
 typedef struct s_image {
 	void	*mlx_img;
@@ -41,6 +42,16 @@ typedef struct s_window_info {
 	void		*win;
 	t_image		*img;
 }	t_window_info;
+
+/****************************************************************
+ * 複数個出現するオブジェクトのみenumとして定義する。
+ * ******/
+enum e_t_type
+{
+	T_T1,
+	T_T2,
+	T_NOT_CROSS,
+};
 
 /****************************************************************
  * 複数個出現するオブジェクトのみenumとして定義する。
@@ -103,7 +114,7 @@ typedef struct s_cylinder {
  * 雑にsphereを持たせているが本来はt_listに含まれている
  */
 typedef struct s_scene {
-	t_ambient_light	*ambient_lightning;
+	t_ambient_light	*ambient_light;
 	t_camera		*camera;
 	t_light			*light;
 	t_list			*objects;
@@ -114,8 +125,11 @@ typedef struct s_scene {
  * ray can represents 𝐬⃗ + t𝐝⃗
  */
 typedef struct s_ray {
-	t_vec3	*start_vec;
-	t_vec3	*direction_vec;
+	t_vec3			*start_vec;
+	t_vec3			*direction_vec;
+	t_vec3			*p_vec;
+	double			t;
+	enum e_t_type	t_type;
 }	t_ray;
 
 #endif

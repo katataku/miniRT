@@ -6,40 +6,83 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:23:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/30 14:38:30 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:59:07 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "objects.h"
 
-double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cylinder, t_light *light)
+static double	calc_a(t_ray *ray, t_cylinder	*cy)
 {
-	double	cos;
-	double	t;
-	double	h;
-	t_vec3	*center;
+	t_vec3	*d_cross_n;
+	double	outer_norm;
+	double	a;
+
+	d_cross_n = vec3_outer_product(ray->direction_vec, cy->orientation_vec);
+	outer_norm = vec3_norm(d_cross_n);
+	a = pow(outer_norm, 2);
+	free(d_cross_n);
+	return (a);
+}
+
+static double	calc_b(t_ray *ray, t_cylinder *cy)
+{
+	t_vec3	*d_cross_n;
+	t_vec3	*s_minus_c_cross_n;
+	t_vec3	*s_minus_c;
+	double	b;
+
+	d_cross_n = vec3_outer_product(ray->direction_vec, cy->orientation_vec);
+	s_minus_c = vec3_sub(ray->start_vec, cy->point);
+	s_minus_c_cross_n = vec3_outer_product(s_minus_c, cy->orientation_vec);
+	b = 2 * vec3_inner_product(d_cross_n, s_minus_c_cross_n);
+	free(d_cross_n);
+	free(s_minus_c);
+	free(s_minus_c_cross_n);
+	return (b);
+}
+
+static double	calc_c(t_ray *ray, t_cylinder	*cy)
+{
+	t_vec3	*s_minus_c_cross_n;
+	t_vec3	*s_minus_c;
+	double	c;
+
+	s_minus_c = vec3_sub(ray->start_vec, cy->point);
+	s_minus_c_cross_n = vec3_outer_product(s_minus_c, cy->orientation_vec);
+	c = pow(vec3_norm(s_minus_c_cross_n), 2) - pow(cy->radius, 2);
+	free(s_minus_c);
+	free(s_minus_c_cross_n);
+	return (c);
+}
+
+static double	decide_t(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
+{
 	t_vec3	*p_vec;
-	t_vec3	*n_vec;
-	t_vec3	*l_vec;
+	double	height;
 
-	t = calc_t_cylinder(ray, cylinder);
-	p_vec = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t));
-	h = sqrt(pow(vec3_norm(vec3_sub(p_vec, cylinder->point)), 2) - pow(cylinder->radius, 2));
-	center = vec3_add(cylinder->point, vec3_multiply(cylinder->orientation_vec, h));
-	n_vec = vec3_sub(p_vec, center);
-	l_vec = vec3_sub(light->point, p_vec);
-	cos = cos_of_angles(n_vec, l_vec);
-	double sin = vec3_norm(vec3_outer_product(n_vec, l_vec))/(vec3_norm(n_vec) * vec3_norm(l_vec));
-	if (sin < 0)
+	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t1);
+	height = calc_height(p_vec, cylinder);
+	if (height <= cylinder->height)
 	{
-		n_vec = vec3_sub(center, p_vec);
-		l_vec = vec3_sub(light->point, p_vec);
-		cos = cos_of_angles(n_vec, l_vec);
+		ray->p_vec = p_vec;
+		ray->t = t1;
+		ray->t_type = T_T1;
+		return (t1);
 	}
-
-	if (cos < 0)
-		return (0);
-	return (cos);
+	free(p_vec);
+	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t2);
+	height = calc_height(p_vec, cylinder);
+	if (height <= cylinder->height)
+	{
+		ray->p_vec = p_vec;
+		ray->t = t2;
+		ray->t_type = T_T2;
+		return (t2);
+	}
+	free(p_vec);
+	ray->t_type = T_NOT_CROSS;
+	return (-1);
 }
 
 /*
@@ -57,37 +100,18 @@ double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cylinder, t_light *ligh
  */
 double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder)
 {
-	t_vec3	*d_cross_n;
-	t_vec3	*s_minus_c_cross_n;
-	t_vec3	*p;
-	t_vec3	*p2;
-	double	outer_norm;
 	double	a;
 	double	b;
 	double	c;
 	double	dif;
 
-	d_cross_n = vec3_outer_product(ray->direction_vec, cylinder->orientation_vec);
-	outer_norm = vec3_norm(d_cross_n);
-	a = pow(outer_norm, 2);
-	p = vec3_sub(ray->start_vec, cylinder->point);
-	s_minus_c_cross_n = vec3_outer_product(p, cylinder->orientation_vec);
-	b = 2 * vec3_inner_product(d_cross_n, s_minus_c_cross_n);
-	c = pow(vec3_norm(s_minus_c_cross_n), 2) - pow(cylinder->radius, 2);
+	a = calc_a(ray, cylinder);
+	b = calc_b(ray, cylinder);
+	c = calc_c(ray, cylinder);
 	dif = pow(b, 2) - 4 * a * c;
 	if (dif < 0 || a == 0)
 		return (-1);
-	double t1 = (-b - sqrt(dif)) / (2 * a);
-	double t2 = (-b + sqrt(dif)) / (2 * a);
-
-	t_vec3 *p1;
-	p1 = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t1));
-	p2 = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t2));
-	double h1 = sqrt(pow(vec3_norm(vec3_sub(p1, cylinder->point)), 2) - pow(cylinder->radius, 2));
-	if (h1 <= cylinder->height)
-		return (t1);
-	double h2 = sqrt(pow(vec3_norm(vec3_sub(p2, cylinder->point)), 2) - pow(cylinder->radius, 2));
-	if (h2 <= cylinder->height)
-		return (t2);
-	return (-1);
+	return (decide_t((-b - sqrt(dif)) / (2 * a), \
+		(-b + sqrt(dif)) / (2 * a), \
+		ray, cylinder));
 }

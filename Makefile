@@ -5,7 +5,7 @@ IO_SRCS = $(addprefix srcs/io/, \
 		read_ambient.c read_camera.c read_cylinder.c read_file.c read_light.c read_plane.c read_sphere.c util.c validate_arg.c \
 		)
 OBJECTS_SRCS = $(addprefix srcs/objects/, \
-		object.c plane.c sphere.c cylinder.c \
+		object.c plane.c sphere.c cylinder.c cylinder_utils.c calc_lambert_cos_cylinder.c rt.c camera.c screen.c\
 		)
 VECTOR3_SRCS = $(addprefix srcs/vector3/, \
 		add.c cos_of_angles.c inner_product.c multiply.c norm.c normalize.c outer_product.c print.c sub.c  vector3.c \
@@ -61,14 +61,14 @@ re: fclean all
 test:
 	make -C tests
 .PHONY: run
-run:
+run: $(NAME)
 	./minirt rt_files/minimalist.rt
 .PHONY: sphere
-sphere:
+sphere: $(NAME)
 	./minirt rt_files/minimam_sphere.rt
 .PHONY: plane
-plane:
+plane: $(NAME)
 	./minirt rt_files/minimam_plane.rt
 .PHONY: cy
-cy:
+cy: $(NAME)
 	./minirt rt_files/minimam_cylinder.rt
