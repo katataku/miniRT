@@ -6,11 +6,11 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:16:35 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/31 14:16:47 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:55:11 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "camera.h"
+#include "objects.h"
 
 /*
  * vupを計算する。vupはカメラの上方向のベクトル。

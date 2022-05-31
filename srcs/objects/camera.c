@@ -6,11 +6,11 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:14:18 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/31 14:16:04 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:55:03 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "camera.h"
+#include "objects.h"
 
 /*
  * カメラから見る方向への、正規化されたrayを計算する
