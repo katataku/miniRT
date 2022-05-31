@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:23:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/31 11:31:05 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 11:37:38 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,19 @@
 double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cylinder, t_light *light)
 {
 	double	cos;
-	double	t;
 	double	h;
 	t_vec3	*center;
-	t_vec3	*p_vec;
 	t_vec3	*n_vec;
 	t_vec3	*l_vec;
 
-	t = calc_t_cylinder(ray, cylinder);
-	p_vec = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t));
-	h = sqrt(pow(vec3_norm(vec3_sub(p_vec, cylinder->point)), 2) - pow(cylinder->radius, 2));
+	h = sqrt(pow(vec3_norm(vec3_sub(ray->p_vec, cylinder->point)), 2) - pow(cylinder->radius, 2));
 	center = vec3_add(cylinder->point, vec3_multiply(cylinder->orientation_vec, h));
-	n_vec = vec3_sub(p_vec, center);
-	l_vec = vec3_sub(light->point, p_vec);
+	if (ray->t_type == T_T1)
+		n_vec = vec3_sub(ray->p_vec, center);
+	else
+		n_vec = vec3_sub(center, ray->p_vec);
+	l_vec = vec3_sub(light->point, ray->p_vec);
 	cos = cos_of_angles(n_vec, l_vec);
-	double sin = vec3_norm(vec3_outer_product(n_vec, l_vec))/(vec3_norm(n_vec) * vec3_norm(l_vec));
-	if (sin < 0)
-	{
-		n_vec = vec3_sub(center, p_vec);
-		l_vec = vec3_sub(light->point, p_vec);
-		cos = cos_of_angles(n_vec, l_vec);
-	}
-
 	if (cos < 0)
 		return (0);
 	return (cos);
@@ -87,6 +78,7 @@ double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder)
 	h1 = sqrt(pow(vec3_norm(vec3_sub(p1, cylinder->point)), 2) - pow(cylinder->radius, 2));
 	if (h1 <= cylinder->height)
 	{
+		ray->p_vec = p1;
 		ray->t = t1;
 		ray->t_type = T_T1;
 		return (t1);
@@ -97,6 +89,7 @@ double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder)
 	h2 = sqrt(pow(vec3_norm(vec3_sub(p2, cylinder->point)), 2) - pow(cylinder->radius, 2));
 	if (h2 <= cylinder->height)
 	{
+		ray->p_vec = p2;
 		ray->t = t2;
 		ray->t_type = T_T2;
 		return (t2);
