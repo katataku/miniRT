@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:23:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/31 12:01:26 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:35:34 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ double	calc_c(t_ray *ray, t_cylinder	*cylinder)
 	return (c);
 }
 
-double	calc_h(t_vec3 *p, t_cylinder	*cylinder)
+double	calc_height(t_vec3 *p, t_cylinder	*cylinder)
 {
 	double	h;
 
@@ -79,31 +79,42 @@ double	calc_h(t_vec3 *p, t_cylinder	*cylinder)
 	return (h);
 }
 
-static double	calc_t_(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
+t_vec3	*calc_p_vec(t_ray *ray, double t)
 {
-	t_vec3	*p1;
-	t_vec3	*p2;
-	double	h1;
-	double	h2;
+	t_vec3	*p_vec;
+	t_vec3	*d_vec;
 
-	p1 = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t1));
-	h1 = calc_h(p1, cylinder);
-	if (h1 <= cylinder->height)
+	d_vec = vec3_multiply(ray->direction_vec, t);
+	p_vec = vec3_add(ray->start_vec, d_vec);
+	free(d_vec);
+	return (p_vec);
+}
+
+static double	decide_t(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
+{
+	t_vec3	*p_vec;
+	double	height;
+
+	p_vec = calc_p_vec(ray, t1);
+	height = calc_height(p_vec, cylinder);
+	if (height <= cylinder->height)
 	{
-		ray->p_vec = p1;
+		ray->p_vec = p_vec;
 		ray->t = t1;
 		ray->t_type = T_T1;
 		return (t1);
 	}
-	p2 = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t2));
-	h2 = calc_h(p2, cylinder);
-	if (h2 <= cylinder->height)
+	free(p_vec);
+	p_vec = calc_p_vec(ray, t2);
+	height = calc_height(p_vec, cylinder);
+	if (height <= cylinder->height)
 	{
-		ray->p_vec = p2;
+		ray->p_vec = p_vec;
 		ray->t = t2;
 		ray->t_type = T_T2;
 		return (t2);
 	}
+	free(p_vec);
 	ray->t_type = T_NOT_CROSS;
 	return (-1);
 }
@@ -134,5 +145,5 @@ double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder)
 	dif = pow(b, 2) - 4 * a * c;
 	if (dif < 0 || a == 0)
 		return (-1);
-	return (calc_t_( (-b - sqrt(dif)) / (2 * a), (-b + sqrt(dif)) / (2 * a), ray, cylinder));
+	return (decide_t((-b - sqrt(dif)) / (2 * a), (-b + sqrt(dif)) / (2 * a), ray, cylinder));
 }
