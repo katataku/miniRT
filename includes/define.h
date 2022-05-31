@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 16:31:32 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 11:30:25 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ typedef struct s_window_info {
 	void		*win;
 	t_image		*img;
 }	t_window_info;
+
+/****************************************************************
+ * 複数個出現するオブジェクトのみenumとして定義する。
+ * ******/
+enum e_t_type
+{
+	T_T1,
+	T_T2,
+	T_NOT_CROSS,
+};
 
 /****************************************************************
  * 複数個出現するオブジェクトのみenumとして定義する。
@@ -114,8 +124,11 @@ typedef struct s_scene {
  * ray can represents 𝐬⃗ + t𝐝⃗
  */
 typedef struct s_ray {
-	t_vec3	*start_vec;
-	t_vec3	*direction_vec;
+	t_vec3			*start_vec;
+	t_vec3			*direction_vec;
+	t_vec3			*p_vec;
+	double			t;
+	enum e_t_type	t_type;
 }	t_ray;
 
 #endif

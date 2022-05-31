@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:23:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/30 14:38:30 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/05/31 11:31:05 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,17 @@ double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder)
 	t_vec3	*d_cross_n;
 	t_vec3	*s_minus_c_cross_n;
 	t_vec3	*p;
+	t_vec3	*p1;
 	t_vec3	*p2;
 	double	outer_norm;
 	double	a;
 	double	b;
 	double	c;
 	double	dif;
+	double t1;
+	double t2;
+	double h1;
+	double h2;
 
 	d_cross_n = vec3_outer_product(ray->direction_vec, cylinder->orientation_vec);
 	outer_norm = vec3_norm(d_cross_n);
@@ -77,17 +82,25 @@ double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder)
 	dif = pow(b, 2) - 4 * a * c;
 	if (dif < 0 || a == 0)
 		return (-1);
-	double t1 = (-b - sqrt(dif)) / (2 * a);
-	double t2 = (-b + sqrt(dif)) / (2 * a);
-
-	t_vec3 *p1;
+	t1 = (-b - sqrt(dif)) / (2 * a);
 	p1 = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t1));
-	p2 = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t2));
-	double h1 = sqrt(pow(vec3_norm(vec3_sub(p1, cylinder->point)), 2) - pow(cylinder->radius, 2));
+	h1 = sqrt(pow(vec3_norm(vec3_sub(p1, cylinder->point)), 2) - pow(cylinder->radius, 2));
 	if (h1 <= cylinder->height)
+	{
+		ray->t = t1;
+		ray->t_type = T_T1;
 		return (t1);
-	double h2 = sqrt(pow(vec3_norm(vec3_sub(p2, cylinder->point)), 2) - pow(cylinder->radius, 2));
+	}
+
+	t2 = (-b + sqrt(dif)) / (2 * a);
+	p2 = vec3_add(ray->start_vec, vec3_multiply(ray->direction_vec, t2));
+	h2 = sqrt(pow(vec3_norm(vec3_sub(p2, cylinder->point)), 2) - pow(cylinder->radius, 2));
 	if (h2 <= cylinder->height)
+	{
+		ray->t = t2;
+		ray->t_type = T_T2;
 		return (t2);
+	}
+	ray->t_type = T_NOT_CROSS;
 	return (-1);
 }
