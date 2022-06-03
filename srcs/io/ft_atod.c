@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_light.c                                       :+:      :+:    :+:   */
+/*   ft_atod.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/17 16:41:22 by takkatao          #+#    #+#             */
-/*   Updated: 2022/06/03 09:31:48 by takkatao         ###   ########.fr       */
+/*   Created: 2022/06/03 09:04:25 by takkatao          #+#    #+#             */
+/*   Updated: 2022/06/03 09:12:51 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "io.h"
 
-void	read_light(t_scene *scene, char	**splitted_line)
+double	ft_atod(const char *str)
 {
-	t_light	*light;
+	char	*dot_pos;
+	double	integer;
+	double	decimal;
+	int		decimal_len;
 
-	light = (t_light *)ft_xcalloc(1, sizeof(t_light));
-	light->point = gen_vec3_from_line(splitted_line[1]);
-	light->ratio = ft_atod(splitted_line[2]);
-	light->color = get_color_from_line(splitted_line[3]);
-	scene->light = light;
+	integer = ft_atol(str);
+	decimal = 0;
+	dot_pos = ft_strchr(str, '.');
+	if (dot_pos != NULL)
+	{
+		decimal_len = ft_strlen(dot_pos + 1);
+		decimal = ft_atol(dot_pos + 1);
+		while (decimal_len-- > 0)
+			decimal /= 10;
+		if (integer < 0)
+			decimal *= -1;
+	}
+	return (integer + decimal);
 }
