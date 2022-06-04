@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:23:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/06/04 21:42:57 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 21:51:09 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,18 @@ static double	decide_t(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
 
 	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t1);
 	height = calc_height(p_vec, cylinder);
+	free(p_vec);
 	if (height >= 0 && height <= cylinder->height)
 	{
 		return (t1);
 	}
-	free(p_vec);
 	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t2);
 	height = calc_height(p_vec, cylinder);
+	free(p_vec);
 	if (height >= 0 && height <= cylinder->height)
 	{
 		return (t2);
 	}
-	free(p_vec);
 	return (-1);
 }
 
@@ -85,18 +85,18 @@ enum e_t_type	decide_t_type(double t1, double t2, t_ray *ray, t_cylinder *cylind
 
 	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t1);
 	height = calc_height(p_vec, cylinder);
+	free(p_vec);
 	if (height >= 0 && height <= cylinder->height)
 	{
 		return (T_T1);
 	}
-	free(p_vec);
 	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t2);
 	height = calc_height(p_vec, cylinder);
+	free(p_vec);
 	if (height >= 0 && height <= cylinder->height)
 	{
 		return (T_T2);
 	}
-	free(p_vec);
 	return (T_NOT_CROSS);
 }
 
