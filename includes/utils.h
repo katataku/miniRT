@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahayashi <ahayashi@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 17:02:57 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/24 13:52:16 by ahayashi         ###   ########.fr       */
+/*   Updated: 2022/06/04 15:58:09 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,16 @@ enum e_trgb
 	TRANSPARENT
 };
 
-void	puterr(char *target, char *message);
-void	puterr_exit(char *target, char *message, int exit_status);
+void	puterr(char *message);
+void	puterr_exit(char *message);
 char	*triple_join(char *s1, char *s2, char *s3);
 void	pixel_put_to_image(t_image *data, int x, int y, int color);
 int		get_trgb(int color, int trgb_type);
 int		make_color_from_trgb(int t, int r, int g, int b);
 int		add_color(int a, int b);
+int		atoi_color(char *str);
+int		atoi_fov(char *fov);
+double	ft_atod(const char *str);
+int		atoi_with_validation(char *value, char *message, int min, int max);
 
 #endif

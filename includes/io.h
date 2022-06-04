@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 16:57:50 by takkatao          #+#    #+#             */
-/*   Updated: 2022/06/03 09:05:27 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 15:56:58 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "utils.h"
 # include "xsyscall.h"
 
-double		ft_atod(const char *str);
+
 t_scene		*read_file(char **argv);
 void		validate_arg(int argc);
 int			get_color_from_line(char *color_line);

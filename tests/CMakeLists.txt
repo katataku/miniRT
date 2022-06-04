@@ -24,6 +24,7 @@ add_executable(main
         main.cpp
         vector.cpp
         io.cpp
+        utils.cpp
         )
 
 target_link_libraries(main

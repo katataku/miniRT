@@ -97,14 +97,3 @@ TEST_F(IoTest, cylinder) {
 	free(cylinder);
 	free(object);
 }
-
-TEST_F(IoTest, atod) {
-	ASSERT_DOUBLE_EQ(1.5, ft_atod("1.5"));
-	ASSERT_DOUBLE_EQ(1.0, ft_atod("1.0"));
-	ASSERT_DOUBLE_EQ(0.5, ft_atod("0.5"));
-	ASSERT_DOUBLE_EQ(0.0, ft_atod("0.0"));
-	ASSERT_DOUBLE_EQ(-1.5, ft_atod("-1.5"));
-	ASSERT_DOUBLE_EQ(-1.05, ft_atod("-1.05"));
-	ASSERT_DOUBLE_EQ(-1.005, ft_atod("-1.005"));
-	ASSERT_DOUBLE_EQ(-0.9, ft_atod("-0.9"));
-}

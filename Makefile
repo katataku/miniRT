@@ -2,7 +2,7 @@ NAME = miniRT
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -MMD -MP
 IO_SRCS = $(addprefix srcs/io/, \
-		ft_atod.c read_ambient.c read_camera.c read_cylinder.c read_file.c read_light.c read_plane.c read_sphere.c util.c validate_arg.c \
+		read_ambient.c read_camera.c read_cylinder.c read_file.c read_light.c read_plane.c read_sphere.c util.c validate_arg.c \
 		)
 OBJECTS_SRCS = $(addprefix srcs/objects/, \
 		object.c plane.c sphere.c cylinder.c cylinder_utils.c calc_lambert_cos_cylinder.c rt.c camera.c screen.c\
@@ -17,7 +17,7 @@ XLIBFT_SRCS = $(addprefix srcs/xlibft/, \
 		ft_xcalloc.c ft_xlstnew.c ft_xsplit.c ft_xstrdup.c ft_xstrjoin.c \
 		)
 UTILS_SRCS = $(addprefix srcs/utils/, \
-		error.c mlx_util.c util.c \
+		ft_atod.c error.c mlx_util.c util.c validate_double.c validate_integer.c \
 		)
 SRCS = main.c $(IO_SRCS) $(OBJECTS_SRCS) $(VECTOR3_SRCS) $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
 OBJS = $(SRCS:%.c=%.o)
