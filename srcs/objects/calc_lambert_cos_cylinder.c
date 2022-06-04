@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 13:58:30 by takkatao          #+#    #+#             */
-/*   Updated: 2022/06/04 21:41:40 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 21:49:19 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cy, t_light *light)
 	l_vec = vec3_sub(light->point, p_vec);
 	cos = cos_of_angles(n_vec, l_vec);
 	free(center);
+	free(n_vec);
+	free(l_vec);
+	free(p_vec);
 	if (cos < 0)
 		return (0);
 	return (cos);
