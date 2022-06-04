@@ -80,8 +80,8 @@ int	main(int argc, char **argv)
 	t_scene			*scene;
 
 	validate_arg(argc);
-	info = init_window_info();
 	scene = read_file(argv);
+	info = init_window_info();
 	draw(info, scene);
 	register_hooks(info, scene);
 	return (0);

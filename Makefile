@@ -60,6 +60,8 @@ re: fclean all
 .PHONY: test
 test:
 	make -C tests
+ng-test: $(NAME)
+	bash tests/test.sh
 .PHONY: run
 run: $(NAME)
 	./miniRT rt_files/minimalist.rt
