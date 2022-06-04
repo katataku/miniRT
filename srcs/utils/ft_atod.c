@@ -18,8 +18,13 @@ double	ft_atod(const char *str)
 	double	integer;
 	double	decimal;
 	int		decimal_len;
+	double	sign;
 
-	integer = ft_atol(str);
+	if (str[0] == '-')
+		sign = -1;
+	else
+		sign = 1;
+	integer = ft_abs(ft_atol(str));
 	decimal = 0;
 	dot_pos = ft_strchr(str, '.');
 	if (dot_pos != NULL)
@@ -31,5 +36,5 @@ double	ft_atod(const char *str)
 		if (integer < 0)
 			decimal *= -1;
 	}
-	return (integer + decimal);
+	return (sign * (integer + decimal));
 }

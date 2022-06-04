@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:03:51 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/27 14:17:58 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 18:03:23 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,67 @@ static void	read_element(t_scene *scene, char *line)
 	free(splitted_line);
 }
 
+double	calc_dist(t_vec3 *a, t_vec3 *b)
+{
+	t_vec3	*sub;
+	double	rtv;
+
+	sub = vec3_sub(a, b);
+	rtv = vec3_norm(sub);
+	free(sub);
+	return (rtv);
+}
+
+void	check_inside_sphere(t_scene *scene)
+{
+	t_object	*obj;
+	t_list		*objects;
+	t_sphere	*sp;
+
+	objects = scene->objects;
+	while (objects != NULL)
+	{
+		obj = objects->content;
+		if (obj->type == T_SPHERE)
+		{
+			sp = obj->ptr;
+			if (calc_dist(sp->center, scene->camera->point) < sp->diameter)
+				puterr_exit("camera must be outside of sphere");
+			if (calc_dist(sp->center, scene->light->point)  < sp->diameter)
+				puterr_exit("camera must be outside of sphere");
+		}
+		objects = objects->next;
+	}
+}
+
 t_scene	*read_file(char **argv)
 {
 	t_scene	*scene;
 	int		fd;
+	int		read_bytes;
 	char	*line[MAX_INPUT_LINE_LEN];
 
 	scene = (t_scene *)ft_xcalloc(1, sizeof(t_scene));
 	fd = xopen(argv[1], O_RDONLY, 0);
-	while (get_next_line(fd, line))
+	while (1)
 	{
+		read_bytes = get_next_line(fd, line);
+		if (read_bytes == -1)
+			puterr_exit("hh");
+		if (read_bytes == 0)
+			break ;
+		if ((*line)[read_bytes - 1] == '\n')
+			(*line)[read_bytes - 1] = '\0';
 		read_element(scene, *line);
 		free(*line);
 	}
 	xclose(fd);
+	if (scene->camera == NULL)
+		puterr_exit("camera must be 1");
+	if (scene->ambient_light == NULL)
+		puterr_exit("ambient_light must be 1");
+	if (scene->light == NULL)
+		puterr_exit("light must be 1");
+	check_inside_sphere(scene);
 	return (scene);
 }

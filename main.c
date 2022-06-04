@@ -53,25 +53,28 @@ int	close_windows(t_scene *scene)
 	exit(0);
 }
 
-int	deal_key(int key_code, t_scene *scene)
+int	key_pressed(int key_code, t_scene *scene)
 {
 	if (key_code == KEY_ESC)
 		close_windows(scene);
 	return (0);
 }
 
-int	main_loop(t_window_info *info)
+int	redraw(void *params)
 {
+	t_window_info	*info;
+
+	info = (t_window_info *)params;
 	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
 	return (0);
 }
 
 void	register_hooks(t_window_info *info, t_scene *scene)
 {
-	mlx_hook(info->win, X_EVENT_KEY_PRESS, 1, &deal_key, scene);
-	mlx_hook(info->win, X_EVENT_KEY_EXIT, 1, &close_windows, scene);
-	mlx_loop_hook(info->mlx, &main_loop, info);
-	mlx_loop(info->mlx);
+	mlx_key_hook(info->win, &key_pressed, scene);
+	mlx_hook(info->win, DestroyNotify, StructureNotifyMask, \
+		&close_windows, scene);
+	mlx_hook(info->win, FocusIn, FocusChangeMask, &redraw, info);
 }
 
 int	main(int argc, char **argv)
@@ -79,10 +82,12 @@ int	main(int argc, char **argv)
 	t_window_info	*info;
 	t_scene			*scene;
 
-	validate_arg(argc);
-	info = init_window_info();
+	validate_arg(argc, argv);
 	scene = read_file(argv);
+	info = init_window_info();
 	draw(info, scene);
 	register_hooks(info, scene);
+	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
+	mlx_loop(info->mlx);
 	return (0);
 }

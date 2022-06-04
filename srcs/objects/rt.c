@@ -73,10 +73,9 @@ int	calc_pixel_color(int x, int y, t_scene *sc)
 	ray.direction_vec = vec3_sub(vec_3d, ray.start_vec);
 	object = find_nearest_objects(&ray, sc->objects, NULL);
 	if (object != NULL && !is_shadow(&ray, object, sc->light, sc->objects))
-	{
 		color = add_color(color, calc_diffuse_light(&ray, object, sc->light));
+	if (object != NULL)
 		color = add_color(color, calc_ambient_light(sc->ambient_light, object));
-	}
 	free(vec_3d);
 	free(ray.direction_vec);
 	return (color);

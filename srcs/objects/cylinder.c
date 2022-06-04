@@ -63,7 +63,7 @@ static double	decide_t(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
 
 	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t1);
 	height = calc_height(p_vec, cylinder);
-	if (height <= cylinder->height)
+	if (height >= 0 && height <= cylinder->height)
 	{
 		ray->p_vec = p_vec;
 		ray->t = t1;
@@ -73,7 +73,7 @@ static double	decide_t(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
 	free(p_vec);
 	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t2);
 	height = calc_height(p_vec, cylinder);
-	if (height <= cylinder->height)
+	if (height >= 0 && height <= cylinder->height)
 	{
 		ray->p_vec = p_vec;
 		ray->t = t2;
