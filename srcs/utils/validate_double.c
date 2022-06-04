@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 15:26:32 by takkatao          #+#    #+#             */
-/*   Updated: 2022/06/04 16:25:37 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 18:07:16 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ double	atod_with_validation(char *value, char *message, double min, double max)
 	if (dot_pos != NULL)
 	{
 		*dot_pos = '\0';
+		if (ft_strlen(dot_pos + 1) > 6)
+			puterr_exit("number length too long");
 		atoi_with_validation(dot_pos + 1, "number length too long", \
 		-999999, 999999);
 	}
