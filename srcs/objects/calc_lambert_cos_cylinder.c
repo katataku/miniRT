@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 13:58:30 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/31 13:59:27 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 21:32:27 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cy, t_light *light)
 	t_vec3	*center;
 	t_vec3	*n_vec;
 	t_vec3	*l_vec;
+	t_vec3	*p_vec;
 
-	h = calc_height(ray->p_vec, cy);
+	p_vec = calc_p_cylinder(ray, cy);
+	h = calc_height(p_vec, cy);
 	center = create_p_vec(cy->point, cy->orientation_vec, h);
 	if (ray->t_type == T_T1)
-		n_vec = vec3_sub(ray->p_vec, center);
+		n_vec = vec3_sub(p_vec, center);
 	else
-		n_vec = vec3_sub(center, ray->p_vec);
-	l_vec = vec3_sub(light->point, ray->p_vec);
+		n_vec = vec3_sub(center, p_vec);
+	l_vec = vec3_sub(light->point, p_vec);
 	cos = cos_of_angles(n_vec, l_vec);
 	free(center);
 	if (cos < 0)

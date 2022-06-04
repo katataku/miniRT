@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:23:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/31 13:59:07 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 21:34:34 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ static double	decide_t(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
 	height = calc_height(p_vec, cylinder);
 	if (height >= 0 && height <= cylinder->height)
 	{
-		ray->p_vec = p_vec;
-		ray->t = t1;
 		ray->t_type = T_T1;
 		return (t1);
 	}
@@ -75,8 +73,6 @@ static double	decide_t(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
 	height = calc_height(p_vec, cylinder);
 	if (height >= 0 && height <= cylinder->height)
 	{
-		ray->p_vec = p_vec;
-		ray->t = t2;
 		ray->t_type = T_T2;
 		return (t2);
 	}
@@ -114,4 +110,12 @@ double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder)
 	return (decide_t((-b - sqrt(dif)) / (2 * a), \
 		(-b + sqrt(dif)) / (2 * a), \
 		ray, cylinder));
+}
+
+t_vec3	*calc_p_cylinder(t_ray *ray, t_cylinder	*cylinder)
+{
+	double	t;
+
+	t = calc_t_cylinder(ray, cylinder);
+	return (create_p_vec(ray->start_vec, ray->direction_vec, t));
 }

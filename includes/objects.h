@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:29:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/31 14:55:46 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 21:33:09 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ double	calc_lambert_cos_cylinder(t_ray *ray, t_cylinder *cy, t_light *light);
 double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder);
 double	calc_height(t_vec3 *p_vec, t_cylinder	*cylinder);
 t_vec3	*create_p_vec(t_vec3 *s, t_vec3 *d, double t);
+t_vec3	*calc_p_cylinder(t_ray *ray, t_cylinder	*cylinder);
 
 //object
 double	calc_t(t_ray *ray, t_object *object);
