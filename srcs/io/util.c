@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:34:31 by takkatao          #+#    #+#             */
-/*   Updated: 2022/06/04 16:19:52 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 17:48:52 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	get_color_from_line(char *color_line)
 	return (color);
 }
 
-t_vec3	*gen_vec3_from_line(char *vec_line)
+t_vec3	*gen_pos_vec3_from_line(char *vec_line)
 {
 	char	**splitted_vec_line;
 	t_vec3	*rtv;
@@ -52,9 +52,29 @@ t_vec3	*gen_vec3_from_line(char *vec_line)
 	if (count_splits(splitted_vec_line) != 3)
 		puterr_exit("vecotr must be x,y,z format");
 	rtv = vector3(\
-			ft_atod(splitted_vec_line[0]), \
-			ft_atod(splitted_vec_line[1]), \
-			ft_atod(splitted_vec_line[2]));
+			atod_validatiton_wrapper(splitted_vec_line[0]), \
+			atod_validatiton_wrapper(splitted_vec_line[1]), \
+			atod_validatiton_wrapper(splitted_vec_line[2]));
+	i = -1;
+	while (splitted_vec_line[++i] != NULL)
+		free(splitted_vec_line[i]);
+	free(splitted_vec_line);
+	return (rtv);
+}
+
+t_vec3	*gen_orientation_vec3_from_line(char *vec_line)
+{
+	char	**splitted_vec_line;
+	t_vec3	*rtv;
+	int		i;
+
+	splitted_vec_line = ft_xsplit(vec_line, ',');
+	if (count_splits(splitted_vec_line) != 3)
+		puterr_exit("vecotr must be x,y,z format");
+	rtv = vector3(\
+			atod_orientation_vector(splitted_vec_line[0]), \
+			atod_orientation_vector(splitted_vec_line[1]), \
+			atod_orientation_vector(splitted_vec_line[2]));
 	i = -1;
 	while (splitted_vec_line[++i] != NULL)
 		free(splitted_vec_line[i]);
