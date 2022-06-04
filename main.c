@@ -79,7 +79,7 @@ int	main(int argc, char **argv)
 	t_window_info	*info;
 	t_scene			*scene;
 
-	validate_arg(argc);
+	validate_arg(argc, argv);
 	scene = read_file(argv);
 	info = init_window_info();
 	draw(info, scene);

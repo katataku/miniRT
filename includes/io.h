@@ -18,7 +18,7 @@
 # include "xsyscall.h"
 
 t_scene		*read_file(char **argv);
-void		validate_arg(int argc);
+void		validate_arg(int argc, char **argv);
 int			get_color_from_line(char *color_line);
 t_vec3		*gen_vec3_from_line(char *vec_line);
 void		read_ambient(t_scene *scene, char **splitted_line);
