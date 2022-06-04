@@ -30,7 +30,8 @@ LIBFT = libft/libft.a
 MLX = mlx/libmlx.a
 
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
-	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(MLX) $(MLX_FOR_MAC) $(LIBS)
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(MLX) $(MLX_FOR_LINUX) $(LIBS)
+#	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(MLX) $(MLX_FOR_MAC) $(LIBS)
 
 $(LIBFT):
 	make -C libft
