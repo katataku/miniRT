@@ -18,6 +18,7 @@
 # include "math.h"
 # include "vector3.h"
 # include <float.h>
+# include <X11/Xlib.h>
 
 # define H 560
 # define W 560
