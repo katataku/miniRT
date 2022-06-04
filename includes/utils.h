@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 17:02:57 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/06/04 15:58:09 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 16:24:32 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,10 @@ int		atoi_color(char *str);
 int		atoi_fov(char *fov);
 double	ft_atod(const char *str);
 int		atoi_with_validation(char *value, char *message, int min, int max);
+double	atod_validatiton_wrapper(char *str);
+double	atod_ratio(char *str);
+double	atod_orientation_vector(char *str);
+int		atoi_color(char *str);
+int		atoi_fov(char *str);
 
 #endif

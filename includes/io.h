@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 16:57:50 by takkatao          #+#    #+#             */
-/*   Updated: 2022/06/04 15:56:58 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 16:18:47 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "define.h"
 # include "utils.h"
 # include "xsyscall.h"
-
 
 t_scene		*read_file(char **argv);
 void		validate_arg(int argc);
@@ -28,5 +27,6 @@ void		read_light(t_scene *scene, char **splitted_line);
 t_object	*read_sphere(char	**splitted_line);
 t_object	*read_plane(char	**splitted_line);
 t_object	*read_cylinder(char	**splitted_line);
+int			count_splits(char **str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:03:51 by takkatao          #+#    #+#             */
-/*   Updated: 2022/05/27 14:17:58 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 16:06:07 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,11 @@ t_scene	*read_file(char **argv)
 		free(*line);
 	}
 	xclose(fd);
+	if (scene->camera == NULL)
+		puterr_exit("camera must be 1");
+	if (scene->ambient_light == NULL)
+		puterr_exit("ambient_light must be 1");
+	if (scene->light == NULL)
+		puterr_exit("light must be 1");
 	return (scene);
 }

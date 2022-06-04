@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 15:26:32 by takkatao          #+#    #+#             */
-/*   Updated: 2022/06/04 16:00:12 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 16:25:37 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,10 @@ double	atod_orientation_vector(char *str)
 {
 	return (atod_with_validation(str, \
 		"orientation vector must be [-1.0, 1.0]", -1.0, 1.0));
+}
+
+double	atod_validatiton_wrapper(char *str)
+{
+	return (atod_with_validation(str, \
+		"vector must be [-999999.999999, 999999.999999]", -999999.999999, 999999.999999));
 }
