@@ -1,4 +1,4 @@
-NAME = minirt
+NAME = miniRT
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -MMD -MP
 IO_SRCS = $(addprefix srcs/io/, \
@@ -62,13 +62,13 @@ test:
 	make -C tests
 .PHONY: run
 run: $(NAME)
-	./minirt rt_files/minimalist.rt
+	./miniRT rt_files/minimalist.rt
 .PHONY: sphere
 sphere: $(NAME)
-	./minirt rt_files/minimam_sphere.rt
+	./miniRT rt_files/minimam_sphere.rt
 .PHONY: plane
 plane: $(NAME)
-	./minirt rt_files/minimam_plane.rt
+	./miniRT rt_files/minimam_plane.rt
 .PHONY: cy
 cy: $(NAME)
-	./minirt rt_files/minimam_cylinder.rt
+	./miniRT rt_files/minimam_cylinder.rt
