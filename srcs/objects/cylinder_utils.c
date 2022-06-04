@@ -18,13 +18,13 @@ double	calc_height(t_vec3 *p_vec, t_cylinder	*cylinder)
 	double	cos;
 	t_vec3	*hypotenuse_vec;
 
-
 	hypotenuse_vec = vec3_sub(p_vec, cylinder->point);
-	cos = vec3_inner_product(hypotenuse_vec, cylinder->orientation_vec) / vec3_norm(hypotenuse_vec);
+	cos = vec3_inner_product(hypotenuse_vec, cylinder->orientation_vec) \
+			/ vec3_norm(hypotenuse_vec);
 	h = sqrt(pow(vec3_norm(hypotenuse_vec), 2) - pow(cylinder->radius, 2));
 	free(hypotenuse_vec);
 	if (cos > 0)
-	  return (h);
+		return (h);
 	else
 		return (-h);
 }
