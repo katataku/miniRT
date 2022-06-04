@@ -17,7 +17,7 @@ XLIBFT_SRCS = $(addprefix srcs/xlibft/, \
 		ft_xcalloc.c ft_xlstnew.c ft_xsplit.c ft_xstrdup.c ft_xstrjoin.c \
 		)
 UTILS_SRCS = $(addprefix srcs/utils/, \
-		ft_atod.c error.c mlx_util.c util.c validate_double.c validate_integer.c \
+		ft_atod.c error.c mlx_hooks.c mlx_util.c util.c validate_double.c validate_integer.c \
 		)
 SRCS = main.c $(IO_SRCS) $(OBJECTS_SRCS) $(VECTOR3_SRCS) $(XSYSCALL_SRCS) $(XLIBFT_SRCS) $(UTILS_SRCS)
 OBJS = $(SRCS:%.c=%.o)

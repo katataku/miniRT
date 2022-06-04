@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/06/04 21:42:00 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 22:05:39 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include "vector3.h"
 # include <float.h>
 
-#define FocusIn            9
-#define FocusChangeMask            (1L<<21)
-#define DestroyNotify        17
-#define StructureNotifyMask        (1L<<17)
+# define FOCUSIN 9
+# define FOCUSCHANGEMASK (long)2097152L
+# define DESTROYNOTIFY 17
+# define STRUCTNOTIFYMASK (long)131072L
 
 # define H 560
 # define W 560

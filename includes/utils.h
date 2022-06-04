@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 17:02:57 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/06/04 16:24:32 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 22:19:34 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "define.h"
 # include "libft.h"
 # include "xlibft.h"
+# include "mlx.h"
 
 enum e_trgb
 {
@@ -41,5 +42,6 @@ double	atod_ratio(char *str);
 double	atod_orientation_vector(char *str);
 int		atoi_color(char *str);
 int		atoi_fov(char *str);
+void	register_hooks(t_window_info *info, t_scene *scene);
 
 #endif

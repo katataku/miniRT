@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:26:14 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/31 14:54:56 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 22:18:47 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,36 +45,6 @@ void	draw(t_window_info *info, t_scene *scene)
 		}
 		i++;
 	}
-}
-
-int	close_windows(t_scene *scene)
-{
-	(void)scene;
-	exit(0);
-}
-
-int	key_pressed(int key_code, t_scene *scene)
-{
-	if (key_code == KEY_ESC)
-		close_windows(scene);
-	return (0);
-}
-
-int	redraw(void *params)
-{
-	t_window_info	*info;
-
-	info = (t_window_info *)params;
-	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
-	return (0);
-}
-
-void	register_hooks(t_window_info *info, t_scene *scene)
-{
-	mlx_key_hook(info->win, &key_pressed, scene);
-	mlx_hook(info->win, DestroyNotify, StructureNotifyMask, \
-		&close_windows, scene);
-	mlx_hook(info->win, FocusIn, FocusChangeMask, &redraw, info);
 }
 
 int	main(int argc, char **argv)

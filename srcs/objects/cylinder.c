@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:23:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/06/04 21:51:09 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 22:12:33 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,50 +56,6 @@ static double	calc_c(t_ray *ray, t_cylinder	*cy)
 	return (c);
 }
 
-static double	decide_t(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
-{
-	t_vec3	*p_vec;
-	double	height;
-
-	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t1);
-	height = calc_height(p_vec, cylinder);
-	free(p_vec);
-	if (height >= 0 && height <= cylinder->height)
-	{
-		return (t1);
-	}
-	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t2);
-	height = calc_height(p_vec, cylinder);
-	free(p_vec);
-	if (height >= 0 && height <= cylinder->height)
-	{
-		return (t2);
-	}
-	return (-1);
-}
-
-enum e_t_type	decide_t_type(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
-{
-	t_vec3	*p_vec;
-	double	height;
-
-	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t1);
-	height = calc_height(p_vec, cylinder);
-	free(p_vec);
-	if (height >= 0 && height <= cylinder->height)
-	{
-		return (T_T1);
-	}
-	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t2);
-	height = calc_height(p_vec, cylinder);
-	free(p_vec);
-	if (height >= 0 && height <= cylinder->height)
-	{
-		return (T_T2);
-	}
-	return (T_NOT_CROSS);
-}
-
 /*
  * 𝑡 =(−𝐵±√(𝐵^2−4𝐴𝐶))/2𝐴
  *
@@ -129,14 +85,6 @@ double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder)
 	return (decide_t((-b - sqrt(dif)) / (2 * a), \
 		(-b + sqrt(dif)) / (2 * a), \
 		ray, cylinder));
-}
-
-t_vec3	*calc_p_cylinder(t_ray *ray, t_cylinder	*cylinder)
-{
-	double	t;
-
-	t = calc_t_cylinder(ray, cylinder);
-	return (create_p_vec(ray->start_vec, ray->direction_vec, t));
 }
 
 enum e_t_type	calc_t_type(t_ray *ray, t_cylinder	*cylinder)
