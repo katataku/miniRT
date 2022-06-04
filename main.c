@@ -60,18 +60,10 @@ int	deal_key(int key_code, t_scene *scene)
 	return (0);
 }
 
-int	main_loop(t_window_info *info)
-{
-	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
-	return (0);
-}
-
 void	register_hooks(t_window_info *info, t_scene *scene)
 {
 	mlx_hook(info->win, X_EVENT_KEY_PRESS, 1, &deal_key, scene);
 	mlx_hook(info->win, X_EVENT_KEY_EXIT, 1, &close_windows, scene);
-	mlx_loop_hook(info->mlx, &main_loop, info);
-	mlx_loop(info->mlx);
 }
 
 int	main(int argc, char **argv)
@@ -84,5 +76,7 @@ int	main(int argc, char **argv)
 	info = init_window_info();
 	draw(info, scene);
 	register_hooks(info, scene);
+	mlx_put_image_to_window(info->mlx, info->win, info->img->mlx_img, 0, 0);
+	mlx_loop(info->mlx);
 	return (0);
 }

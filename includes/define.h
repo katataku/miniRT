@@ -19,8 +19,8 @@
 # include "vector3.h"
 # include <float.h>
 
-# define H 1001
-# define W 1001
+# define H 560
+# define W 560
 # define MAX_INPUT_LINE_LEN 1024
 # define X_EVENT_KEY_PRESS 2
 # define X_EVENT_KEY_EXIT 17 // Exit program key code
