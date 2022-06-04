@@ -36,5 +36,5 @@ double	ft_atod(const char *str)
 		if (integer < 0)
 			decimal *= -1;
 	}
-	return sign * (integer + decimal);
+	return (sign * (integer + decimal));
 }
