@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/06/04 21:33:47 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 21:42:00 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ typedef struct s_scene {
 typedef struct s_ray {
 	t_vec3			*start_vec;
 	t_vec3			*direction_vec;
-	enum e_t_type	t_type;
 }	t_ray;
 
 #endif
