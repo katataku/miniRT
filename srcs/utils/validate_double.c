@@ -22,10 +22,13 @@ double	atod_with_validation(char *value, char *message, double min, double max)
 	is_valid = true;
 	cpy_str = ft_xstrdup(value);
 	dot_pos = ft_strchr(cpy_str, '.');
-	*dot_pos = '\0';
-	atoi_with_validation(cpy_str, "number length too long", -999999, 999999);
-	atoi_with_validation(dot_pos + 1, "number length too long", \
+	if (dot_pos != NULL)
+	{
+		*dot_pos = '\0';
+		atoi_with_validation(dot_pos + 1, "number length too long", \
 		-999999, 999999);
+	}
+	atoi_with_validation(cpy_str, "number length too long", -999999, 999999);
 	number = ft_atod(value);
 	if (number < min || number > max)
 		is_valid = false;
@@ -47,6 +50,6 @@ double	atod_orientation_vector(char *str)
 
 double	atod_validatiton_wrapper(char *str)
 {
-	return (atod_with_validation(str, \
-		"vector must be [-999999.999999, 999999.999999]", -999999.999999, 999999.999999));
+	return (atod_with_validation(str, "vector must be [-999999.999999, " \
+		"999999.999999]", -999999.999999, 999999.999999));
 }

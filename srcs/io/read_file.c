@@ -44,12 +44,20 @@ t_scene	*read_file(char **argv)
 {
 	t_scene	*scene;
 	int		fd;
+	int		read_bytes;
 	char	*line[MAX_INPUT_LINE_LEN];
 
 	scene = (t_scene *)ft_xcalloc(1, sizeof(t_scene));
 	fd = xopen(argv[1], O_RDONLY, 0);
-	while (get_next_line(fd, line))
+	while (1)
 	{
+		read_bytes = get_next_line(fd, line);
+		if (read_bytes == -1)
+			puterr_exit("hh");
+		if (read_bytes == 0)
+			break ;
+		if ((*line)[read_bytes - 1] == '\n')
+			(*line)[read_bytes - 1] = '\0';
 		read_element(scene, *line);
 		free(*line);
 	}
