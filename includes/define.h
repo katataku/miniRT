@@ -23,8 +23,6 @@
 # define H 560
 # define W 560
 # define MAX_INPUT_LINE_LEN 1024
-# define X_EVENT_KEY_PRESS 2
-# define X_EVENT_KEY_EXIT 17 // Exit program key code
 # define KEY_ESC 65307
 # define COLOR_BLACK 0xFF000000
 
