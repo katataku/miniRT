@@ -15,6 +15,7 @@
 void	read_camera(t_scene *scene, char	**splitted_line)
 {
 	t_camera	*camera;
+	t_vec3		*tmp;
 
 	if (scene->camera != NULL)
 		puterr_exit("camera must be 1");
@@ -22,8 +23,9 @@ void	read_camera(t_scene *scene, char	**splitted_line)
 		puterr_exit("camera illegal format");
 	camera = (t_camera *)ft_xcalloc(1, sizeof(t_camera));
 	camera->point = gen_pos_vec3_from_line(splitted_line[1]);
-	camera->orientation_vec = gen_orientation_vec3_from_line(splitted_line[2]);
-	camera->orientation_vec = vec3_normalize(camera->orientation_vec);
+	tmp = gen_orientation_vec3_from_line(splitted_line[2]);
+	camera->orientation_vec = vec3_normalize(tmp);
+	free(tmp);
 	camera->fov = atoi_fov(splitted_line[3]);
 	scene->camera = camera;
 }

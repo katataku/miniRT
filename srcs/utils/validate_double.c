@@ -36,6 +36,7 @@ double	atod_with_validation(char *value, char *message, double min, double max)
 		is_valid = false;
 	if (!is_valid)
 		puterr_exit(message);
+	free(cpy_str);
 	return (number);
 }
 
