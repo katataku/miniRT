@@ -97,7 +97,7 @@ t_scene	*read_file(char **argv)
 	{
 		read_bytes = get_next_line(fd, line);
 		if (read_bytes == -1)
-			puterr_exit("hh");
+			puterr_exit(strerror(errno));
 		if (read_bytes == 0)
 			break ;
 		if ((*line)[read_bytes - 1] == '\n')
