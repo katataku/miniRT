@@ -34,5 +34,6 @@ void	vec3_print(t_vec3 *vector);
 double	vec3_norm(t_vec3 *v);
 t_vec3	*vec3_normalize(t_vec3 *vec);
 t_vec3	*vector3(double x, double y, double z);
+double	calc_dist(t_vec3 *a, t_vec3 *b);
 
 #endif

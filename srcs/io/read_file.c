@@ -12,43 +12,42 @@
 
 #include "io.h"
 
+static void	free_lines(char **lines)
+{
+	int	i;
+
+	i = -1;
+	while (lines[++i] != NULL)
+		free(lines[i]);
+	free(lines);
+}
+
 static void	read_element(t_scene *scene, char *line)
 {
 	char		**splitted_line;
 	t_object	*object;
-	int			i;
 
 	object = NULL;
 	splitted_line = ft_xsplit(line, ' ');
+	if (splitted_line[0] == NULL)
+		puterr_exit("Invalid identifier.");
 	if (ft_strcmp(splitted_line[0], "A") == 0)
 		read_ambient(scene, splitted_line);
-	if (ft_strcmp(splitted_line[0], "C") == 0)
+	else if (ft_strcmp(splitted_line[0], "C") == 0)
 		read_camera(scene, splitted_line);
-	if (ft_strcmp(splitted_line[0], "L") == 0)
+	else if (ft_strcmp(splitted_line[0], "L") == 0)
 		read_light(scene, splitted_line);
-	if (ft_strcmp(splitted_line[0], "sp") == 0)
+	else if (ft_strcmp(splitted_line[0], "sp") == 0)
 		object = read_sphere(splitted_line);
-	if (ft_strcmp(splitted_line[0], "pl") == 0)
+	else if (ft_strcmp(splitted_line[0], "pl") == 0)
 		object = read_plane(splitted_line);
-	if (ft_strcmp(splitted_line[0], "cy") == 0)
+	else if (ft_strcmp(splitted_line[0], "cy") == 0)
 		object = read_cylinder(splitted_line);
+	else
+		puterr_exit("Invalid identifier.");
 	if (object != NULL)
 		ft_lstadd_back(&(scene->objects), ft_lstnew(object));
-	i = -1;
-	while (splitted_line[++i] != NULL)
-		free(splitted_line[i]);
-	free(splitted_line);
-}
-
-double	calc_dist(t_vec3 *a, t_vec3 *b)
-{
-	t_vec3	*sub;
-	double	rtv;
-
-	sub = vec3_sub(a, b);
-	rtv = vec3_norm(sub);
-	free(sub);
-	return (rtv);
+	free_lines(splitted_line);
 }
 
 void	check_inside_sphere(t_scene *scene)

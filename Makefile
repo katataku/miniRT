@@ -7,7 +7,7 @@ SRCS += $(addprefix srcs/io/, \
 SRCS += $(addprefix srcs/objects/, \
 		object.c plane.c sphere.c cylinder.c cylinder_utils.c calc_lambert_cos_cylinder.c rt.c camera.c screen.c)
 SRCS += $(addprefix srcs/vector3/, \
-		add.c cos_of_angles.c inner_product.c multiply.c norm.c normalize.c outer_product.c print.c sub.c  vector3.c)
+		add.c cos_of_angles.c inner_product.c multiply.c norm.c normalize.c outer_product.c print.c sub.c  vector3.c calc_dist.c)
 SRCS += $(addprefix srcs/xsyscall/, \
 		xclose.c xfork.c xopen.c xpipe.c xwaitpid.c xdup2.c)
 SRCS += $(addprefix srcs/xlibft/, \
