@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:03:51 by takkatao          #+#    #+#             */
-/*   Updated: 2022/06/04 18:03:23 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 22:09:22 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,22 @@ void	check_inside_sphere(t_scene *scene)
 			sp = obj->ptr;
 			if (calc_dist(sp->center, scene->camera->point) < sp->diameter)
 				puterr_exit("camera must be outside of sphere");
-			if (calc_dist(sp->center, scene->light->point)  < sp->diameter)
+			if (calc_dist(sp->center, scene->light->point) < sp->diameter)
 				puterr_exit("camera must be outside of sphere");
 		}
 		objects = objects->next;
 	}
+}
+
+void	after_read_check(t_scene *scene)
+{
+	if (scene->camera == NULL)
+		puterr_exit("camera must be 1");
+	if (scene->ambient_light == NULL)
+		puterr_exit("ambient_light must be 1");
+	if (scene->light == NULL)
+		puterr_exit("light must be 1");
+	check_inside_sphere(scene);
 }
 
 t_scene	*read_file(char **argv)
@@ -95,12 +106,6 @@ t_scene	*read_file(char **argv)
 		free(*line);
 	}
 	xclose(fd);
-	if (scene->camera == NULL)
-		puterr_exit("camera must be 1");
-	if (scene->ambient_light == NULL)
-		puterr_exit("ambient_light must be 1");
-	if (scene->light == NULL)
-		puterr_exit("light must be 1");
-	check_inside_sphere(scene);
+	after_read_check(scene);
 	return (scene);
 }

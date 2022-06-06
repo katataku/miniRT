@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:23:44 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/31 13:59:07 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 22:12:33 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,35 +56,6 @@ static double	calc_c(t_ray *ray, t_cylinder	*cy)
 	return (c);
 }
 
-static double	decide_t(double t1, double t2, t_ray *ray, t_cylinder *cylinder)
-{
-	t_vec3	*p_vec;
-	double	height;
-
-	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t1);
-	height = calc_height(p_vec, cylinder);
-	if (height >= 0 && height <= cylinder->height)
-	{
-		ray->p_vec = p_vec;
-		ray->t = t1;
-		ray->t_type = T_T1;
-		return (t1);
-	}
-	free(p_vec);
-	p_vec = create_p_vec(ray->start_vec, ray->direction_vec, t2);
-	height = calc_height(p_vec, cylinder);
-	if (height >= 0 && height <= cylinder->height)
-	{
-		ray->p_vec = p_vec;
-		ray->t = t2;
-		ray->t_type = T_T2;
-		return (t2);
-	}
-	free(p_vec);
-	ray->t_type = T_NOT_CROSS;
-	return (-1);
-}
-
 /*
  * 𝑡 =(−𝐵±√(𝐵^2−4𝐴𝐶))/2𝐴
  *
@@ -112,6 +83,24 @@ double	calc_t_cylinder(t_ray *ray, t_cylinder	*cylinder)
 	if (dif < 0 || a == 0)
 		return (-1);
 	return (decide_t((-b - sqrt(dif)) / (2 * a), \
+		(-b + sqrt(dif)) / (2 * a), \
+		ray, cylinder));
+}
+
+enum e_t_type	calc_t_type(t_ray *ray, t_cylinder	*cylinder)
+{
+	double	a;
+	double	b;
+	double	c;
+	double	dif;
+
+	a = calc_a(ray, cylinder);
+	b = calc_b(ray, cylinder);
+	c = calc_c(ray, cylinder);
+	dif = pow(b, 2) - 4 * a * c;
+	if (dif < 0 || a == 0)
+		return (-1);
+	return (decide_t_type((-b - sqrt(dif)) / (2 * a), \
 		(-b + sqrt(dif)) / (2 * a), \
 		ray, cylinder));
 }

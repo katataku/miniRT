@@ -6,7 +6,7 @@
 /*   By: takkatao <takkatao@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:33:34 by ahayashi          #+#    #+#             */
-/*   Updated: 2022/05/31 14:39:02 by takkatao         ###   ########.fr       */
+/*   Updated: 2022/06/04 22:05:39 by takkatao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@
 # include "math.h"
 # include "vector3.h"
 # include <float.h>
-# include <X11/Xlib.h>
+
+# define FOCUSIN 9
+# define FOCUSCHANGEMASK (long)2097152L
+# define DESTROYNOTIFY 17
+# define STRUCTNOTIFYMASK (long)131072L
 
 # define H 560
 # define W 560
@@ -126,9 +130,6 @@ typedef struct s_scene {
 typedef struct s_ray {
 	t_vec3			*start_vec;
 	t_vec3			*direction_vec;
-	t_vec3			*p_vec;
-	double			t;
-	enum e_t_type	t_type;
 }	t_ray;
 
 #endif
