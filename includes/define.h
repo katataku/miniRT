@@ -46,9 +46,6 @@ typedef struct s_window_info {
 	t_image		*img;
 }	t_window_info;
 
-/****************************************************************
- * 複数個出現するオブジェクトのみenumとして定義する。
- * ******/
 enum e_t_type
 {
 	T_T1,
@@ -56,9 +53,6 @@ enum e_t_type
 	T_NOT_CROSS,
 };
 
-/****************************************************************
- * 複数個出現するオブジェクトのみenumとして定義する。
- * ******/
 enum e_object
 {
 	T_NOTUSE,
@@ -67,10 +61,6 @@ enum e_object
 	T_CYLINDER,
 };
 
-/****************************************************************
- * 線形リストで、t_objectを持つことで複数オブジェクトのオブジェクト一覧を保持する
- * オブジェクトの種類によって型が違うのでidentifierで区別してからptrをキャストする。
- * ******/
 typedef struct s_object {
 	enum e_object	type;
 	void			*ptr;
@@ -113,23 +103,19 @@ typedef struct s_cylinder {
 	int		color;
 }	t_cylinder;
 
-/*
- * 雑にsphereを持たせているが本来はt_listに含まれている
- */
 typedef struct s_scene {
 	t_ambient_light	*ambient_light;
 	t_camera		*camera;
 	t_light			*light;
 	t_list			*objects;
-	t_cylinder		*cylinder;
 }	t_scene;
 
 /*
  * ray can represents 𝐬⃗ + t𝐝⃗
  */
 typedef struct s_ray {
-	t_vec3			*start_vec;
-	t_vec3			*direction_vec;
+	t_vec3	*start_vec;
+	t_vec3	*direction_vec;
 }	t_ray;
 
 #endif
