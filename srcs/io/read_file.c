@@ -102,7 +102,8 @@ t_scene	*read_file(char **argv)
 			break ;
 		if ((*line)[read_bytes - 1] == '\n')
 			(*line)[read_bytes - 1] = '\0';
-		read_element(scene, *line);
+		if ((*line)[0] != '\0')
+			read_element(scene, *line);
 		free(*line);
 	}
 	xclose(fd);
